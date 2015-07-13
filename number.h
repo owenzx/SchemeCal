@@ -28,5 +28,7 @@ public:
 	virtual Number *cel() = 0;
 	virtual Number *trc() = 0;
 	virtual Number *rnd() = 0;
+	virtual Number *maxi(Number *number2) = 0;
+	virtual Number *mini(Number *number2) = 0;
 	virtual void print() = 0;
 };

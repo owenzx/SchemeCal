@@ -28,6 +28,8 @@ public:
 	virtual Number *cel();
 	virtual Number *trc();
 	virtual Number *rnd();
+	virtual Number *maxi(Number *number2);
+	virtual Number *mini(Number *number2);
 	virtual void print();
 	static bool checkstring(const string &s);
 	static Rational *from_string(const char *expression);

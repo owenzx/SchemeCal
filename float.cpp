@@ -74,32 +74,43 @@ Number *Float::quo(Number *number2){
 }
 
 Number *Float::rem(Number *number2){
-	
+	Float *tmp = SCAST_FLOAT(number2);
+	assert(number_ == trunc(number_) && tmp->number_ == trunc(tmp->number_)
+		&& "These numbers are not integers!");
+	Float *result;
+	if (number_*(tmp->number_)>0) result = new Float(fmod(number_, tmp->number_));
+	else result = new Float(tmp->number_ + fmod(number_, tmp->number_));
+	return result;
 }
 
 
 Number *Float::mod(Number *number2){
-
+	Float *tmp = SCAST_FLOAT(number2);
+	assert(number_ == trunc(number_) && tmp->number_ == trunc(tmp->number_)
+		&& "These numbers are not integers!");
+	Float *result = new Float(fmod(number_, tmp->number_));
+	return result;
 }
 
 Number *Float::gcd(Number *number2){
 	Float *tmp = SCAST_FLOAT(number2);
-	Float big = max(number_, tmp->number_);
-	Float min = min(number_, tmp->number_);
-	while (tmp = big % small){
-		//big.print();
-		//cout << endl;
-		//small.print();
-		//cout << endl << endl;
+	assert(number_ == trunc(number_) && tmp->number_ == trunc(tmp->number_)
+		&& "These numbers are not integers!");
+	double big = max(number_, tmp->number_);
+	double small = min(number_, tmp->number_);
+	double t;
+	while (t = fmod(big, small)){
 		big = small;
-		small = tmp;
+		small = t;
 	}
-	numerator_ = numerator_ / small;
-	denominator_ = denominator_ / small;
+	Float *result = new Float(small);
+	return result;
 }
 
 Number *Float::lcm(Number *number2){
-
+	Float *tmp = SCAST_FLOAT(number2);
+	Float *result = SCAST_FLOAT(this->mul(number2)->div(gcd(number2)));
+	return result;
 }
 
 Number *Float::exp(Number *number2){
@@ -133,7 +144,17 @@ Number *Float::rnd(){
 	return result;
 }
 
+Number *Float::maxi(Number *number2){
+	Float *tmp = SCAST_FLOAT(number2);
+	Float *result = new Float(max(number_, tmp->number_));
+	return result;
+}
 
+Number *Float::mini(Number *number2){
+	Float *tmp = SCAST_FLOAT(number2);
+	Float *result = new Float(min(number_, tmp->number_));
+	return result;
+}
 
 void Float::print(){
 	printf("%g\n", number_);

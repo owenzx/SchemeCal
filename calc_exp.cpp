@@ -25,10 +25,10 @@ Number *calc_exp(){
 		else if (strcmp(tk1, "gcd") == 0)opt = new Gcd();
 		else if (strcmp(tk1, "lcm") == 0)opt = new Lcm();
 		else if (strcmp(tk1, "expt") == 0)opt = new Exp();
-		else if (strcmp(tk1, "sqrt") == 0)opt = new Sqrt();
+		else if (strcmp(tk1, "sqrt") == 0)opt = new Sqt();
 		else if (strcmp(tk1, "floor") == 0)opt = new Flr();
 		else if (strcmp(tk1, "ceiling") == 0)opt = new Cel();
-		else if (strcmp(tk1, "truncate") == 0)opt = new Trunc();
+		else if (strcmp(tk1, "truncate") == 0)opt = new Trc();
 		else if (strcmp(tk1, "round") == 0)opt = new Rnd();
 		else if (strcmp(tk1, "numerator") == 0)opt = new Nume();
 		else if (strcmp(tk1, "denominator") == 0)opt = new Deno();
@@ -36,6 +36,8 @@ Number *calc_exp(){
 		else if (strcmp(tk1, "exact->inexact") == 0)opt = new ExtoInex();
 		else if (strcmp(tk1, "real-part") == 0)opt = new Rep();
 		else if (strcmp(tk1, "imag-part") == 0)opt = new Imp();
+		else if (strcmp(tk1, "max") == 0)opt = new Max();
+		else if (strcmp(tk1, "min") == 0)opt = new Min();
 		else throw 0;
 		while ((val = calc_exp()))
 		{

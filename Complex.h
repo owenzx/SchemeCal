@@ -18,6 +18,18 @@ public:
 	virtual Number *sub(Number *number2);
 	virtual Number *mul(Number *number2);
 	virtual Number *div(Number *number2);
+	virtual Number *abs();
+	virtual Number *quo(Number *number2);
+	virtual Number *rem(Number *number2);
+	virtual Number *mod(Number *number2);
+	virtual Number *gcd(Number *number2);
+	virtual Number *lcm(Number *number2);
+	virtual Number *exp(Number *number2);
+	virtual Number *sqrt();
+	virtual Number *flr(Number *number2);
+	virtual Number *cel(Number *number2);
+	virtual Number *trunc(Number *number2);
+	virtual Number *rnd(Number *number2);
 	virtual void print();
 	Number* get_real();
 	Number* get_imag();

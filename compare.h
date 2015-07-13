@@ -505,7 +505,7 @@ class Exp :public Opt{
 	}
 };
 
-class Sqrt :public Opt{
+class Sqt :public Opt{
 	Number *calc(Cons *con)
 	{
 		Cons *tmp = con;
@@ -652,7 +652,7 @@ class Cel :public Opt{
 	}
 };
 
-class Trunc :public Opt{
+class Trc :public Opt{
 	Number *calc(Cons *con)
 	{
 		Cons *tmp = con;

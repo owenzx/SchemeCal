@@ -170,7 +170,7 @@ class Abs :public Opt{
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ > 2 || tmp->car->type_ < 1)
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
 			{
 				throw 0;
 			}
@@ -181,6 +181,7 @@ class Abs :public Opt{
 		if (cnt == 1)
 		{
 			res = opr->abs();
+			delete opr;
 			return res;
 		}
 		else{
@@ -203,39 +204,25 @@ class Quo :public Opt{
 			}
 			cnt++;
 		}
-		Number *res = new Rational(1, 1), *last;
-		Number *opr = con->car, *conv;
-		last = res;
-		Number *zero = new Float(0.0);
-		if (cnt == 1)
+		Number *res;
+		Number *first = con->car, *second=con->cdr->car;
+		if (cnt == 2)
 		{
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
+			if (first->type_ > second->type_)
+			{
+				res = first->quo(first->convert(second));
+			}
 			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+			{
+				res = second->convert(first)->quo(second);
+			}
+			delete first; delete second;
 			return res;
 		}
-		if (res->type_ > opr->type_)
-			res = res->mul(conv = res->convert(opr));
-		else
-			res = (conv = opr->convert(res))->mul(opr);
-		con = con->cdr;
-		delete last;
-		delete conv;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
@@ -252,39 +239,25 @@ class Rem :public Opt{
 			}
 			cnt++;
 		}
-		Number *res = new Rational(1, 1), *last;
-		Number *opr = con->car, *conv;
-		last = res;
-		Number *zero = new Float(0.0);
-		if (cnt == 1)
+		Number *res;
+		Number *first = con->car, *second = con->cdr->car;
+		if (cnt == 2)
 		{
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
+			if (first->type_ > second->type_)
+			{
+				res = first->rem(first->convert(second));
+			}
 			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+			{
+				res = second->convert(first)->rem(second);
+			}
+			delete first; delete second;
 			return res;
 		}
-		if (res->type_ > opr->type_)
-			res = res->mul(conv = res->convert(opr));
-		else
-			res = (conv = opr->convert(res))->mul(opr);
-		con = con->cdr;
-		delete last;
-		delete conv;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
@@ -301,39 +274,25 @@ class Mod :public Opt{
 			}
 			cnt++;
 		}
-		Number *res = new Rational(1, 1), *last;
-		Number *opr = con->car, *conv;
-		last = res;
-		Number *zero = new Float(0.0);
-		if (cnt == 1)
+		Number *res;
+		Number *first = con->car, *second = con->cdr->car;
+		if (cnt == 2)
 		{
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
+			if (first->type_ > second->type_)
+			{
+				res = first->mod(first->convert(second));
+			}
 			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+			{
+				res = second->convert(first)->mod(second);
+			}
+			delete first; delete second;
 			return res;
 		}
-		if (res->type_ > opr->type_)
-			res = res->mul(conv = res->convert(opr));
-		else
-			res = (conv = opr->convert(res))->mul(opr);
-		con = con->cdr;
-		delete last;
-		delete conv;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
@@ -497,39 +456,18 @@ class Sqt :public Opt{
 			}
 			cnt++;
 		}
-		Number *res = new Rational(1, 1), *last;
-		Number *opr = con->car, *conv;
-		last = res;
-		Number *zero = new Float(0.0);
+		Number *res;
+		Number *opr = con->car;
 		if (cnt == 1)
 		{
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+			res = opr->sqt();
+			delete opr;
 			return res;
 		}
-		if (res->type_ > opr->type_)
-			res = res->mul(conv = res->convert(opr));
-		else
-			res = (conv = opr->convert(res))->mul(opr);
-		con = con->cdr;
-		delete last;
-		delete conv;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
@@ -546,39 +484,18 @@ class Flr :public Opt{
 			}
 			cnt++;
 		}
-		Number *res = new Rational(1, 1), *last;
-		Number *opr = con->car, *conv;
-		last = res;
-		Number *zero = new Float(0.0);
+		Number *res;
+		Number *opr = con->car;
 		if (cnt == 1)
 		{
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+			res = opr->flr();
+			delete opr;
 			return res;
 		}
-		if (res->type_ > opr->type_)
-			res = res->mul(conv = res->convert(opr));
-		else
-			res = (conv = opr->convert(res))->mul(opr);
-		con = con->cdr;
-		delete last;
-		delete conv;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
@@ -595,39 +512,18 @@ class Cel :public Opt{
 			}
 			cnt++;
 		}
-		Number *res = new Rational(1, 1), *last;
-		Number *opr = con->car, *conv;
-		last = res;
-		Number *zero = new Float(0.0);
+		Number *res;
+		Number *opr = con->car;
 		if (cnt == 1)
 		{
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+			res = opr->cel();
+			delete opr;
 			return res;
 		}
-		if (res->type_ > opr->type_)
-			res = res->mul(conv = res->convert(opr));
-		else
-			res = (conv = opr->convert(res))->mul(opr);
-		con = con->cdr;
-		delete last;
-		delete conv;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
@@ -644,40 +540,20 @@ class Trc :public Opt{
 			}
 			cnt++;
 		}
-		Number *res = new Rational(1, 1), *last;
-		Number *opr = con->car, *conv;
-		last = res;
-		Number *zero = new Float(0.0);
+		Number *res;
+		Number *opr = con->car;
 		if (cnt == 1)
 		{
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+			res = opr->trc();
+			delete opr;
 			return res;
 		}
-		if (res->type_ > opr->type_)
-			res = res->mul(conv = res->convert(opr));
-		else
-			res = (conv = opr->convert(res))->mul(opr);
-		con = con->cdr;
-		delete last;
-		delete conv;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
+
 };
 
 class Rnd :public Opt{
@@ -693,40 +569,20 @@ class Rnd :public Opt{
 			}
 			cnt++;
 		}
-		Number *res = new Rational(1, 1), *last;
-		Number *opr = con->car, *conv;
-		last = res;
-		Number *zero = new Float(0.0);
+		Number *res;
+		Number *opr = con->car;
 		if (cnt == 1)
 		{
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+			res = opr->rnd();
+			delete opr;
 			return res;
 		}
-		if (res->type_ > opr->type_)
-			res = res->mul(conv = res->convert(opr));
-		else
-			res = (conv = opr->convert(res))->mul(opr);
-		con = con->cdr;
-		delete last;
-		delete conv;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
+
 };
 
 class Nume :public Opt{

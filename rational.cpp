@@ -5,6 +5,12 @@
 #include <cstring>
 #include <iostream>
 
+bool Rational::isInt() const{
+	LongInt one(1);
+	return (numerator_.number_ == one.number_);
+}
+
+
 bool Rational::checkstring(const string &s){
 	if (s[0] != '+' && s[0] != '-'){
 		if (s[0]<'0' || s[0] > '9') return false;
@@ -114,11 +120,18 @@ Number *Rational::div(Number *number2) {
 }
 
 Number *Rational::abs(){
-	return NULL;
+	LongInt denominator = denominator_;
+	LongInt numerator= numerator_;
+	if (numerator_.number_[0] == '-') numerator.number_[0] = '+';
+	Rational *result = new Rational(numerator,denominator);
+	return result;
 }
 
 Number *Rational::quo(Number *number2){
-	return NULL;
+	Rational *tmp = SCAST_RATIONAL(number2);
+	assert(isInt() && tmp->isInt() && "These numbers are not integers!");
+	Rational *result = new Rational();
+	return result;
 }
 
 Number *Rational::rem(Number *number2){

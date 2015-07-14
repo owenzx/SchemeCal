@@ -6,6 +6,7 @@
 
 class Rational : public Number {
 public:
+	bool isInt() const;
 	Rational(string numerator = "0", string denominator = "1");
 	Rational(LongInt numerator, LongInt denominator);
 	virtual ~Rational();

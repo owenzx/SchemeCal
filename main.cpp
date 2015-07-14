@@ -53,18 +53,17 @@ int main() {
 			res = calc_exp();
 			if (res == NULL) throw (0);
 			res->print();
+			printf("\n");
 		}
 		catch (int) {
-		    return(1);
 			cerr << "Wrong\n";
 			//int c; while((c = getchar()) != '\n' && c != EOF);
-			break;
+			continue;
 		}
 		catch (char) {
-		    return(1);
 			cerr << "Division by 0\n";
 			//int c; while((c = getchar()) != '\n' && c != EOF);
-			break;
+			continue;
 		}
 	}
 

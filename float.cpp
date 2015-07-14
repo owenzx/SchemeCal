@@ -157,7 +157,8 @@ Number *Float::mini(Number *number2){
 }
 
 void Float::print(){
-	printf("%g\n", number_);
+	printf("%g", number_);
+	//printf("/n");
 }
 
 Float *Float::from_string(const char *expression){

@@ -1,6 +1,7 @@
 #include "opt.h"
 #include "float.h"
 #include "rational.h"
+#include "Complex.h"
 #include "number.h"
 #include <cmath>
 #include <iomanip>
@@ -169,45 +170,23 @@ class Abs :public Opt{
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			if (tmp->car->type_ > 2 || tmp->car->type_ < 1)
 			{
 				throw 0;
 			}
 			cnt++;
 		}
-		Number *res = new Rational(1, 1), *last;
-		Number *opr = con->car, *conv;
-		last = res;
-		Number *zero = new Float(0.0);
+		Number *res;
+		Number *opr = con->car;
 		if (cnt == 1)
 		{
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+			res = opr->abs();
 			return res;
 		}
-		if (res->type_ > opr->type_)
-			res = res->mul(conv = res->convert(opr));
-		else
-			res = (conv = opr->convert(res))->mul(opr);
-		con = con->cdr;
-		delete last;
-		delete conv;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 

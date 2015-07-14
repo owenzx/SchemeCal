@@ -113,13 +113,72 @@ Number *Rational::div(Number *number2) {
 	return result;
 }
 
+Number *Rational::abs(){
+	return NULL;
+}
+
+Number *Rational::quo(Number *number2){
+	return NULL;
+}
+
+Number *Rational::rem(Number *number2){
+	return NULL;
+}
+
+
+Number *Rational::mod(Number *number2){
+	return NULL;
+}
+
+Number *Rational::gcd(Number *number2){
+	return NULL;
+}
+
+Number *Rational::lcm(Number *number2){
+	return NULL;
+}
+
+Number *Rational::exp(Number *number2){
+	return NULL;
+}
+
+Number *Rational::sqt(){
+	return NULL;
+}
+
+
+Number *Rational::flr(){
+	return NULL;
+}
+
+Number *Rational::cel(){
+	return NULL;
+}
+
+Number *Rational::trc(){
+	return NULL;
+}
+
+Number *Rational::rnd(){
+	return NULL;
+}
+
+Number *Rational::maxi(Number *number2){
+	return NULL;
+}
+
+Number *Rational::mini(Number *number2){
+	return NULL;
+}
+
+
 void Rational::print(){
 	numerator_.print();
 	if (denominator_ != (LongInt)1){
 		printf("/");
 		denominator_.print();
 	}
-	printf("\n");
+	//printf("\n");
 }
 
 

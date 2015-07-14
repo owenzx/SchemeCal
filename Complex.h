@@ -1,7 +1,8 @@
 #pragma once
 #include "number.h"
 #include <string>
-
+#include "rational.h"
+#include "float.h"
 #define SCAST_COMPLEX(x) static_cast<Complex*>(x)
 
 using namespace std;
@@ -25,15 +26,17 @@ public:
 	virtual Number *gcd(Number *number2);
 	virtual Number *lcm(Number *number2);
 	virtual Number *exp(Number *number2);
-	virtual Number *sqrt();
-	virtual Number *flr(Number *number2);
-	virtual Number *cel(Number *number2);
-	virtual Number *trunc(Number *number2);
-	virtual Number *rnd(Number *number2);
+	virtual Number *sqt();
+	virtual Number *flr();
+	virtual Number *cel();
+	virtual Number *trc();
+	virtual Number *rnd();
+	virtual Number *maxi(Number *number2);
+	virtual Number *mini(Number *number2);
 	virtual void print();
-	Number* get_real();
-	Number* get_imag();
-	static bool checkstring(const string &s);
+	//Number* get_real();
+	//Number* get_imag();
+	//static bool checkstring(const string &s);
 	static Complex *from_string(char *expression);
 	Number* real_;
 	Number* imag_;

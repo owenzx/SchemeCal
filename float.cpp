@@ -69,6 +69,9 @@ Number *Float::abs(){
 }
 
 Number *Float::quo(Number *number2){
+	Float *tmp = SCAST_FLOAT(number2);
+	assert(number_ == trunc(number_) && tmp->number_ == trunc(tmp->number_)
+		&& "These numbers are not integers!");
 	Float *result = SCAST_FLOAT(this->div(number2)->trc());
 	return result;
 }
@@ -77,9 +80,7 @@ Number *Float::rem(Number *number2){
 	Float *tmp = SCAST_FLOAT(number2);
 	assert(number_ == trunc(number_) && tmp->number_ == trunc(tmp->number_)
 		&& "These numbers are not integers!");
-	Float *result;
-	if (number_*(tmp->number_)>0) result = new Float(fmod(number_, tmp->number_));
-	else result = new Float(tmp->number_ + fmod(number_, tmp->number_));
+	Float *result = new Float(fmod(number_, tmp->number_));
 	return result;
 }
 
@@ -88,7 +89,9 @@ Number *Float::mod(Number *number2){
 	Float *tmp = SCAST_FLOAT(number2);
 	assert(number_ == trunc(number_) && tmp->number_ == trunc(tmp->number_)
 		&& "These numbers are not integers!");
-	Float *result = new Float(fmod(number_, tmp->number_));
+	Float *result;
+	if (number_*(tmp->number_)>0) result = new Float(fmod(number_, tmp->number_));
+	else result = new Float(tmp->number_ + fmod(number_, tmp->number_));
 	return result;
 }
 
@@ -114,7 +117,8 @@ Number *Float::lcm(Number *number2){
 }
 
 Number *Float::exp(Number *number2){
-	Float *result = new Float();
+	Float *tmp = SCAST_FLOAT(number2);
+	Float *result = new Float(pow(number_,tmp->number_));
 	return result;
 }
 
@@ -157,7 +161,7 @@ Number *Float::mini(Number *number2){
 }
 
 void Float::print(){
-	printf("%g", number_);
+	printf("%.16g", number_);
 	//printf("/n");
 }
 

@@ -10,7 +10,7 @@ public:
 	Rational(string numerator = "0", string denominator = "1");
 	Rational(LongInt numerator, LongInt denominator);
 	virtual ~Rational();
-
+	bool greater(Number *number2);
 	void reduce();
 	virtual Number *convert(Number *number2);
 	virtual Number *add(Number *number2);

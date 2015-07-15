@@ -1,4 +1,5 @@
 #include "rational.h"
+#include "float.h"
 #include <cassert>
 #include <cstdlib>
 #include <cstdio>
@@ -10,6 +11,12 @@ bool Rational::isInt() const{
 	return (numerator_.number_ == one.number_);
 }
 
+
+bool Rational::greater(Number *number2){
+	Number *result = this->sub(number2);
+	Rational *tmp = SCAST_RATIONAL(result);
+	return tmp->numerator_.number_[0] == '+';
+}
 
 bool Rational::checkstring(const string &s){
 	if (s[0] != '+' && s[0] != '-'){
@@ -130,17 +137,28 @@ Number *Rational::abs(){
 Number *Rational::quo(Number *number2){
 	Rational *tmp = SCAST_RATIONAL(number2);
 	assert(isInt() && tmp->isInt() && "These numbers are not integers!");
-	Rational *result = new Rational();
+	Rational *result = new Rational(numerator_/(tmp->numerator_),LongInt(1));
 	return result;
 }
 
 Number *Rational::rem(Number *number2){
-	return NULL;
+	Rational *tmp = SCAST_RATIONAL(number2);
+	assert(isInt() && tmp->isInt() && "These numbers are not integers!");
+	Rational *result = new Rational(numerator_ % (tmp->numerator_), LongInt(1));
+	return result;
 }
 
 
 Number *Rational::mod(Number *number2){
-	return NULL;
+	Rational *tmp = SCAST_RATIONAL(number2);
+	assert(isInt() && tmp->isInt() && "These numbers are not integers!");
+	Rational *result;
+	if (LongInt(0)<numerator_*(tmp->numerator_)) result = new Rational(numerator_ % (tmp->numerator_), LongInt(1));
+	else {
+		result = new Rational(tmp->numerator_, LongInt(1));
+		result = SCAST_RATIONAL(result->add(new Rational(numerator_ % (tmp->numerator_), LongInt(1))));
+	}
+	return result;
 }
 
 Number *Rational::gcd(Number *number2){
@@ -152,24 +170,54 @@ Number *Rational::lcm(Number *number2){
 }
 
 Number *Rational::exp(Number *number2){
-	return NULL;
+	Float *flt = new Float();
+	Number *base = flt->convert(this);
+	Float *base_ = SCAST_FLOAT(base);
+	Number *power = flt->convert(number2);
+	Number *result = base_->exp(power);
+	return result;
 }
 
 Number *Rational::sqt(){
-	return NULL;
+	Float *flt = new Float();
+	Number *tmp = flt->convert(this);
+	Float *tmp_ = SCAST_FLOAT(tmp);
+	Number *result = tmp_->sqt();
+	return result;
 }
 
 
 Number *Rational::flr(){
-	return NULL;
+	Rational *result;
+	if (isInt()) result = new Rational(*this);
+	else {
+		if (numerator_.number_[0]=='+'){
+			result = new Rational(numerator_ / denominator_ + LongInt(1), LongInt(1));
+		}
+		else{
+			result = new Rational(numerator_ / denominator_, LongInt(1));
+		}
+	}
+	return result;
 }
 
 Number *Rational::cel(){
-	return NULL;
+	Rational *result;
+	if (isInt()) result = new Rational(*this);
+	else {
+		if (numerator_.number_[0] == '-'){
+			result = new Rational(numerator_ / denominator_ - LongInt(1), LongInt(1));
+		}
+		else{
+			result = new Rational(numerator_ / denominator_, LongInt(1));
+		}
+	}
+	return result;
 }
 
 Number *Rational::trc(){
-	return NULL;
+	Rational *result = new Rational(numerator_/denominator_,LongInt(1));
+	return result;
 }
 
 Number *Rational::rnd(){
@@ -177,11 +225,21 @@ Number *Rational::rnd(){
 }
 
 Number *Rational::maxi(Number *number2){
-	return NULL;
+	if (this->greater(number2)){
+		return this;
+	}
+	else{
+		return number2;
+	}
 }
 
 Number *Rational::mini(Number *number2){
-	return NULL;
+	if (!this->greater(number2)){
+		return this;
+	}
+	else{
+		return number2;
+	}
 }
 
 

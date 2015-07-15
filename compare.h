@@ -892,35 +892,23 @@ class Max :public Opt{
 			}
 			cnt++;
 		}
-		Number *res = new Rational(1, 1), *last;
+		Number *res , *last;
 		Number *opr = con->car, *conv;
-		last = res;
 		Number *zero = new Float(0.0);
-		if (cnt == 1)
+		if (cnt == 0)
 		{
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
-			return res;
+			throw(0);
 		}
-		if (res->type_ > opr->type_)
-			res = res->mul(conv = res->convert(opr));
-		else
-			res = (conv = opr->convert(res))->mul(opr);
+		res = opr;
 		con = con->cdr;
-		delete last;
-		delete conv;
 		for (; con; con = con->cdr)
 		{
 			opr = con->car;
 			last = res;
 			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
+				res = res->maxi(conv = res->convert(opr));
 			else
-				res = (conv = opr->convert(res))->div(opr);
+				res = (conv = opr->convert(res))->maxi(opr);
 			delete last;
 			delete conv;
 		}
@@ -942,35 +930,23 @@ class Min :public Opt{
 			}
 			cnt++;
 		}
-		Number *res = new Rational(1, 1), *last;
+		Number *res, *last;
 		Number *opr = con->car, *conv;
-		last = res;
 		Number *zero = new Float(0.0);
-		if (cnt == 1)
+		if (cnt == 0)
 		{
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
-			return res;
+			throw(0);
 		}
-		if (res->type_ > opr->type_)
-			res = res->mul(conv = res->convert(opr));
-		else
-			res = (conv = opr->convert(res))->mul(opr);
+		res = opr;
 		con = con->cdr;
-		delete last;
-		delete conv;
 		for (; con; con = con->cdr)
 		{
 			opr = con->car;
 			last = res;
 			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
+				res = res->mini(conv = res->convert(opr));
 			else
-				res = (conv = opr->convert(res))->div(opr);
+				res = (conv = opr->convert(res))->mini(opr);
 			delete last;
 			delete conv;
 		}

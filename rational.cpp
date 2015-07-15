@@ -73,6 +73,20 @@ void Rational::reduce(){
 }
 
 
+
+Number *Rational::inextoex(){
+	Rational *result = new Rational(numerator_, denominator_);
+	return result;
+}
+
+Number *Rational::extoinex(){
+	Float *flt = new Float();
+	Number *result = flt->convert(this);
+	delete flt;
+	return result;
+}
+
+
 Number *Rational::convert(Number *number2){
 	assert(number2->type_ <= type_);
 	Rational *result = new Rational();
@@ -225,21 +239,36 @@ Number *Rational::rnd(){
 }
 
 Number *Rational::maxi(Number *number2){
+	Rational *result;
+	Rational *tmp = SCAST_RATIONAL(number2);
 	if (this->greater(number2)){
-		return this;
+		return (result = new Rational(this->numerator_,this->denominator_));
 	}
 	else{
-		return number2;
+		return (result = new Rational(tmp->numerator_,tmp->denominator_));
 	}
 }
 
 Number *Rational::mini(Number *number2){
+	Rational *result;
+	Rational *tmp = SCAST_RATIONAL(number2);
 	if (!this->greater(number2)){
-		return this;
+		return (result = new Rational(this->numerator_, this->denominator_));
 	}
 	else{
-		return number2;
+		return (result = new Rational(tmp->numerator_, tmp->denominator_));
 	}
+}
+
+
+Number *Rational::getNumerator(){
+	Rational *result = new Rational(numerator_, LongInt(1));
+	return result;
+}
+
+Number *Rational::getDenominator(){
+	Rational *result = new Rational(denominator_, LongInt(1));
+	return result;
 }
 
 

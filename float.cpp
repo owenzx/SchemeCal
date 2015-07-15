@@ -5,6 +5,7 @@
 #include <cassert>
 #include <cstring>
 #include <cmath>
+#include <algorithm>
 
 #define ABS(x) ((x)<0?(-(x)):(x))
 
@@ -36,6 +37,19 @@ Number *Float::convert(Number *number2){
 	}
 	return result;
 }
+
+Number *Float::inextoex(){
+	Rational *rat = new Rational();
+	Number *result = rat->convert(this);
+	delete rat;
+	return result;
+}
+
+Number *Float::extoinex(){
+	Float *result = new Float(number_);
+	return result;
+}
+
 
 Number *Float::add(Number *number2){
 	Float *tmp = SCAST_FLOAT(number2);

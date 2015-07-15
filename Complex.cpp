@@ -112,6 +112,23 @@ Number *Complex::convert(Number *number2){
 	return result;
 }
 
+
+
+Number *Complex::inextoex(){
+	Number* real = real_->inextoex();
+	Number* imag = imag_->inextoex();
+	Complex *result = new Complex(real, imag);
+	return result;
+}
+
+Number *Complex::extoinex(){
+	Number* real = real_->extoinex();
+	Number* imag = imag_->extoinex();
+	Complex *result = new Complex(real, imag);
+	return result;
+}
+
+
 Number *Complex::add(Number *number2){
 	//cout << "Complex::add" << endl;
 	Complex *tmp = SCAST_COMPLEX(number2);
@@ -283,7 +300,7 @@ Number *Complex::mini(Number *number2){
 Complex *Complex::from_string(char *expression){
 	//cout << "Complex::from_string" << endl;
 	string exp = expression;
-	if (exp[exp.length() - 1] != 'i') return NULL;
+	if (exp[exp.length() - 1] != 'i' || exp[exp.length() - 1] != 'I') return NULL;
 	int imag_start = 0;
 	for (int i = exp.length() - 1; i >= 0; --i){
 		if ((exp[i] == '+' || exp[i] == '-') && (i == 0 || (exp[i - 1] >= '0' && exp[i - 1] <= '9'))){
@@ -314,7 +331,7 @@ void Complex::print(){
 		Float *real = SCAST_FLOAT(real_);
 		Float *imag = SCAST_FLOAT(imag_);
 		real->print();
-		if (imag->number_ > 0){
+		if (imag->number_ >= 0){
 			printf("+");
 		}
 		imag->print();

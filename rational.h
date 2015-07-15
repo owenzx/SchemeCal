@@ -12,6 +12,8 @@ public:
 	virtual ~Rational();
 	bool greater(Number *number2);
 	void reduce();
+	Number *getNumerator();
+	Number *getDenominator();
 	virtual Number *convert(Number *number2);
 	virtual Number *add(Number *number2);
 	virtual Number *sub(Number *number2);
@@ -31,6 +33,8 @@ public:
 	virtual Number *rnd();
 	virtual Number *maxi(Number *number2);
 	virtual Number *mini(Number *number2);
+	virtual Number *inextoex();
+	virtual Number *extoinex();
 	virtual void print();
 	static bool checkstring(const string &s);
 	static Rational *from_string(const char *expression);

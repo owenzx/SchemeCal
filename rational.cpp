@@ -8,7 +8,7 @@
 
 bool Rational::isInt() const{
 	LongInt one(1);
-	return (numerator_.number_ == one.number_);
+	return (denominator_.number_== one.number_);
 }
 
 
@@ -178,6 +178,14 @@ Number *Rational::mod(Number *number2){
 Number *Rational::gcd(Number *number2){
 	Rational *tmp = SCAST_RATIONAL(number2);
 	assert(isInt() && tmp->isInt() && "These numbers are not integers!");
+	if (numerator_.number_[0] == '0') {
+		Rational *result = new Rational(tmp->numerator_,LongInt(1));
+		return result;
+	}
+	else if (tmp->numerator_.number_[0] == '0') {
+		Rational *result = new Rational(numerator_, LongInt(1));
+		return result;
+	}
 	LongInt big = max(numerator_, tmp->numerator_);
 	LongInt small = min(numerator_, tmp->numerator_);
 	LongInt t;
@@ -202,6 +210,7 @@ Number *Rational::exp(Number *number2){
 	Float *base_ = SCAST_FLOAT(base);
 	Number *power = flt->convert(number2);
 	Number *result = base_->exp(power);
+	delete flt;
 	return result;
 }
 
@@ -218,8 +227,8 @@ Number *Rational::flr(){
 	Rational *result;
 	if (isInt()) result = new Rational(*this);
 	else {
-		if (numerator_.number_[0]=='+'){
-			result = new Rational(numerator_ / denominator_ + LongInt(1), LongInt(1));
+		if (numerator_.number_[0] == '-'){
+			result = new Rational(numerator_ / denominator_ - LongInt(1), LongInt(1));
 		}
 		else{
 			result = new Rational(numerator_ / denominator_, LongInt(1));
@@ -232,8 +241,8 @@ Number *Rational::cel(){
 	Rational *result;
 	if (isInt()) result = new Rational(*this);
 	else {
-		if (numerator_.number_[0] == '-'){
-			result = new Rational(numerator_ / denominator_ - LongInt(1), LongInt(1));
+		if (numerator_.number_[0] == '+'){
+			result = new Rational(numerator_ / denominator_ + LongInt(1), LongInt(1));
 		}
 		else{
 			result = new Rational(numerator_ / denominator_, LongInt(1));
@@ -268,7 +277,7 @@ Number *Rational::rnd(){
 			return result;
 		}
 	}
-	else if (adecPart_ == half){
+	else if (*adecPart_ == *half){
 		if (aintPart_->numerator_ % LongInt(2) ){
 			if (this->numerator_.number_[0] == '+'){
 				Number *result = intPart->add(one);
@@ -282,13 +291,13 @@ Number *Rational::rnd(){
 			}
 		}
 		else{
-			delete one; delete half; delete adecPart; delete intPart; delete decPart;
-			return aintPart;
+			delete one; delete half; delete adecPart; delete aintPart; delete decPart;
+			return intPart;
 		}
 	}
 	else{
-		delete one; delete half; delete adecPart; delete intPart; delete decPart;
-		return aintPart;
+		delete one; delete half; delete adecPart; delete aintPart; delete decPart;
+		return intPart;
 	}
 }
 
@@ -353,6 +362,10 @@ Rational *Rational::from_string(const char *expression){
 		if (!checkstring(numerator)) return NULL;
 		return new Rational(numerator, "1");
 	}
+}
+
+bool Rational::operator==(const Rational &tmp) const{
+	return (numerator_.number_ == tmp.numerator_.number_ && denominator_.number_ == tmp.denominator_.number_);
 }
 
 //Rational *Rational::from_string(char *expression){

@@ -38,6 +38,7 @@ public:
 	virtual void print();
 	static bool checkstring(const string &s);
 	static Rational *from_string(const char *expression);
+	bool operator==(const Rational &tmp) const;
 	LongInt numerator_;
 	LongInt denominator_;
 

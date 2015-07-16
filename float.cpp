@@ -6,6 +6,7 @@
 #include <cstring>
 #include <cmath>
 #include <algorithm>
+#include <sstream>
 
 #define ABS(x) ((x)<0?(-(x)):(x))
 
@@ -40,6 +41,9 @@ Number *Float::convert(Number *number2){
 
 Number *Float::inextoex(){
 	Rational *rat = new Rational();
+	ostringstream os;
+	os.precision(18); 
+	os << fixed << number_;
 	Number *result = rat->convert(this);
 	delete rat;
 	return result;
@@ -113,6 +117,14 @@ Number *Float::gcd(Number *number2){
 	Float *tmp = SCAST_FLOAT(number2);
 	assert(number_ == trunc(number_) && tmp->number_ == trunc(tmp->number_)
 		&& "These numbers are not integers!");
+	if (number_ == 0) {
+		Float *result = new Float(tmp->number_);
+		return result;
+	}
+	else if (tmp->number_ == 0) {
+		Float *result = new Float(number_);
+		return result;
+	}
 	double big = max(number_, tmp->number_);
 	double small = min(number_, tmp->number_);
 	double t;
@@ -158,8 +170,21 @@ Number *Float::trc(){
 }
 
 Number *Float::rnd(){
-	Float *result = new Float(round(number_));
-	return result;
+	if ((number_ - trunc(number_)) != 0.5){
+		Float *result = new Float(round(number_));
+		return result;
+	}
+	else{
+		if (fmod(trunc(number_),2)==0){
+			Float *result = new Float(trunc(number_));
+			return result;
+		}
+		else{
+			Float *result = new Float(round(number_));
+			return result;
+		}
+	}
+	
 }
 
 Number *Float::maxi(Number *number2){

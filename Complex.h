@@ -36,8 +36,8 @@ public:
 	virtual Number *inextoex();
 	virtual Number *extoinex();
 	virtual void print();
-	//Number* get_real();
-	//Number* get_imag();
+	Number* getreal();
+	Number* getimag();
 	//static bool checkstring(const string &s);
 	static Complex *from_string(char *expression);
 	Number* real_;

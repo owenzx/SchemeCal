@@ -176,11 +176,24 @@ Number *Rational::mod(Number *number2){
 }
 
 Number *Rational::gcd(Number *number2){
-	return NULL;
+	Rational *tmp = SCAST_RATIONAL(number2);
+	assert(isInt() && tmp->isInt() && "These numbers are not integers!");
+	LongInt big = max(numerator_, tmp->numerator_);
+	LongInt small = min(numerator_, tmp->numerator_);
+	LongInt t;
+	while (t = big % small){
+		big = small;
+		small = t;
+	}
+	Rational *result = new Rational(small,LongInt(1));
+	return result;
 }
 
 Number *Rational::lcm(Number *number2){
-	return NULL;
+	Rational *tmp = SCAST_RATIONAL(number2);
+	assert(isInt() && tmp->isInt() && "These numbers are not integers!");
+	Rational *result = SCAST_RATIONAL(this->mul(number2)->div(gcd(number2)));
+	return result;
 }
 
 Number *Rational::exp(Number *number2){
@@ -235,7 +248,48 @@ Number *Rational::trc(){
 }
 
 Number *Rational::rnd(){
-	return NULL;
+	Number *intPart = trc();
+	Number *decPart = sub(intPart);
+	Number *adecPart = decPart->abs();
+	Number *aintPart = intPart->abs();
+	Rational *adecPart_ = SCAST_RATIONAL(adecPart);
+	Rational *aintPart_ = SCAST_RATIONAL(aintPart);
+	Rational *half = new Rational(LongInt(1), LongInt(2));
+	Rational *one = new Rational(LongInt(1), LongInt(1));
+	if (adecPart_->greater(half)){
+		if (this->numerator_.number_[0] == '+'){
+			Number *result = intPart->add(one);
+			delete one; delete half; delete adecPart; delete aintPart; delete intPart; delete decPart;
+			return result;
+		}
+		else{
+			Number *result = intPart->sub(one);
+			delete one; delete half; delete adecPart; delete aintPart; delete intPart; delete decPart;
+			return result;
+		}
+	}
+	else if (adecPart_ == half){
+		if (aintPart_->numerator_ % LongInt(2) ){
+			if (this->numerator_.number_[0] == '+'){
+				Number *result = intPart->add(one);
+				delete one; delete half; delete adecPart; delete aintPart; delete intPart; delete decPart;
+				return result;
+			}
+			else{
+				Number *result = intPart->sub(one);
+				delete one; delete half; delete adecPart; delete aintPart; delete intPart; delete decPart;
+				return result;
+			}
+		}
+		else{
+			delete one; delete half; delete adecPart; delete intPart; delete decPart;
+			return aintPart;
+		}
+	}
+	else{
+		delete one; delete half; delete adecPart; delete intPart; delete decPart;
+		return aintPart;
+	}
 }
 
 Number *Rational::maxi(Number *number2){

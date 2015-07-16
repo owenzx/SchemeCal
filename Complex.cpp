@@ -78,6 +78,8 @@ Complex::Complex(Number *real, Number *imag){
 
 Complex::~Complex()
 {
+	delete real_; 
+	delete imag_;
 }
 
 
@@ -89,20 +91,30 @@ Number *Complex::convert(Number *number2){
 	switch (number2->type_){
 	case RATIONAL:{
 		Rational *tmp = SCAST_RATIONAL(number2);
-		result->real_ = tmp;
+		result->real_ = new Rational(tmp->numerator_,tmp->denominator_);
 		result->imag_ = new Rational();
 		break;
 	}
 	case FLOAT:{
 		Float *tmp = SCAST_FLOAT(number2);
-		result->real_ = tmp;
+		result->real_ = new Float(tmp->number_);
 		result->imag_ = new Float();
 		break;
 	}
 	case COMPLEX:{
 		Complex *tmp = SCAST_COMPLEX(number2);
-		result->real_ = tmp->real_;
-		result->imag_ = tmp->imag_;
+		if (tmp->real_->type_ == FLOAT){
+			Float *real = SCAST_FLOAT(tmp->real_);
+			Float *imag = SCAST_FLOAT(tmp->imag_);
+			result->real_ = new Float(real->number_);
+			result->imag_ = new Float(imag->number_);
+		}
+		else{
+			Rational *real = SCAST_RATIONAL(tmp->real_);
+			Rational *imag = SCAST_RATIONAL(tmp->imag_);
+			result->real_ = new Rational(real->numerator_,real->denominator_);
+			result->imag_ = new Rational(imag->numerator_,imag->denominator_);
+		}
 		break;
 	}
 	default:{
@@ -128,6 +140,32 @@ Number *Complex::extoinex(){
 	return result;
 }
 
+
+Number* Complex::getreal(){
+	if (real_->type_ == FLOAT){
+		Float *tmp = SCAST_FLOAT(real_);
+		Float *result = new Float(tmp->number_);
+		return result;
+	}
+	else{
+		Rational *tmp = SCAST_RATIONAL(real_);
+		Rational *result = new Rational(tmp->numerator_, tmp->denominator_);
+		return result;
+	}
+}
+
+Number* Complex::getimag(){
+	if (imag_->type_ == FLOAT){
+		Float *tmp = SCAST_FLOAT(imag_);
+		Float *result = new Float(tmp->number_);
+		return result;
+	}
+	else{
+		Rational *tmp = SCAST_RATIONAL(imag_);
+		Rational *result = new Rational(tmp->numerator_, tmp->denominator_);
+		return result;
+	}
+}
 
 Number *Complex::add(Number *number2){
 	//cout << "Complex::add" << endl;
@@ -238,61 +276,227 @@ Number *Complex::div(Number *number2){
 }
 
 Number *Complex::abs(){
-	return NULL;
+	if (real_->type_ == FLOAT){
+		Float *real = SCAST_FLOAT(real_);
+		if (real->number_ != 0) throw(1);
+		return real_->abs();
+	}
+	else{
+		Rational *real = SCAST_RATIONAL(real_);
+		if (real->numerator_.number_[0] != '0') throw(1);
+		return real_->abs();
+	}
 }
 
 Number *Complex::quo(Number *number2){
-	return NULL;
+	Complex *tmp = SCAST_COMPLEX(number2);
+	if (real_->type_ != RATIONAL || tmp->real_->type_!=RATIONAL){
+		Float *real = SCAST_FLOAT(real_);
+		Number *real2_ = real->convert(tmp->real_);
+		Float *real2 = SCAST_FLOAT(real2_);
+		if (real->number_ != 0 || real2->number_!=0) throw(1);
+		return real->quo(real2);
+	}
+	else{
+		Rational *real = SCAST_RATIONAL(real_);
+		Number *real2_ = real->convert(tmp->real_);
+		Rational *real2 = SCAST_RATIONAL(real2_);
+		if (real->numerator_.number_[0] != '0' || real2->numerator_.number_[0] != '0') throw(1);
+		return real->quo(real2);
+	}
 }
 
 Number *Complex::rem(Number *number2){
-	return NULL;
+	Complex *tmp = SCAST_COMPLEX(number2);
+	if (real_->type_ != RATIONAL || tmp->real_->type_ != RATIONAL){
+		Float *real = SCAST_FLOAT(real_);
+		Number *real2_ = real->convert(tmp->real_);
+		Float *real2 = SCAST_FLOAT(real2_);
+		if (real->number_ != 0 || real2->number_ != 0) throw(1);
+		return real->rem(real2);
+	}
+	else{
+		Rational *real = SCAST_RATIONAL(real_);
+		Number *real2_ = real->convert(tmp->real_);
+		Rational *real2 = SCAST_RATIONAL(real2_);
+		if (real->numerator_.number_[0] != '0' || real2->numerator_.number_[0] != '0') throw(1);
+		return real->rem(real2);
+	}
 }
 
 
 Number *Complex::mod(Number *number2){
-	return NULL;
+	Complex *tmp = SCAST_COMPLEX(number2);
+	if (real_->type_ != RATIONAL || tmp->real_->type_ != RATIONAL){
+		Float *real = SCAST_FLOAT(real_);
+		Number *real2_ = real->convert(tmp->real_);
+		Float *real2 = SCAST_FLOAT(real2_);
+		if (real->number_ != 0 || real2->number_ != 0) throw(1);
+		return real->mod(real2);
+	}
+	else{
+		Rational *real = SCAST_RATIONAL(real_);
+		Number *real2_ = real->convert(tmp->real_);
+		Rational *real2 = SCAST_RATIONAL(real2_);
+		if (real->numerator_.number_[0] != '0' || real2->numerator_.number_[0] != '0') throw(1);
+		return real->mod(real2);
+	}
 }
 
 Number *Complex::gcd(Number *number2){
-	return NULL;
+	Complex *tmp = SCAST_COMPLEX(number2);
+	if (real_->type_ != RATIONAL || tmp->real_->type_ != RATIONAL){
+		Float *real = SCAST_FLOAT(real_);
+		Number *real2_ = real->convert(tmp->real_);
+		Float *real2 = SCAST_FLOAT(real2_);
+		if (real->number_ != 0 || real2->number_ != 0) throw(1);
+		return real->gcd(real2);
+	}
+	else{
+		Rational *real = SCAST_RATIONAL(real_);
+		Number *real2_ = real->convert(tmp->real_);
+		Rational *real2 = SCAST_RATIONAL(real2_);
+		if (real->numerator_.number_[0] != '0' || real2->numerator_.number_[0] != '0') throw(1);
+		return real->gcd(real2);
+	}
 }
 
 Number *Complex::lcm(Number *number2){
-	return NULL;
+	Complex *tmp = SCAST_COMPLEX(number2);
+	if (real_->type_ != RATIONAL || tmp->real_->type_ != RATIONAL){
+		Float *real = SCAST_FLOAT(real_);
+		Number *real2_ = real->convert(tmp->real_);
+		Float *real2 = SCAST_FLOAT(real2_);
+		if (real->number_ != 0 || real2->number_ != 0) throw(1);
+		return real->lcm(real2);
+	}
+	else{
+		Rational *real = SCAST_RATIONAL(real_);
+		Number *real2_ = real->convert(tmp->real_);
+		Rational *real2 = SCAST_RATIONAL(real2_);
+		if (real->numerator_.number_[0] != '0' || real2->numerator_.number_[0] != '0') throw(1);
+		return real->lcm(real2);
+	}
 }
 
 Number *Complex::exp(Number *number2){
-	return NULL;
+	Complex *tmp = SCAST_COMPLEX(number2);
+	if (real_->type_ != RATIONAL || tmp->real_->type_ != RATIONAL){
+		Float *real = SCAST_FLOAT(real_);
+		Number *real2_ = real->convert(tmp->real_);
+		Float *real2 = SCAST_FLOAT(real2_);
+		if (real->number_ != 0 || real2->number_ != 0) throw(1);
+		return real->exp(real2);
+	}
+	else{
+		Rational *real = SCAST_RATIONAL(real_);
+		Number *real2_ = real->convert(tmp->real_);
+		Rational *real2 = SCAST_RATIONAL(real2_);
+		if (real->numerator_.number_[0] != '0' || real2->numerator_.number_[0] != '0') throw(1);
+		return real->exp(real2);
+	}
 }
 
 Number *Complex::sqt(){
-	return NULL;
+	if (real_->type_ == FLOAT){
+		Float *real = SCAST_FLOAT(real_);
+		if (real->number_ != 0) throw(1);
+		return real_->sqt();
+	}
+	else{
+		Rational *real = SCAST_RATIONAL(real_);
+		if (real->numerator_.number_[0] != '0') throw(1);
+		return real_->sqt();
+	}
 }
 
 
 Number *Complex::flr(){
-	return NULL;
+	if (real_->type_ == FLOAT){
+		Float *real = SCAST_FLOAT(real_);
+		if (real->number_ != 0) throw(1);
+		return real_->flr();
+	}
+	else{
+		Rational *real = SCAST_RATIONAL(real_);
+		if (real->numerator_.number_[0] != '0') throw(1);
+		return real_->flr();
+	}
 }
 
 Number *Complex::cel(){
-	return NULL;
+	if (real_->type_ == FLOAT){
+		Float *real = SCAST_FLOAT(real_);
+		if (real->number_ != 0) throw(1);
+		return real_->cel();
+	}
+	else{
+		Rational *real = SCAST_RATIONAL(real_);
+		if (real->numerator_.number_[0] != '0') throw(1);
+		return real_->cel();
+	}
 }
 
 Number *Complex::trc(){
-	return NULL;
+	if (real_->type_ == FLOAT){
+		Float *real = SCAST_FLOAT(real_);
+		if (real->number_ != 0) throw(1);
+		return real_->trc();
+	}
+	else{
+		Rational *real = SCAST_RATIONAL(real_);
+		if (real->numerator_.number_[0] != '0') throw(1);
+		return real_->trc();
+	}
 }
 
 Number *Complex::rnd(){
-	return NULL;
+	if (real_->type_ == FLOAT){
+		Float *real = SCAST_FLOAT(real_);
+		if (real->number_ != 0) throw(1);
+		return real_->rnd();
+	}
+	else{
+		Rational *real = SCAST_RATIONAL(real_);
+		if (real->numerator_.number_[0] != '0') throw(1);
+		return real_->rnd();
+	}
 }
 
 Number *Complex::maxi(Number *number2){
-	return NULL;
+	Complex *tmp = SCAST_COMPLEX(number2);
+	if (real_->type_ != RATIONAL || tmp->real_->type_ != RATIONAL){
+		Float *real = SCAST_FLOAT(real_);
+		Number *real2_ = real->convert(tmp->real_);
+		Float *real2 = SCAST_FLOAT(real2_);
+		if (real->number_ != 0 || real2->number_ != 0) throw(1);
+		return real->maxi(real2);
+	}
+	else{
+		Rational *real = SCAST_RATIONAL(real_);
+		Number *real2_ = real->convert(tmp->real_);
+		Rational *real2 = SCAST_RATIONAL(real2_);
+		if (real->numerator_.number_[0] != '0' || real2->numerator_.number_[0] != '0') throw(1);
+		return real->maxi(real2);
+	}
 }
 
 Number *Complex::mini(Number *number2){
-	return NULL;
+	Complex *tmp = SCAST_COMPLEX(number2);
+	if (real_->type_ != RATIONAL || tmp->real_->type_ != RATIONAL){
+		Float *real = SCAST_FLOAT(real_);
+		Number *real2_ = real->convert(tmp->real_);
+		Float *real2 = SCAST_FLOAT(real2_);
+		if (real->number_ != 0 || real2->number_ != 0) throw(1);
+		return real->mini(real2);
+	}
+	else{
+		Rational *real = SCAST_RATIONAL(real_);
+		Number *real2_ = real->convert(tmp->real_);
+		Rational *real2 = SCAST_RATIONAL(real2_);
+		if (real->numerator_.number_[0] != '0' || real2->numerator_.number_[0] != '0') throw(1);
+		return real->mini(real2);
+	}
 }
 
 
@@ -300,7 +504,7 @@ Number *Complex::mini(Number *number2){
 Complex *Complex::from_string(char *expression){
 	//cout << "Complex::from_string" << endl;
 	string exp = expression;
-	if (exp[exp.length() - 1] != 'i' || exp[exp.length() - 1] != 'I') return NULL;
+	if (exp[exp.length() - 1] != 'i' && exp[exp.length() - 1] != 'I') return NULL;
 	int imag_start = 0;
 	for (int i = exp.length() - 1; i >= 0; --i){
 		if ((exp[i] == '+' || exp[i] == '-') && (i == 0 || (exp[i - 1] >= '0' && exp[i - 1] <= '9'))){

@@ -6,7 +6,7 @@
 #include <cstdio>
 #include <cstring>
 #include <iostream>
-#include<complex>
+#include <complex>
 
 
 
@@ -79,7 +79,7 @@ Complex::Complex(Number *real, Number *imag){
 
 Complex::~Complex()
 {
-	delete real_; 
+	delete real_;
 	delete imag_;
 }
 
@@ -92,7 +92,7 @@ Number *Complex::convert(Number *number2){
 	switch (number2->type_){
 	case RATIONAL:{
 		Rational *tmp = SCAST_RATIONAL(number2);
-		result->real_ = new Rational(tmp->numerator_,tmp->denominator_);
+		result->real_ = new Rational(tmp->numerator_, tmp->denominator_);
 		result->imag_ = new Rational();
 		break;
 	}
@@ -113,8 +113,8 @@ Number *Complex::convert(Number *number2){
 		else{
 			Rational *real = SCAST_RATIONAL(tmp->real_);
 			Rational *imag = SCAST_RATIONAL(tmp->imag_);
-			result->real_ = new Rational(real->numerator_,real->denominator_);
-			result->imag_ = new Rational(imag->numerator_,imag->denominator_);
+			result->real_ = new Rational(real->numerator_, real->denominator_);
+			result->imag_ = new Rational(imag->numerator_, imag->denominator_);
 		}
 		break;
 	}
@@ -291,7 +291,7 @@ Number *Complex::abs(){
 
 Number *Complex::quo(Number *number2){
 	Complex *tmp = SCAST_COMPLEX(number2);
-	if (real_->type_ != RATIONAL || tmp->real_->type_!=RATIONAL){
+	if (real_->type_ != RATIONAL || tmp->real_->type_ != RATIONAL){
 		Float *flt = new Float();
 		Number *imag = flt->convert(imag_);
 		Number *imag2 = flt->convert(tmp->imag_);
@@ -299,7 +299,7 @@ Number *Complex::quo(Number *number2){
 		Number *real2 = flt->convert(tmp->real_);
 		Float *imagf = SCAST_FLOAT(imag);
 		Float *imag2f = SCAST_FLOAT(imag2);
-		if (imagf->number_ != 0 || imag2f->number_!=0) throw(1);
+		if (imagf->number_ != 0 || imag2f->number_ != 0) throw(1);
 		delete flt;
 		return real->quo(real2);
 	}
@@ -410,29 +410,62 @@ Number *Complex::exp(Number *number2){
 		Number *real2 = flt->convert(tmp->real_);
 		Float *imagf = SCAST_FLOAT(imag);
 		Float *imag2f = SCAST_FLOAT(imag2);
-		if (imagf->number_ != 0 || imag2f->number_ != 0) throw(1);
-		delete flt;
-		return real->exp(real2);
+		//if (imagf->number_ != 0 || imag2f->number_ != 0) throw(1);
+		if (imagf->number_ == 0 && imag2f->number_ == 0) {
+			delete flt;
+			return real->exp(real2);
+		}
+		//So much pointers should be deleted here...
+		delete flt; delete imag; delete imag2; delete real; delete real2;
 	}
 	else{
 		Rational *imagr = SCAST_RATIONAL(imag_);
 		Rational *imag2r = SCAST_RATIONAL(tmp->imag_);
-		if (imagr->numerator_.number_[0] != '0' || imag2r->numerator_.number_[0] != '0') throw(1);
-		return real_->exp(tmp->real_);
+		//if (imagr->numerator_.number_[0] != '0' || imag2r->numerator_.number_[0] != '0') throw(1);
+		if (imagr->numerator_.number_[0] == '0' && imag2r->numerator_.number_[0] == '0'){
+			return real_->exp(tmp->real_);
+		}
+		//It looks like nothing needs to be deleted here...
 	}
+	Float *flt = new Float();
+	Number *imag = flt->convert(imag_);
+	Number *imag2 = flt->convert(tmp->imag_);
+	Number *real = flt->convert(real_);
+	Number *real2 = flt->convert(tmp->real_);
+	Float *realf = SCAST_FLOAT(real);
+	Float *real2f = SCAST_FLOAT(real2);
+	Float *imagf = SCAST_FLOAT(imag);
+	Float *imag2f = SCAST_FLOAT(imag2);
+	complex<double> cpx1(realf->number_, imagf->number_), cpx2(real2f->number_, imag2f->number_),cpxr;
+	cpxr = pow(cpx1, cpx2);
+	Float *result_real = new Float(cpxr.real());
+	Float *result_imag = new Float(cpxr.imag());
+	Complex *result = new Complex(result_real, result_imag);
+	delete flt; delete imag; delete imag2; delete real; delete real2; delete result_real; delete result_imag;
+	return result;
 }
 
 Number *Complex::sqt(){
 	if (real_->type_ == FLOAT){
-		Float *imag = SCAST_FLOAT(imag_);
-		if (imag->number_ != 0) throw(1);
-		return real_->sqt();
+		Float *imagf1 = SCAST_FLOAT(imag_);
+		if (imagf1->number_ == 0)	return real_->sqt();
 	}
 	else{
-		Rational *imag = SCAST_RATIONAL(imag_);
-		if (imag->numerator_.number_[0] != '0') throw(1);
-		return real_->sqt();
+		Rational *imagr = SCAST_RATIONAL(imag_);
+		if (imagr->numerator_.number_[0] == '0')	return real_->sqt();
 	}
+	Float *flt = new Float();
+	Number *real = flt->convert(real_);
+	Number *imag = flt->convert(imag_);
+	Float *realf = SCAST_FLOAT(real);
+	Float *imagf = SCAST_FLOAT(imag);
+	complex<double> cpx(realf->number_, imagf->number_);
+	cpx = sqrt(cpx);
+	Float *result_real = new Float(cpx.real());
+	Float *result_imag = new Float(cpx.imag());
+	Complex *result = new Complex(result_real, result_imag);
+	delete flt; delete result_real; delete result_imag; delete real; delete imag;
+	return result;
 }
 
 

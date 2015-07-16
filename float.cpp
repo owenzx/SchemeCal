@@ -7,6 +7,10 @@
 #include <cmath>
 #include <algorithm>
 #include <sstream>
+#include <iostream>
+#include <string>
+
+using namespace std;
 
 #define ABS(x) ((x)<0?(-(x)):(x))
 
@@ -17,6 +21,15 @@ Float::Float(double number) : number_(number){
 Float::~Float(){
 
 }
+
+string Float::doubleToString(double d){
+	ostringstream os;
+	os.precision(18);
+	if (os << d)
+		return os.str();
+	return "invalid conversion";
+}
+
 
 Number *Float::convert(Number *number2){
 	assert(number2->type_ <= type_);
@@ -40,12 +53,36 @@ Number *Float::convert(Number *number2){
 }
 
 Number *Float::inextoex(){
-	Rational *rat = new Rational();
-	ostringstream os;
-	os.precision(18); 
-	os << fixed << number_;
-	Number *result = rat->convert(this);
-	delete rat;
+
+	string floatstr = doubleToString(number_);
+	cout << floatstr << endl;
+	string numerator, denominator;
+	int dotPos = floatstr.find('.'), ePos = floatstr.find('e'), endPos = floatstr.length() - 1, zeronum = 0, pownum;
+	//	cout << ePos << endl;
+	if (dotPos == floatstr.npos){
+		numerator = floatstr;
+		denominator = "1";
+	}
+	else{
+		numerator = floatstr.substr(0, dotPos);
+		if (ePos != floatstr.npos) endPos = ePos - 1;
+		numerator += floatstr.substr(dotPos + 1, endPos - dotPos);
+		denominator = "1";
+		zeronum += (endPos - dotPos);
+	}
+	//	cout << floatstr.substr(ePos,floatstr.length()-ePos-1).c_str() << endl;
+	if (ePos != floatstr.npos) pownum = atoi(floatstr.substr(ePos + 1, floatstr.length() - ePos - 1).c_str());
+	else pownum = 0;
+	//	cout << "P" << pownum << endl;
+	//	cout << "Z" << zeronum << endl;
+	zeronum -= pownum;
+	string zeros(ABS(zeronum), '0');
+	if (zeronum>0) denominator += zeros;
+	else numerator += zeros;
+	cout << numerator << endl;
+	cout << denominator << endl;
+
+	Rational *result = new Rational(numerator,denominator);
 	return result;
 }
 

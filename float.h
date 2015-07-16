@@ -1,9 +1,14 @@
 #pragma once
 #include "number.h"
+#include <string>
+
+using namespace std;
 
 #define SCAST_FLOAT(x) static_cast<Float*>(x)
 
 class Float : public Number {
+private:
+	string doubleToString(double d);
 public:
 	Float(double number = 0);
 	virtual ~Float();

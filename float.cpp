@@ -207,7 +207,7 @@ Number *Float::trc(){
 }
 
 Number *Float::rnd(){
-	if ((number_ - trunc(number_)) != 0.5){
+	if (ABS(number_ - trunc(number_)) != 0.5){
 		Float *result = new Float(round(number_));
 		return result;
 	}

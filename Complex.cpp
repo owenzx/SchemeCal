@@ -400,33 +400,54 @@ Number *Complex::lcm(Number *number2){
 	}
 }
 
+//Number *Complex::exp(Number *number2){
+//	Complex *tmp = SCAST_COMPLEX(number2);
+//	if (real_->type_ != RATIONAL || tmp->real_->type_ != RATIONAL){
+//		Float *flt = new Float();
+//		Number *imag = flt->convert(imag_);
+//		Number *imag2 = flt->convert(tmp->imag_);
+//		Number *real = flt->convert(real_);
+//		Number *real2 = flt->convert(tmp->real_);
+//		Float *imagf = SCAST_FLOAT(imag);
+//		Float *imag2f = SCAST_FLOAT(imag2);
+//		//if (imagf->number_ != 0 || imag2f->number_ != 0) throw(1);
+//		if (imagf->number_ == 0 && imag2f->number_ == 0) {
+//			delete flt;
+//			return real->exp(real2);
+//		}
+//		//So much pointers should be deleted here...
+//		delete flt; delete imag; delete imag2; delete real; delete real2;
+//	}
+//	else{
+//		Rational *imagr = SCAST_RATIONAL(imag_);
+//		Rational *imag2r = SCAST_RATIONAL(tmp->imag_);
+//		//if (imagr->numerator_.number_[0] != '0' || imag2r->numerator_.number_[0] != '0') throw(1);
+//		if (imagr->numerator_.number_[0] == '0' && imag2r->numerator_.number_[0] == '0'){
+//			return real_->exp(tmp->real_);
+//		}
+//		//It looks like nothing needs to be deleted here...
+//	}
+//	Float *flt = new Float();
+//	Number *imag = flt->convert(imag_);
+//	Number *imag2 = flt->convert(tmp->imag_);
+//	Number *real = flt->convert(real_);
+//	Number *real2 = flt->convert(tmp->real_);
+//	Float *realf = SCAST_FLOAT(real);
+//	Float *real2f = SCAST_FLOAT(real2);
+//	Float *imagf = SCAST_FLOAT(imag);
+//	Float *imag2f = SCAST_FLOAT(imag2);
+//	complex<double> cpx1(realf->number_, imagf->number_), cpx2(real2f->number_, imag2f->number_),cpxr;
+//	cpxr = pow(cpx1, cpx2);
+//	Float *result_real = new Float(cpxr.real());
+//	Float *result_imag = new Float(cpxr.imag());
+//	Complex *result = new Complex(result_real, result_imag);
+//	delete flt; delete imag; delete imag2; delete real; delete real2; delete result_real; delete result_imag;
+//	return result;
+//}
+
+
 Number *Complex::exp(Number *number2){
 	Complex *tmp = SCAST_COMPLEX(number2);
-	if (real_->type_ != RATIONAL || tmp->real_->type_ != RATIONAL){
-		Float *flt = new Float();
-		Number *imag = flt->convert(imag_);
-		Number *imag2 = flt->convert(tmp->imag_);
-		Number *real = flt->convert(real_);
-		Number *real2 = flt->convert(tmp->real_);
-		Float *imagf = SCAST_FLOAT(imag);
-		Float *imag2f = SCAST_FLOAT(imag2);
-		//if (imagf->number_ != 0 || imag2f->number_ != 0) throw(1);
-		if (imagf->number_ == 0 && imag2f->number_ == 0) {
-			delete flt;
-			return real->exp(real2);
-		}
-		//So much pointers should be deleted here...
-		delete flt; delete imag; delete imag2; delete real; delete real2;
-	}
-	else{
-		Rational *imagr = SCAST_RATIONAL(imag_);
-		Rational *imag2r = SCAST_RATIONAL(tmp->imag_);
-		//if (imagr->numerator_.number_[0] != '0' || imag2r->numerator_.number_[0] != '0') throw(1);
-		if (imagr->numerator_.number_[0] == '0' && imag2r->numerator_.number_[0] == '0'){
-			return real_->exp(tmp->real_);
-		}
-		//It looks like nothing needs to be deleted here...
-	}
 	Float *flt = new Float();
 	Number *imag = flt->convert(imag_);
 	Number *imag2 = flt->convert(tmp->imag_);
@@ -436,10 +457,14 @@ Number *Complex::exp(Number *number2){
 	Float *real2f = SCAST_FLOAT(real2);
 	Float *imagf = SCAST_FLOAT(imag);
 	Float *imag2f = SCAST_FLOAT(imag2);
-	complex<double> cpx1(realf->number_, imagf->number_), cpx2(real2f->number_, imag2f->number_),cpxr;
+	complex<double> cpx1(realf->number_, imagf->number_), cpx2(real2f->number_, imag2f->number_), cpxr;
 	cpxr = pow(cpx1, cpx2);
 	Float *result_real = new Float(cpxr.real());
 	Float *result_imag = new Float(cpxr.imag());
+	if (result_imag->number_ == 0) {
+		delete flt; delete imag; delete imag2; delete real; delete real2; delete result_imag;
+		return result_real;
+	}
 	Complex *result = new Complex(result_real, result_imag);
 	delete flt; delete imag; delete imag2; delete real; delete real2; delete result_real; delete result_imag;
 	return result;

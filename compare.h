@@ -357,15 +357,13 @@ class Exp :public Opt{
 		Number *first = con->car, *second = con->cdr->car;
 		if (cnt == 2)
 		{
-			if (first->type_ > second->type_)
-			{
-				res = first->quo(first->convert(second));
-			}
-			else
-			{
-				res = second->convert(first)->exp(second);
-			}
-			delete first; delete second;
+			Complex *cpx = new Complex();
+			Number *firstc = cpx->convert(first);
+			Number *secondc = cpx->convert(second);
+			
+			res = firstc->exp(secondc);
+			
+			delete first; delete second; delete firstc; delete secondc;
 			return res;
 		}
 		else{

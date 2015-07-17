@@ -55,7 +55,7 @@ Number *Float::convert(Number *number2){
 Number *Float::inextoex(){
 
 	string floatstr = doubleToString(number_);
-	cout << floatstr << endl;
+	//cout << floatstr << endl;
 	string numerator, denominator;
 	int dotPos = floatstr.find('.'), ePos = floatstr.find('e'), endPos = floatstr.length() - 1, zeronum = 0, pownum;
 	//	cout << ePos << endl;
@@ -79,8 +79,8 @@ Number *Float::inextoex(){
 	string zeros(ABS(zeronum), '0');
 	if (zeronum>0) denominator += zeros;
 	else numerator += zeros;
-	cout << numerator << endl;
-	cout << denominator << endl;
+	//cout << numerator << endl;
+	//cout << denominator << endl;
 
 	Rational *result = new Rational(numerator,denominator);
 	return result;

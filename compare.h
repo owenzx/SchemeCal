@@ -388,12 +388,17 @@ class Sqt :public Opt{
 			}
 			cnt++;
 		}
-		Number *res;
+		Number *res, *tmp3;
 		Number *opr = con->car;
 		if (cnt == 1)
 		{
-			res = opr->sqt();
+			Complex *cpx = new Complex();
+			tmp3 = cpx->convert(opr);
+			Complex *tmp2 = SCAST_COMPLEX(tmp3);
+			res = tmp2->sqt();
+			delete cpx;
 			delete opr;
+			delete tmp2;
 			return res;
 		}
 		else{

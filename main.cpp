@@ -49,7 +49,7 @@ int main() {
 	//
 	for (Number *res;;) {
 		try{
-			printf("> ");
+			//printf("> ");
 			res = calc_exp();
 			if (res == NULL) throw (0);
 			res->print();

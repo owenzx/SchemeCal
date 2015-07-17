@@ -3,16 +3,27 @@
 #include <cstdio>
 #include <iostream>
 #include <memory.h>
+#include <algorithm>
+#include <numeric>
+
+//string LongInt::reverse(const string &number_)const{
+//	string temp = "";
+//	//	temp += number_[0];
+//	for (int i = 1; i < number_.length(); ++i){
+//		temp = number_[i] + temp;
+//	}
+//	temp = number_[0] + temp;
+//	return temp;
+//}
 
 string LongInt::reverse(const string &number_)const{
-	string temp = "";
-	//	temp += number_[0];
-	for (int i = 1; i < number_.length(); ++i){
-		temp = number_[i] + temp;
-	}
+	string temp = number_;
+	std::reverse(temp.begin(),temp.end());
+	temp.erase(temp.length()-1, 1);
 	temp = number_[0] + temp;
 	return temp;
 }
+
 
 string LongInt::add(const string &aa, const string &bb)const{
 	if (aa == "0") return bb;

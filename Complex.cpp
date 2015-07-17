@@ -445,15 +445,32 @@ Number *Complex::exp(Number *number2){
 	return result;
 }
 
+//Number *Complex::sqt(){
+//	if (real_->type_ == FLOAT){
+//		Float *imagf1 = SCAST_FLOAT(imag_);
+//		if (imagf1->number_ == 0)	return real_->sqt();
+//	}
+//	else{
+//		Rational *imagr = SCAST_RATIONAL(imag_);
+//		if (imagr->numerator_.number_[0] == '0')	return real_->sqt();
+//	}
+//	Float *flt = new Float();
+//	Number *real = flt->convert(real_);
+//	Number *imag = flt->convert(imag_);
+//	Float *realf = SCAST_FLOAT(real);
+//	Float *imagf = SCAST_FLOAT(imag);
+//	complex<double> cpx(realf->number_, imagf->number_);
+//	cpx = sqrt(cpx);
+//	Float *result_real = new Float(cpx.real());
+//	Float *result_imag = new Float(cpx.imag());
+//	Complex *result = new Complex(result_real, result_imag);
+//	delete flt; delete result_real; delete result_imag; delete real; delete imag;
+//	return result;
+//}
+
+
+
 Number *Complex::sqt(){
-	if (real_->type_ == FLOAT){
-		Float *imagf1 = SCAST_FLOAT(imag_);
-		if (imagf1->number_ == 0)	return real_->sqt();
-	}
-	else{
-		Rational *imagr = SCAST_RATIONAL(imag_);
-		if (imagr->numerator_.number_[0] == '0')	return real_->sqt();
-	}
 	Float *flt = new Float();
 	Number *real = flt->convert(real_);
 	Number *imag = flt->convert(imag_);
@@ -463,6 +480,10 @@ Number *Complex::sqt(){
 	cpx = sqrt(cpx);
 	Float *result_real = new Float(cpx.real());
 	Float *result_imag = new Float(cpx.imag());
+	if (result_imag->number_ == 0) {
+		delete flt; delete result_imag; delete real; delete imag;
+		return result_real;
+	}
 	Complex *result = new Complex(result_real, result_imag);
 	delete flt; delete result_real; delete result_imag; delete real; delete imag;
 	return result;

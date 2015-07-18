@@ -34,6 +34,8 @@ public:
 	virtual Number *mini(Number *number2);
 	virtual Number *inextoex();
 	virtual Number *extoinex();
+	virtual Number *getNumerator();
+	virtual Number *getDenominator();
 	virtual void print();
 	static Float *from_string(const char *expression);
 	double number_;

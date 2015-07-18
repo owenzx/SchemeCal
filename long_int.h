@@ -15,6 +15,7 @@ public:
 	LongInt(int number = 0);
 	LongInt(const string &number);
 	LongInt(const LongInt &long_int2);
+	LongInt(double number);
 	~LongInt();
 
 	operator bool();

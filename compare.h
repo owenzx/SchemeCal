@@ -527,7 +527,7 @@ class Nume :public Opt{
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ !=1)
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
 			{
 				throw 0;
 			}
@@ -537,8 +537,7 @@ class Nume :public Opt{
 		Number *opr = con->car;
 		if (cnt == 1)
 		{
-			Rational *opt_r = SCAST_RATIONAL(opr);
-			res = opt_r->getNumerator();
+			res = opr->getNumerator();
 			delete opr;
 			return res;
 		}
@@ -556,7 +555,7 @@ class Deno :public Opt{
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ != 1)
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
 			{
 				throw 0;
 			}
@@ -566,8 +565,7 @@ class Deno :public Opt{
 		Number *opr = con->car;
 		if (cnt == 1)
 		{
-			Rational *opt_r = SCAST_RATIONAL(opr);
-			res = opt_r->getDenominator();
+			res = opr->getDenominator();
 			delete opr;
 			return res;
 		}
@@ -577,6 +575,65 @@ class Deno :public Opt{
 		}
 	}
 };
+
+//class Nume :public Opt{
+//	Number *calc(Cons *con)
+//	{
+//		Cons *tmp = con;
+//		int cnt = 0;
+//		for (; tmp; tmp = tmp->cdr)
+//		{
+//			if (tmp->car->type_ != 1)
+//			{
+//				throw 0;
+//			}
+//			cnt++;
+//		}
+//		Number *res;
+//		Number *opr = con->car;
+//		if (cnt == 1)
+//		{
+//			Rational *opt_r = SCAST_RATIONAL(opr);
+//			res = opt_r->getNumerator();
+//			delete opr;
+//			return res;
+//		}
+//		else{
+//			throw 0;
+//			return NULL;
+//		}
+//	}
+//};
+//
+//class Deno :public Opt{
+//	Number *calc(Cons *con)
+//	{
+//		Cons *tmp = con;
+//		int cnt = 0;
+//		for (; tmp; tmp = tmp->cdr)
+//		{
+//			if (tmp->car->type_ != 1)
+//			{
+//				throw 0;
+//			}
+//			cnt++;
+//		}
+//		Number *res;
+//		Number *opr = con->car;
+//		if (cnt == 1)
+//		{
+//			Rational *opt_r = SCAST_RATIONAL(opr);
+//			res = opt_r->getDenominator();
+//			delete opr;
+//			return res;
+//		}
+//		else{
+//			throw 0;
+//			return NULL;
+//		}
+//	}
+//};
+
 
 class InexToEx :public Opt{
 	Number *calc(Cons *con)

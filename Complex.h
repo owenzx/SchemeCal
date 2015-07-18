@@ -33,6 +33,8 @@ public:
 	virtual Number *rnd();
 	virtual Number *maxi(Number *number2);
 	virtual Number *mini(Number *number2);
+	virtual Number *getNumerator();
+	virtual Number *getDenominator();
 	virtual Number *inextoex();
 	virtual Number *extoinex();
 	virtual void print();

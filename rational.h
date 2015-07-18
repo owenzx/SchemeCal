@@ -12,8 +12,8 @@ public:
 	virtual ~Rational();
 	bool greater(Number *number2);
 	void reduce();
-	Number *getNumerator();
-	Number *getDenominator();
+	virtual Number *getNumerator();
+	virtual Number *getDenominator();
 	virtual Number *convert(Number *number2);
 	virtual Number *add(Number *number2);
 	virtual Number *sub(Number *number2);

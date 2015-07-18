@@ -51,38 +51,52 @@ Number *Float::convert(Number *number2){
 	}
 	return result;
 }
+//
+//Number *Float::inextoex(){
+//
+//	string floatstr = doubleToString(number_);
+//	//cout << floatstr << endl;
+//	string numerator, denominator;
+//	int dotPos = floatstr.find('.'), ePos = floatstr.find('e'), endPos = floatstr.length() - 1, zeronum = 0, pownum;
+//	//	cout << ePos << endl;
+//	if (dotPos == floatstr.npos){
+//		numerator = floatstr;
+//		denominator = "1";
+//	}
+//	else{
+//		numerator = floatstr.substr(0, dotPos);
+//		if (ePos != floatstr.npos) endPos = ePos - 1;
+//		numerator += floatstr.substr(dotPos + 1, endPos - dotPos);
+//		denominator = "1";
+//		zeronum += (endPos - dotPos);
+//	}
+//	//	cout << floatstr.substr(ePos,floatstr.length()-ePos-1).c_str() << endl;
+//	if (ePos != floatstr.npos) pownum = atoi(floatstr.substr(ePos + 1, floatstr.length() - ePos - 1).c_str());
+//	else pownum = 0;
+//	//	cout << "P" << pownum << endl;
+//	//	cout << "Z" << zeronum << endl;
+//	zeronum -= pownum;
+//	string zeros(ABS(zeronum), '0');
+//	if (zeronum>0) denominator += zeros;
+//	else numerator += zeros;
+//	//cout << numerator << endl;
+//	//cout << denominator << endl;
+//
+//	Rational *result = new Rational(numerator,denominator);
+//	return result;
+//}
 
 Number *Float::inextoex(){
-
-	string floatstr = doubleToString(number_);
-	//cout << floatstr << endl;
-	string numerator, denominator;
-	int dotPos = floatstr.find('.'), ePos = floatstr.find('e'), endPos = floatstr.length() - 1, zeronum = 0, pownum;
-	//	cout << ePos << endl;
-	if (dotPos == floatstr.npos){
-		numerator = floatstr;
-		denominator = "1";
+	double numerator = number_, denominator = 1;
+	while (numerator != trunc(numerator)){
+		numerator *= 2;
+		denominator *= 2;
 	}
-	else{
-		numerator = floatstr.substr(0, dotPos);
-		if (ePos != floatstr.npos) endPos = ePos - 1;
-		numerator += floatstr.substr(dotPos + 1, endPos - dotPos);
-		denominator = "1";
-		zeronum += (endPos - dotPos);
+	while (fmod(numerator, 2) == 0 && denominator != 1){
+		numerator /= 2;
+		denominator /= 2;
 	}
-	//	cout << floatstr.substr(ePos,floatstr.length()-ePos-1).c_str() << endl;
-	if (ePos != floatstr.npos) pownum = atoi(floatstr.substr(ePos + 1, floatstr.length() - ePos - 1).c_str());
-	else pownum = 0;
-	//	cout << "P" << pownum << endl;
-	//	cout << "Z" << zeronum << endl;
-	zeronum -= pownum;
-	string zeros(ABS(zeronum), '0');
-	if (zeronum>0) denominator += zeros;
-	else numerator += zeros;
-	//cout << numerator << endl;
-	//cout << denominator << endl;
-
-	Rational *result = new Rational(numerator,denominator);
+	Rational *result = new Rational(LongInt(numerator),LongInt(denominator));
 	return result;
 }
 
@@ -241,6 +255,35 @@ Number *Float::mini(Number *number2){
 	Float *result = new Float(min(number_, tmp->number_));
 	return result;
 }
+
+Number *Float::getNumerator(){
+	double numerator = number_, denominator = 1;
+	while (numerator != trunc(numerator)){
+		numerator *= 2;
+		denominator *= 2;
+	}
+	while (fmod(numerator,2)==0 && denominator!=1){
+		numerator /= 2;
+		denominator /= 2;
+	}
+	Float *result = new Float(numerator);
+	return result;
+}
+
+Number *Float::getDenominator(){
+	double numerator = number_, denominator = 1;
+	while (numerator != trunc(numerator)){
+		numerator *= 2;
+		denominator *= 2;
+	}
+	while (fmod(numerator, 2) == 0 && denominator != 1){
+		numerator /= 2;
+		denominator /= 2;
+	}
+	Float *result = new Float(denominator);
+	return result;
+}
+
 
 void Float::print(){
 	printf("%.16g", number_);

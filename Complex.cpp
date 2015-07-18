@@ -684,7 +684,32 @@ Number *Complex::mini(Number *number2){
 	}
 }
 
+Number *Complex::getNumerator(){
+	if (real_->type_ == FLOAT){
+		Float *imag = SCAST_FLOAT(imag_);
+		if (imag->number_ != 0) throw(1);
+		return real_->getNumerator();
+	}
+	else{
+		Rational *imag = SCAST_RATIONAL(imag_);
+		if (imag->numerator_.number_[0] != '0') throw(1);
+		return real_->getNumerator();
+	}
+}
 
+
+Number *Complex::getDenominator(){
+	if (real_->type_ == FLOAT){
+		Float *imag = SCAST_FLOAT(imag_);
+		if (imag->number_ != 0) throw(1);
+		return real_->getDenominator();
+	}
+	else{
+		Rational *imag = SCAST_RATIONAL(imag_);
+		if (imag->numerator_.number_[0] != '0') throw(1);
+		return real_->getDenominator();
+	}
+}
 
 Complex *Complex::from_string(char *expression){
 	//cout << "Complex::from_string" << endl;

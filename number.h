@@ -32,5 +32,7 @@ public:
 	virtual Number *mini(Number *number2) = 0;
 	virtual Number *inextoex() = 0;
 	virtual Number *extoinex() = 0;
+	virtual Number *getNumerator()=0;
+	virtual Number *getDenominator()=0;
 	virtual void print() = 0;
 };

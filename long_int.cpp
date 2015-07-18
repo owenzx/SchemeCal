@@ -95,6 +95,18 @@ LongInt::LongInt(int number){
 	number_ = reverse(number_);
 }
 
+LongInt::LongInt(double number){
+	if (number == 0) number_ = "0";
+	else if (number > 0) number_ = "+";
+	else number_ = "-";
+	number = ABS(number);
+	while (number >= 1){
+		number_ += '0' + fmod(number, 10);
+		number /= 10;
+	}
+	number_ = reverse(number_);
+}
+
 
 //LongInt::LongInt(const string &number) {
 //	if (number[0]=='+' || number[0] == '-' || number=="0") number_ = number;

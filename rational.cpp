@@ -203,7 +203,7 @@ Number *Rational::lcm(Number *number2){
 	Rational *tmp = SCAST_RATIONAL(tmp2);
 	assert(isInt() && tmp->isInt() && "These numbers are not integers!");
 	if (numerator_.number_[0] == '0' && tmp->numerator_.number_[0] == '0'){
-		Rational *result = new Rational(LongInt(1),LongInt(1));
+		Rational *result = new Rational(LongInt(0),LongInt(1));
 		return result;
 	}
 	Rational *result = SCAST_RATIONAL(this->mul(number2)->div(gcd(number2)));

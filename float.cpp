@@ -151,7 +151,8 @@ Number *Float::mod(Number *number2){
 }
 
 Number *Float::gcd(Number *number2){
-	Float *tmp = SCAST_FLOAT(number2);
+	Number *tmp2 = number2->abs();
+	Float *tmp = SCAST_FLOAT(tmp2);
 	assert(number_ == trunc(number_) && tmp->number_ == trunc(tmp->number_)
 		&& "These numbers are not integers!");
 	if (number_ == 0) {
@@ -174,7 +175,8 @@ Number *Float::gcd(Number *number2){
 }
 
 Number *Float::lcm(Number *number2){
-	Float *tmp = SCAST_FLOAT(number2);
+	Number *tmp2 = number2->abs();
+	Float *tmp = SCAST_FLOAT(tmp2);
 	Float *result = SCAST_FLOAT(this->mul(number2)->div(gcd(number2)));
 	return result;
 }

@@ -176,7 +176,8 @@ Number *Rational::mod(Number *number2){
 }
 
 Number *Rational::gcd(Number *number2){
-	Rational *tmp = SCAST_RATIONAL(number2);
+	Number *tmp2 = number2->abs();
+	Rational *tmp = SCAST_RATIONAL(tmp2);
 	assert(isInt() && tmp->isInt() && "These numbers are not integers!");
 	if (numerator_.number_[0] == '0') {
 		Rational *result = new Rational(tmp->numerator_,LongInt(1));
@@ -198,7 +199,8 @@ Number *Rational::gcd(Number *number2){
 }
 
 Number *Rational::lcm(Number *number2){
-	Rational *tmp = SCAST_RATIONAL(number2);
+	Number *tmp2 = number2->abs();
+	Rational *tmp = SCAST_RATIONAL(tmp2);
 	assert(isInt() && tmp->isInt() && "These numbers are not integers!");
 	Rational *result = SCAST_RATIONAL(this->mul(number2)->div(gcd(number2)));
 	return result;

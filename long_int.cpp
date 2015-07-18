@@ -5,7 +5,7 @@
 #include <memory.h>
 #include <algorithm>
 #include <numeric>
-
+#include <cmath>
 //string LongInt::reverse(const string &number_)const{
 //	string temp = "";
 //	//	temp += number_[0];

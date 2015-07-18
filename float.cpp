@@ -244,6 +244,7 @@ Number *Float::mini(Number *number2){
 
 void Float::print(){
 	printf("%.16g", number_);
+	if (number_ == trunc(number_)) printf(".0");
 	//printf("/n");
 }
 

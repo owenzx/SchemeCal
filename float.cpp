@@ -177,6 +177,10 @@ Number *Float::gcd(Number *number2){
 Number *Float::lcm(Number *number2){
 	Number *tmp2 = number2->abs();
 	Float *tmp = SCAST_FLOAT(tmp2);
+	if (number_ == 0 && tmp->number_ == 0){
+		Float *result = new Float(1);
+		return result;
+	}
 	Float *result = SCAST_FLOAT(this->mul(number2)->div(gcd(number2)));
 	return result;
 }

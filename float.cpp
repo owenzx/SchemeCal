@@ -287,7 +287,7 @@ Number *Float::getDenominator(){
 
 void Float::print(){
 	printf("%.16g", number_);
-	if (number_ == trunc(number_)) printf(".0");
+	//if (number_ == trunc(number_)) printf(".0");
 	//printf("/n");
 }
 

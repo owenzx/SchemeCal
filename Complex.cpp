@@ -217,64 +217,137 @@ Number *Complex::sub(Number *number2){
 	return result;
 }
 
+//Number *Complex::mul(Number *number2){
+//	Complex *tmp = SCAST_COMPLEX(number2);
+//	Complex *result = new Complex();
+//	// The following expressions just means a=a1a2-b1b2, b=a1b2+b1a2 
+//	if (real_->type_ > tmp->real_->type_)
+//	{
+//		result->real_ = (real_->mul(real_->convert(tmp->real_)))->sub(imag_->mul(imag_->convert(tmp->imag_)));
+//	}
+//	else
+//	{
+//		result->real_ = ((tmp->real_->convert(real_))->mul(tmp->real_))->sub((tmp->imag_->convert(imag_))->mul(tmp->imag_));
+//	}
+//
+//	if (imag_->type_ > tmp->imag_->type_)
+//	{
+//		result->imag_ = (imag_->mul(imag_->convert(tmp->real_)))->add(real_->mul(real_->convert(tmp->imag_)));
+//	}
+//	else
+//	{
+//		result->imag_ = ((tmp->imag_->convert(real_))->mul(tmp->imag_))->add((tmp->real_->convert(imag_))->mul(tmp->real_));
+//	}
+//
+//	return result;
+//}
+
+
 Number *Complex::mul(Number *number2){
 	Complex *tmp = SCAST_COMPLEX(number2);
-	Complex *result = new Complex();
-	// The following expressions just means a=a1a2-b1b2, b=a1b2+b1a2 
-	if (real_->type_ > tmp->real_->type_)
-	{
-		result->real_ = (real_->mul(real_->convert(tmp->real_)))->sub(imag_->mul(imag_->convert(tmp->imag_)));
+	if (real_->type_ == FLOAT || tmp->real_->type_ == FLOAT){
+		Float *flt = new Float();
+		Number *imag = flt->convert(imag_);
+		Number *imag2 = flt->convert(tmp->imag_);
+		Number *real = flt->convert(real_);
+		Number *real2 = flt->convert(tmp->real_);
+		Float *realf = SCAST_FLOAT(real);
+		Float *real2f = SCAST_FLOAT(real2);
+		Float *imagf = SCAST_FLOAT(imag);
+		Float *imag2f = SCAST_FLOAT(imag2);
+		complex<double> cpx1(realf->number_, imagf->number_), cpx2(real2f->number_, imag2f->number_), cpxr;
+		cpxr = cpx1 * cpx2;
+		Float *result_real = new Float(cpxr.real());
+		Float *result_imag = new Float(cpxr.imag());
+		if (result_imag->number_ == 0) {
+			delete flt; delete imag; delete imag2; delete real; delete real2; delete result_imag;
+			return result_real;
+		}
+		Complex *result = new Complex(result_real, result_imag);
+		delete flt; delete imag; delete imag2; delete real; delete real2; delete result_real; delete result_imag;
+		return result;
 	}
-	else
-	{
-		result->real_ = ((tmp->real_->convert(real_))->mul(tmp->real_))->sub((tmp->imag_->convert(imag_))->mul(tmp->imag_));
+	else{
+		Complex *result = new Complex();
+		result->real_ = (real_->mul(tmp->real_))->sub(imag_->mul(tmp->imag_));
+		result->imag_ = (imag_->mul(tmp->real_))->add(real_->mul(tmp->imag_));
+		return result;
 	}
 
-	if (imag_->type_ > tmp->imag_->type_)
-	{
-		result->imag_ = (imag_->mul(imag_->convert(tmp->real_)))->add(real_->mul(real_->convert(tmp->imag_)));
-	}
-	else
-	{
-		result->imag_ = ((tmp->imag_->convert(real_))->mul(tmp->imag_))->add((tmp->real_->convert(imag_))->mul(tmp->real_));
-	}
-
-	return result;
 }
+
+
+//Number *Complex::div(Number *number2){
+//	Complex *tmp = SCAST_COMPLEX(number2);
+//	Complex *result = new Complex();
+//	if (real_->type_ > tmp->real_->type_)
+//	{
+//		result->real_ = ((real_->mul(real_->convert(tmp->real_)))->add(imag_->mul(imag_->convert(tmp->imag_))))
+//			->div(real_->convert((tmp->real_->mul(tmp->real_))->add(tmp->imag_->mul(tmp->imag_))));
+//		//result->real_ = real_->div(real_->convert(tmp->real_));
+//	}
+//	else
+//	{
+//		result->real_ = (((tmp->real_->convert(real_))->mul(tmp->real_))->add((tmp->imag_->convert(imag_))->mul(tmp->imag_)))
+//			->div((tmp->real_->mul(tmp->real_))->add(tmp->imag_->mul(tmp->imag_)));
+//		//result->real_ = (tmp->real_->convert(real_))->div(tmp->real_);
+//	}
+//
+//	if (imag_->type_ > tmp->imag_->type_)
+//	{
+//		result->imag_ = ((imag_->mul(imag_->convert(tmp->real_)))->sub(real_->mul(real_->convert(tmp->imag_))))
+//			->div(real_->convert((tmp->real_->mul(tmp->real_))->add(tmp->imag_->mul(tmp->imag_))));
+//
+//		//result->imag_ = imag_->div(imag_->convert(tmp->imag_));
+//	}
+//	else
+//	{
+//		result->imag_ = (((tmp->real_->convert(imag_))->mul(tmp->real_))->sub((tmp->imag_->convert(real_))->mul(tmp->imag_)))
+//			->div((tmp->real_->mul(tmp->real_))->add(tmp->imag_->mul(tmp->imag_)));
+//
+//		//result->imag_ = (tmp->imag_->convert(imag_))->div(tmp->imag_);
+//	}
+//
+//	return result;
+//}
+
+
 
 Number *Complex::div(Number *number2){
 	Complex *tmp = SCAST_COMPLEX(number2);
-	Complex *result = new Complex();
-	if (real_->type_ > tmp->real_->type_)
-	{
-		result->real_ = ((real_->mul(real_->convert(tmp->real_)))->add(imag_->mul(imag_->convert(tmp->imag_))))
-			->div(real_->convert((tmp->real_->mul(tmp->real_))->add(tmp->imag_->mul(tmp->imag_))));
-		//result->real_ = real_->div(real_->convert(tmp->real_));
+	if (real_->type_ == FLOAT || tmp->real_->type_==FLOAT){
+		Float *flt = new Float();
+		Number *imag = flt->convert(imag_);
+		Number *imag2 = flt->convert(tmp->imag_);
+		Number *real = flt->convert(real_);
+		Number *real2 = flt->convert(tmp->real_);
+		Float *realf = SCAST_FLOAT(real);
+		Float *real2f = SCAST_FLOAT(real2);
+		Float *imagf = SCAST_FLOAT(imag);
+		Float *imag2f = SCAST_FLOAT(imag2);
+		complex<double> cpx1(realf->number_, imagf->number_), cpx2(real2f->number_, imag2f->number_), cpxr;
+		cpxr = cpx1 / cpx2;
+		Float *result_real = new Float(cpxr.real());
+		Float *result_imag = new Float(cpxr.imag());
+		if (result_imag->number_ == 0) {
+			delete flt; delete imag; delete imag2; delete real; delete real2; delete result_imag;
+			return result_real;
+		}
+		Complex *result = new Complex(result_real, result_imag);
+		delete flt; delete imag; delete imag2; delete real; delete real2; delete result_real; delete result_imag;
+		return result;
 	}
-	else
-	{
-		result->real_ = (((tmp->real_->convert(real_))->mul(tmp->real_))->add((tmp->imag_->convert(imag_))->mul(tmp->imag_)))
+	else{
+		Complex *result = new Complex();
+		result->real_ = ((real_->mul(tmp->real_))->add(imag_->mul(tmp->imag_)))
 			->div((tmp->real_->mul(tmp->real_))->add(tmp->imag_->mul(tmp->imag_)));
-		//result->real_ = (tmp->real_->convert(real_))->div(tmp->real_);
-	}
-
-	if (imag_->type_ > tmp->imag_->type_)
-	{
-		result->imag_ = ((imag_->mul(imag_->convert(tmp->real_)))->sub(real_->mul(real_->convert(tmp->imag_))))
-			->div(real_->convert((tmp->real_->mul(tmp->real_))->add(tmp->imag_->mul(tmp->imag_))));
-
-		//result->imag_ = imag_->div(imag_->convert(tmp->imag_));
-	}
-	else
-	{
-		result->imag_ = (((tmp->real_->convert(imag_))->mul(tmp->real_))->sub((tmp->imag_->convert(real_))->mul(tmp->imag_)))
+		result->imag_ = ((imag_->mul(tmp->real_))->sub(real_->mul(tmp->imag_)))
 			->div((tmp->real_->mul(tmp->real_))->add(tmp->imag_->mul(tmp->imag_)));
-
-		//result->imag_ = (tmp->imag_->convert(imag_))->div(tmp->imag_);
+		return result;
 	}
 
-	return result;
 }
+
 
 Number *Complex::abs(){
 	if (real_->type_ == FLOAT){

@@ -40,6 +40,10 @@ public:
 	virtual void print();
 	Number* getreal();
 	Number* getimag();
+	Number* torect();
+	Number* topolar();
+	Number* getmag();
+	Number* getang();
 	//static bool checkstring(const string &s);
 	static Complex *from_string(char *expression);
 	Number* real_;

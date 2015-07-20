@@ -3,6 +3,7 @@
 #include "rational.h"
 #include "Complex.h"
 #include "number.h"
+#include "Boolean.h"
 #include <cmath>
 #include <iomanip>
 #include <sstream>
@@ -114,6 +115,202 @@ class Mul : public Opt {
 };
 
 class Div :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res = new Rational(1, 1), *last;
+		Number *opr = con->car, *conv;
+		last = res;
+		Number *zero = new Float(0.0);
+		if (cnt == 1)
+		{
+			if (res->type_ > opr->type_)
+				res = res->div(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->div(opr);
+			delete last;
+			delete conv;
+			return res;
+		}
+		if (res->type_ > opr->type_)
+			res = res->mul(conv = res->convert(opr));
+		else
+			res = (conv = opr->convert(res))->mul(opr);
+		con = con->cdr;
+		delete last;
+		delete conv;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->div(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->div(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+class Lex :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res = new Rational(1, 1), *last;
+		Number *opr = con->car, *conv;
+		last = res;
+		Number *zero = new Float(0.0);
+		if (cnt == 1)
+		{
+			if (res->type_ > opr->type_)
+				res = res->div(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->div(opr);
+			delete last;
+			delete conv;
+			return res;
+		}
+		if (res->type_ > opr->type_)
+			res = res->mul(conv = res->convert(opr));
+		else
+			res = (conv = opr->convert(res))->mul(opr);
+		con = con->cdr;
+		delete last;
+		delete conv;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->div(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->div(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+class LesE :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res = new Rational(1, 1), *last;
+		Number *opr = con->car, *conv;
+		last = res;
+		Number *zero = new Float(0.0);
+		if (cnt == 1)
+		{
+			if (res->type_ > opr->type_)
+				res = res->div(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->div(opr);
+			delete last;
+			delete conv;
+			return res;
+		}
+		if (res->type_ > opr->type_)
+			res = res->mul(conv = res->convert(opr));
+		else
+			res = (conv = opr->convert(res))->mul(opr);
+		con = con->cdr;
+		delete last;
+		delete conv;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->div(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->div(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+class Grt :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res = new Rational(1, 1), *last;
+		Number *opr = con->car, *conv;
+		last = res;
+		Number *zero = new Float(0.0);
+		if (cnt == 1)
+		{
+			if (res->type_ > opr->type_)
+				res = res->div(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->div(opr);
+			delete last;
+			delete conv;
+			return res;
+		}
+		if (res->type_ > opr->type_)
+			res = res->mul(conv = res->convert(opr));
+		else
+			res = (conv = opr->convert(res))->mul(opr);
+		con = con->cdr;
+		delete last;
+		delete conv;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->div(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->div(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+class GrtE :public Opt{
 	Number *calc(Cons *con)
 	{
 		Cons *tmp = con;
@@ -357,6 +554,38 @@ class Exp :public Opt{
 		Number *first = con->car, *second = con->cdr->car;
 		if (cnt == 2)
 		{
+			if (first->type_ > second->type_)
+			{
+				res = first->exp(first->convert(second));
+			}
+			else
+			{
+				res = second->convert(first)->exp(second);
+			}
+			delete first; delete second;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+	/*Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res;
+		Number *first = con->car, *second = con->cdr->car;
+		if (cnt == 2)
+		{
 			Complex *cpx = new Complex();
 			Number *firstc = cpx->convert(first);
 			Number *secondc = cpx->convert(second);
@@ -370,11 +599,36 @@ class Exp :public Opt{
 			throw 0;
 			return NULL;
 		}
-	}
+	}*/
 };
 
 class Sqt :public Opt{
 	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res;
+		Number *opr = con->car;
+		if (cnt == 1)
+		{
+			res = opr->sqt();
+			delete opr;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+	/*Number *calc(Cons *con)
 	{
 		Cons *tmp = con;
 		int cnt = 0;
@@ -403,7 +657,7 @@ class Sqt :public Opt{
 			throw 0;
 			return NULL;
 		}
-	}
+	}*/
 };
 
 class Flr :public Opt{
@@ -829,3 +1083,807 @@ class Min :public Opt{
 		return res;
 	}
 };
+
+
+
+class Sin :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+
+
+
+class Cos :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+
+
+
+class Tan :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+
+
+
+class Asin :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+
+
+
+class Acos :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+
+
+class Atan :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+
+
+
+class Log :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+
+
+
+class ToRect :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+
+
+
+class ToPolar :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+
+
+
+class Magn :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+
+
+
+class Ang :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+
+
+
+class IsZero :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+
+
+
+class IsNega :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+
+
+class IsPosi :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+
+
+class IsOdd :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+
+
+class IsEven :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+
+
+class IsInt :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+
+
+class IsRat :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+class IsReal :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+class IsCpx :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+
+class IsNum :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res, *last;
+		Number *opr = con->car, *conv;
+		if (cnt == 0)
+		{
+			throw(0);
+		}
+		res = opr;
+		con = con->cdr;
+		for (; con; con = con->cdr)
+		{
+			opr = con->car;
+			last = res;
+			if (res->type_ > opr->type_)
+				res = res->mini(conv = res->convert(opr));
+			else
+				res = (conv = opr->convert(res))->mini(opr);
+			delete last;
+			delete conv;
+		}
+		return res;
+	}
+};
+

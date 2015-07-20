@@ -75,6 +75,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Boolean.cpp" />
     <ClCompile Include="calc_exp.cpp" />
     <ClCompile Include="Complex.cpp" />
     <ClCompile Include="float.cpp" />
@@ -83,6 +84,7 @@
     <ClCompile Include="rational.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Boolean.h" />
     <ClInclude Include="calc_exp.h" />
     <ClInclude Include="compare.h" />
     <ClInclude Include="Complex.h" />

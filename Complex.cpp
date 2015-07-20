@@ -259,10 +259,10 @@ Number *Complex::mul(Number *number2){
 		cpxr = cpx1 * cpx2;
 		Float *result_real = new Float(cpxr.real());
 		Float *result_imag = new Float(cpxr.imag());
-		if (result_imag->number_ == 0) {
+		/*if (result_imag->number_ == 0) {
 			delete flt; delete imag; delete imag2; delete real; delete real2; delete result_imag;
 			return result_real;
-		}
+		}*/
 		Complex *result = new Complex(result_real, result_imag);
 		delete flt; delete imag; delete imag2; delete real; delete real2; delete result_real; delete result_imag;
 		return result;
@@ -329,10 +329,10 @@ Number *Complex::div(Number *number2){
 		cpxr = cpx1 / cpx2;
 		Float *result_real = new Float(cpxr.real());
 		Float *result_imag = new Float(cpxr.imag());
-		if (result_imag->number_ == 0) {
+		/*if (result_imag->number_ == 0) {
 			delete flt; delete imag; delete imag2; delete real; delete real2; delete result_imag;
 			return result_real;
-		}
+		}*/
 		Complex *result = new Complex(result_real, result_imag);
 		delete flt; delete imag; delete imag2; delete real; delete real2; delete result_real; delete result_imag;
 		return result;

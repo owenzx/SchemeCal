@@ -47,8 +47,8 @@ Rational::~Rational(){
 }
 
 void Rational::reduce(){
-	if (!denominator_) throw ('a');
-	//assert(denominator_ && "denominator is zero");
+	//if (!denominator_) throw ('a');
+	assert(denominator_ && "denominator is zero");
 	if (!numerator_){
 		denominator_ = 1;
 		return;
@@ -167,7 +167,7 @@ Number *Rational::mod(Number *number2){
 	Rational *tmp = SCAST_RATIONAL(number2);
 	assert(isInt() && tmp->isInt() && "These numbers are not integers!");
 	Rational *result;
-	if (LongInt(0)<numerator_*(tmp->numerator_)) result = new Rational(numerator_ % (tmp->numerator_), LongInt(1));
+	if (LongInt(0)<numerator_*(tmp->numerator_) || LongInt(0).number_==(numerator_*(tmp->numerator_)).number_) result = new Rational(numerator_ % (tmp->numerator_), LongInt(1));
 	else {
 		result = new Rational(tmp->numerator_, LongInt(1));
 		result = SCAST_RATIONAL(result->add(new Rational(numerator_ % (tmp->numerator_), LongInt(1))));

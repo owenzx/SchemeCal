@@ -276,8 +276,8 @@ LongInt LongInt::operator*(const LongInt &long_int2) const{
 }
 
 LongInt LongInt::operator/(const LongInt &long_int2) const{
-	if (long_int2.number_ == "0") throw ('a');
-	//assert(long_int2.number_ != "0" && "devide zero");
+	//if (long_int2.number_ == "0") throw ('a');
+	assert(long_int2.number_ != "0" && "devide zero");
 	string a = "+", b = "+", ans = "";
 	a += number_.substr(1, number_.length() - 1); b += long_int2.number_.substr(1, long_int2.number_.length() - 1);
 	if (number_[0] == long_int2.number_[0]) ans += '+';
@@ -313,8 +313,8 @@ LongInt LongInt::operator/(const LongInt &long_int2) const{
 }
 
 LongInt LongInt::operator%(const LongInt &long_int2) const{
-	if (long_int2.number_ == "0") throw ('a');
-	//assert(long_int2.number_!="0" && "devide zero");
+	//if (long_int2.number_ == "0") throw ('a');
+	assert(long_int2.number_!="0" && "devide zero");
 	return (*this - (*this / long_int2)*long_int2);
 }
 

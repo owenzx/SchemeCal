@@ -1,5 +1,6 @@
 #include "float.h"
 #include "rational.h"
+#include "Complex.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cassert>
@@ -126,8 +127,8 @@ Number *Float::mul(Number *number2){
 
 Number *Float::div(Number *number2){
 	Float *tmp = SCAST_FLOAT(number2);
-	if (tmp->number_ == 0)throw('a');
-	//assert(ABS(tmp->number_) != 0 && "divide zero");
+	//if (tmp->number_ == 0)throw('a');
+	assert(ABS(tmp->number_) != 0 && "divide zero");
 	Float *result = new Float(number_ / tmp->number_);
 	return result;
 }
@@ -159,7 +160,7 @@ Number *Float::mod(Number *number2){
 	assert(number_ == trunc(number_) && tmp->number_ == trunc(tmp->number_)
 		&& "These numbers are not integers!");
 	Float *result;
-	if (number_*(tmp->number_)>0) result = new Float(fmod(number_, tmp->number_));
+	if (number_*(tmp->number_)>=0) result = new Float(fmod(number_, tmp->number_));
 	else result = new Float(tmp->number_ + fmod(number_, tmp->number_));
 	return result;
 }
@@ -201,13 +202,36 @@ Number *Float::lcm(Number *number2){
 
 Number *Float::exp(Number *number2){
 	Float *tmp = SCAST_FLOAT(number2);
-	Float *result = new Float(pow(number_,tmp->number_));
-	return result;
+	double number = pow(number_, tmp->number_);
+	if (number == number)	{
+		Float *result = new Float(number);
+		return result;
+	}
+	else{
+		Complex *cpx = new Complex();
+		Number *base = cpx->convert(this);
+		Complex *base_ = SCAST_COMPLEX(base);
+		Number *power = cpx->convert(number2);
+		Number *result = base_->exp(power);
+		delete cpx;
+		return result;
+	}
+	
 }
 
 Number *Float::sqt(){
-	Float *result = new Float(sqrt(number_));
-	return result;
+	double number = sqrt(number_);
+	if (number == number)	{
+		Float *result = new Float(number);
+		return result;
+	}
+	else{
+		Complex *cpx = new Complex();
+		Number *tmp = cpx->convert(this);
+		Complex *tmp_ = SCAST_COMPLEX(tmp);
+		Number *result = tmp_->sqt();
+		return result;
+	}
 }
 
 
@@ -241,7 +265,7 @@ Number *Float::rnd(){
 			return result;
 		}
 	}
-	
+
 }
 
 Number *Float::maxi(Number *number2){
@@ -286,8 +310,8 @@ Number *Float::getDenominator(){
 
 
 void Float::print(){
-	printf("%.16g", number_);
-	//if (number_ == trunc(number_)) printf(".0");
+	printf("%.18g", number_);
+	if (number_ == trunc(number_) && number_<1e17) printf(".0");
 	//printf("/n");
 }
 

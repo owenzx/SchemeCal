@@ -18,6 +18,10 @@ Number *calc_exp(){
 		else if (strcmp(tk1, "-") == 0)opt = new Sub();
 		else if (strcmp(tk1, "*") == 0)opt = new Mul();
 		else if (strcmp(tk1, "/") == 0)opt = new Div();
+		else if (strcmp(tk1, "<") == 0)opt = new Les();
+		else if (strcmp(tk1, "<=") == 0)opt = new LesE();
+		else if (strcmp(tk1, ">") == 0)opt = new Grt();
+		else if (strcmp(tk1, ">=") == 0)opt = new GrtE();
 		else if (strcmp(tk1, "abs") == 0)opt = new Abs();
 		else if (strcmp(tk1, "quotient") == 0)opt = new Quo();
 		else if (strcmp(tk1, "remainder") == 0)opt = new Rem();
@@ -38,6 +42,27 @@ Number *calc_exp(){
 		else if (strcmp(tk1, "imag-part") == 0)opt = new Imp();
 		else if (strcmp(tk1, "max") == 0)opt = new Max();
 		else if (strcmp(tk1, "min") == 0)opt = new Min();
+		else if (strcmp(tk1, "sin") == 0)opt = new Sin();
+		else if (strcmp(tk1, "cos") == 0)opt = new Cos();
+		else if (strcmp(tk1, "tan") == 0)opt = new Tan();
+		else if (strcmp(tk1, "asin") == 0)opt = new Asin();
+		else if (strcmp(tk1, "acos") == 0)opt = new Acos();
+		else if (strcmp(tk1, "atan") == 0)opt = new Atan();
+		else if (strcmp(tk1, "log") == 0)opt = new Log();
+		else if (strcmp(tk1, "make-rectangular") == 0)opt = new ToRect();
+		else if (strcmp(tk1, "make-polar") == 0)opt = new ToPolar();
+		else if (strcmp(tk1, "magniude") == 0)opt = new Magn();
+		else if (strcmp(tk1, "angle") == 0)opt = new Ang();
+		else if (strcmp(tk1, "zero?") == 0)opt = new IsZero();
+		else if (strcmp(tk1, "negative?") == 0)opt = new IsNega();
+		else if (strcmp(tk1, "positive?") == 0)opt = new IsPosi();
+		else if (strcmp(tk1, "odd?") == 0)opt = new IsOdd();
+		else if (strcmp(tk1, "even?") == 0)opt = new IsEven();
+		else if (strcmp(tk1, "integer?") == 0)opt = new IsInt();
+		else if (strcmp(tk1, "rational?") == 0)opt = new IsRat();
+		else if (strcmp(tk1, "real?") == 0)opt = new IsReal();
+		else if (strcmp(tk1, "complex?") == 0)opt = new IsCpx();
+		else if (strcmp(tk1, "number?") == 0)opt = new IsNum();
 		else throw 0;
 		while ((val = calc_exp()))
 		{

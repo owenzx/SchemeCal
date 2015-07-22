@@ -36,3 +36,8 @@ class Opt {
 public:
 	virtual Number *calc(Cons *con) = 0;
 };
+
+class OptB {
+public:
+	virtual Boolean *calc(Cons *con) = 0;
+};

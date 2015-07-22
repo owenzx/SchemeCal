@@ -163,8 +163,8 @@ class Div :public Opt{
 	}
 };
 
-class Lex :public Opt{
-	Number *calc(Cons *con)
+class Les :public OptB{
+	Boolean *calc(Cons *con)
 	{
 		Cons *tmp = con;
 		int cnt = 0;
@@ -176,37 +176,28 @@ class Lex :public Opt{
 			}
 			cnt++;
 		}
-		Number *res = new Rational(1, 1), *last;
-		Number *opr = con->car, *conv;
-		last = res;
-		Number *zero = new Float(0.0);
-		if (cnt == 1)
+		
+		if (cnt <= 2)
 		{
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
-			return res;
+			throw 0;
+			return NULL;
 		}
-		if (res->type_ > opr->type_)
-			res = res->mul(conv = res->convert(opr));
-		else
-			res = (conv = opr->convert(res))->mul(opr);
-		con = con->cdr;
-		delete last;
-		delete conv;
-		for (; con; con = con->cdr)
+		Boolean f(false),*res;
+		Number *last;
+		Number *opr = con->car, *conv;
+		Number *first = con->car, *second = con->cdr->car;
+		if (cnt == 2)
 		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
+			if (first->type_ > second->type_)
+			{
+				*res = first->les(first->convert(second));
+			}
 			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
+			{
+				*res = second->convert(first)->quo(second);
+			}
+			delete first; delete second;
+			return res;
 		}
 		return res;
 	}
@@ -402,7 +393,7 @@ class Quo :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *first = con->car, *second=con->cdr->car;
+		Number *first = con->car, *second = con->cdr->car;
 		if (cnt == 2)
 		{
 			if (first->type_ > second->type_)
@@ -572,6 +563,39 @@ class Exp :public Opt{
 	}
 	/*Number *calc(Cons *con)
 	{
+	Cons *tmp = con;
+	int cnt = 0;
+	for (; tmp; tmp = tmp->cdr)
+	{
+	if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+	{
+	throw 0;
+	}
+	cnt++;
+	}
+	Number *res;
+	Number *first = con->car, *second = con->cdr->car;
+	if (cnt == 2)
+	{
+	Complex *cpx = new Complex();
+	Number *firstc = cpx->convert(first);
+	Number *secondc = cpx->convert(second);
+
+	res = firstc->exp(secondc);
+
+	delete first; delete second; delete firstc; delete secondc;
+	return res;
+	}
+	else{
+	throw 0;
+	return NULL;
+	}
+	}*/
+};
+
+class Ex :public Opt{
+	Number *calc(Cons *con)
+	{
 		Cons *tmp = con;
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
@@ -583,23 +607,18 @@ class Exp :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *first = con->car, *second = con->cdr->car;
-		if (cnt == 2)
+		Number *opr = con->car;
+		if (cnt == 1)
 		{
-			Complex *cpx = new Complex();
-			Number *firstc = cpx->convert(first);
-			Number *secondc = cpx->convert(second);
-			
-			res = firstc->exp(secondc);
-			
-			delete first; delete second; delete firstc; delete secondc;
+			res = opr->ex();
+			delete opr;
 			return res;
 		}
 		else{
 			throw 0;
 			return NULL;
 		}
-	}*/
+	}
 };
 
 class Sqt :public Opt{
@@ -630,33 +649,33 @@ class Sqt :public Opt{
 	}
 	/*Number *calc(Cons *con)
 	{
-		Cons *tmp = con;
-		int cnt = 0;
-		for (; tmp; tmp = tmp->cdr)
-		{
-			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
-			{
-				throw 0;
-			}
-			cnt++;
-		}
-		Number *res, *tmp3;
-		Number *opr = con->car;
-		if (cnt == 1)
-		{
-			Complex *cpx = new Complex();
-			tmp3 = cpx->convert(opr);
-			Complex *tmp2 = SCAST_COMPLEX(tmp3);
-			res = tmp2->sqt();
-			delete cpx;
-			delete opr;
-			delete tmp2;
-			return res;
-		}
-		else{
-			throw 0;
-			return NULL;
-		}
+	Cons *tmp = con;
+	int cnt = 0;
+	for (; tmp; tmp = tmp->cdr)
+	{
+	if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+	{
+	throw 0;
+	}
+	cnt++;
+	}
+	Number *res, *tmp3;
+	Number *opr = con->car;
+	if (cnt == 1)
+	{
+	Complex *cpx = new Complex();
+	tmp3 = cpx->convert(opr);
+	Complex *tmp2 = SCAST_COMPLEX(tmp3);
+	res = tmp2->sqt();
+	delete cpx;
+	delete opr;
+	delete tmp2;
+	return res;
+	}
+	else{
+	throw 0;
+	return NULL;
+	}
 	}*/
 };
 
@@ -958,7 +977,7 @@ class Rep :public Opt{
 			}
 			cnt++;
 		}
-		Number *res,*tmp3;
+		Number *res, *tmp3;
 		Number *opr = con->car;
 		if (cnt == 1)
 		{
@@ -968,7 +987,7 @@ class Rep :public Opt{
 			res = tmp2->getreal();
 			delete cpx;
 			delete opr;
-			delete tmp2; 
+			delete tmp2;
 			return res;
 		}
 		else{
@@ -1024,7 +1043,7 @@ class Max :public Opt{
 			}
 			cnt++;
 		}
-		Number *res , *last;
+		Number *res, *last;
 		Number *opr = con->car, *conv;
 		if (cnt == 0)
 		{
@@ -1099,26 +1118,18 @@ class Sin :public Opt{
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = con->car, *conv;
-		if (cnt == 0)
+		Number *res;
+		Number *opr = con->car;
+		if (cnt == 1)
 		{
-			throw(0);
+			res = opr->sin();
+			delete opr;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
@@ -1138,26 +1149,18 @@ class Cos :public Opt{
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = con->car, *conv;
-		if (cnt == 0)
+		Number *res;
+		Number *opr = con->car;
+		if (cnt == 1)
 		{
-			throw(0);
+			res = opr->cos();
+			delete opr;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
@@ -1177,26 +1180,18 @@ class Tan :public Opt{
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = con->car, *conv;
-		if (cnt == 0)
+		Number *res;
+		Number *opr = con->car;
+		if (cnt == 1)
 		{
-			throw(0);
+			res = opr->tan();
+			delete opr;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
@@ -1216,26 +1211,18 @@ class Asin :public Opt{
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = con->car, *conv;
-		if (cnt == 0)
+		Number *res;
+		Number *opr = con->car;
+		if (cnt == 1)
 		{
-			throw(0);
+			res = opr->asin();
+			delete opr;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
@@ -1255,26 +1242,18 @@ class Acos :public Opt{
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = con->car, *conv;
-		if (cnt == 0)
+		Number *res;
+		Number *opr = con->car;
+		if (cnt == 1)
 		{
-			throw(0);
+			res = opr->acos();
+			delete opr;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
@@ -1293,26 +1272,18 @@ class Atan :public Opt{
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = con->car, *conv;
-		if (cnt == 0)
+		Number *res;
+		Number *opr = con->car;
+		if (cnt == 1)
 		{
-			throw(0);
+			res = opr->atan();
+			delete opr;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
@@ -1332,26 +1303,18 @@ class Log :public Opt{
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = con->car, *conv;
-		if (cnt == 0)
+		Number *res;
+		Number *opr = con->car;
+		if (cnt == 1)
 		{
-			throw(0);
+			res = opr->log();
+			delete opr;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
@@ -1371,26 +1334,19 @@ class ToRect :public Opt{
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = con->car, *conv;
-		if (cnt == 0)
+		Number *res;
+		Number *first = con->car, *second = con->cdr->car;
+		if (cnt == 2)
 		{
-			throw(0);
+			Complex *cpx = new Complex();
+			res = cpx->torect(first, second);
+			delete first; delete second; delete cpx;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
@@ -1410,26 +1366,19 @@ class ToPolar :public Opt{
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = con->car, *conv;
-		if (cnt == 0)
+		Number *res;
+		Number *first = con->car, *second = con->cdr->car;
+		if (cnt == 2)
 		{
-			throw(0);
+			Complex *cpx = new Complex();
+			res = cpx->topolar(first, second);
+			delete first; delete second; delete cpx;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
@@ -1449,26 +1398,23 @@ class Magn :public Opt{
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = con->car, *conv;
-		if (cnt == 0)
+		Number *res, *tmp3;
+		Number *opr = con->car;
+		if (cnt == 1)
 		{
-			throw(0);
+			Complex *cpx = new Complex();
+			tmp3 = cpx->convert(opr);
+			Complex *tmp2 = SCAST_COMPLEX(tmp3);
+			res = tmp2->getmag();
+			delete cpx;
+			delete opr;
+			delete tmp2;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
@@ -1488,26 +1434,23 @@ class Ang :public Opt{
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = con->car, *conv;
-		if (cnt == 0)
+		Number *res, *tmp3;
+		Number *opr = con->car;
+		if (cnt == 1)
 		{
-			throw(0);
+			Complex *cpx = new Complex();
+			tmp3 = cpx->convert(opr);
+			Complex *tmp2 = SCAST_COMPLEX(tmp3);
+			res = tmp2->getang();
+			delete cpx;
+			delete opr;
+			delete tmp2;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = con->car;
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 

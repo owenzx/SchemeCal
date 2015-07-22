@@ -23,6 +23,17 @@ Float::~Float(){
 
 }
 
+bool Float::greater(Number *number2){
+	Float *tmp = SCAST_FLOAT(number2);
+	return (number_ > tmp->number_);
+}
+
+bool Float::equal(Number *number2){
+	Float *tmp = SCAST_FLOAT(number2);
+	return (number_ == tmp->number_);
+}
+
+
 string Float::doubleToString(double d){
 	ostringstream os;
 	os.precision(18);
@@ -97,7 +108,7 @@ Number *Float::inextoex(){
 		numerator /= 2;
 		denominator /= 2;
 	}
-	Rational *result = new Rational(LongInt(numerator),LongInt(denominator));
+	Rational *result = new Rational(LongInt(numerator), LongInt(denominator));
 	return result;
 }
 
@@ -133,6 +144,22 @@ Number *Float::div(Number *number2){
 	return result;
 }
 
+Boolean Float::les(Number *number2){
+	return Boolean(!greater(number2));
+}
+
+Boolean Float::lesE(Number *number2){
+	return Boolean(!greater(number2) || equal(number2));
+}
+
+Boolean Float::grt(Number *number2){
+	return Boolean(greater(number2));
+}
+
+Boolean Float::grtE(Number *number2){
+	return Boolean(greater(number2) || equal(number2));
+}
+
 Number *Float::abs(){
 	Float *result = new Float(ABS(number_));
 	return result;
@@ -160,7 +187,7 @@ Number *Float::mod(Number *number2){
 	assert(number_ == trunc(number_) && tmp->number_ == trunc(tmp->number_)
 		&& "These numbers are not integers!");
 	Float *result;
-	if (number_*(tmp->number_)>=0) result = new Float(fmod(number_, tmp->number_));
+	if (number_*(tmp->number_) >= 0) result = new Float(fmod(number_, tmp->number_));
 	else result = new Float(tmp->number_ + fmod(number_, tmp->number_));
 	return result;
 }
@@ -196,7 +223,7 @@ Number *Float::lcm(Number *number2){
 		Float *result = new Float(0);
 		return result;
 	}
-	Float *result = SCAST_FLOAT(this->mul(number2)->div(gcd(number2)));
+	Float *result = SCAST_FLOAT(this->mul(tmp)->div(gcd(tmp)));
 	return result;
 }
 
@@ -216,7 +243,12 @@ Number *Float::exp(Number *number2){
 		delete cpx;
 		return result;
 	}
-	
+
+}
+
+Number *Float::ex(){
+	Float *result = new Float(std::exp(number_));
+	return result;
 }
 
 Number *Float::sqt(){
@@ -256,7 +288,7 @@ Number *Float::rnd(){
 		return result;
 	}
 	else{
-		if (fmod(trunc(number_),2)==0){
+		if (fmod(trunc(number_), 2) == 0){
 			Float *result = new Float(trunc(number_));
 			return result;
 		}
@@ -267,6 +299,42 @@ Number *Float::rnd(){
 	}
 
 }
+
+Number *Float::sin(){
+	Float *result = new Float(std::sin(number_));
+	return result;
+}
+
+Number *Float::cos(){
+	Float *result = new Float(std::cos(number_));
+	return result;
+}
+
+Number *Float::tan(){
+	Float *result = new Float(std::tan(number_));
+	return result;
+}
+
+Number *Float::asin(){
+	Float *result = new Float(std::asin(number_));
+	return result;
+}
+
+Number *Float::acos(){
+	Float *result = new Float(std::acos(number_));
+	return result;
+}
+
+Number *Float::atan(){
+	Float *result = new Float(std::atan(number_));
+	return result;
+}
+
+Number *Float::log(){
+	Float *result = new Float(std::log(number_));
+	return result;
+}
+
 
 Number *Float::maxi(Number *number2){
 	Float *tmp = SCAST_FLOAT(number2);
@@ -286,7 +354,7 @@ Number *Float::getNumerator(){
 		numerator *= 2;
 		denominator *= 2;
 	}
-	while (fmod(numerator,2)==0 && denominator!=1){
+	while (fmod(numerator, 2) == 0 && denominator != 1){
 		numerator /= 2;
 		denominator /= 2;
 	}
@@ -308,10 +376,51 @@ Number *Float::getDenominator(){
 	return result;
 }
 
+ Boolean Float:: isZero(){
+	 return Boolean(number_ == 0);
+ }
+
+ Boolean Float:: isNega(){
+	 return Boolean(number_ < 0);
+ }
+
+ Boolean Float:: isPosi(){
+	 return Boolean(number_ > 0);
+ }
+
+ Boolean Float:: isOdd(){
+	 return Boolean(isInt().val_ || fmod(number_, 2) !=0);
+ }
+
+ Boolean Float:: isEven(){
+	 return Boolean(isInt().val_ || fmod(number_, 2) == 0);
+ }
+
+ Boolean Float:: isInt(){
+	 return Boolean(number_ == trunc(number_));
+ }
+
+ Boolean Float:: isRat(){
+	 return Boolean(true);
+ }
+ 
+ Boolean Float:: isReal(){
+	 return Boolean(true);
+ }
+ 
+ Boolean Float:: isCpx(){
+	 return Boolean(true);
+ }
+ 
+ Boolean Float:: isNum(){
+	 return Boolean(true);
+ }
+
+
 
 void Float::print(){
 	printf("%.18g", number_);
-	if (number_ == trunc(number_) && number_<1e17) printf(".0");
+	if (number_ == trunc(number_) && number_ < 1e17) printf(".0");
 	//printf("/n");
 }
 

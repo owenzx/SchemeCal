@@ -45,6 +45,22 @@ Complex::Complex(string real, string imag)
 
 Complex::Complex(Number *real, Number *imag){
 	type_ = COMPLEX;
+	if (real->type_ == RATIONAL && imag->type_ == RATIONAL){
+		Rational *tmp = SCAST_RATIONAL(real);
+		real_ = new Rational(*tmp);
+		Rational *tmp2 = SCAST_RATIONAL(imag);
+		imag_ = new Rational(*tmp2);
+	}
+	else{
+		Float *flt = new Float();
+		Number *tmp = flt->convert(real);
+		Number *tmp2 = flt->convert(imag);
+		if (!tmp || !tmp2) throw(1);
+		Float *tmpf = SCAST_FLOAT(tmp);
+		Float *tmp2f = SCAST_FLOAT(tmp2);
+		real_ = new Float(*tmpf);
+		imag_ = new Float(*tmp2f);
+	}/*
 	switch (real->type_){
 	case RATIONAL:{
 		Rational *tmp = SCAST_RATIONAL(real);
@@ -74,7 +90,7 @@ Complex::Complex(Number *real, Number *imag){
 	default:{
 		assert(0 && "type_ not defined");
 	}
-	}
+	}*/
 }
 
 Complex::~Complex()
@@ -166,6 +182,48 @@ Number* Complex::getimag(){
 		Rational *result = new Rational(tmp->numerator_, tmp->denominator_);
 		return result;
 	}
+}
+
+Number* Complex::torect(Number *number1,Number *number2){
+	Complex *result = new Complex(number1, number2);
+	return result;
+}
+
+Number* Complex::topolar(Number *number1,Number *number2){
+	Float *flt = new Float();
+	Number *tmp = flt->convert(number1);
+	Number *tmp2 = flt->convert(number2);
+	Float *tmpf = SCAST_FLOAT(tmp);
+	Float *tmp2f = SCAST_FLOAT(tmp2);
+	complex<double> cpx = polar(tmpf->number_, tmp2f->number_);
+	Complex *result = new Complex(new Float(cpx.real()), new Float(cpx.imag()));
+	return result;
+}
+
+Number* Complex::getmag(){
+	Float *flt = new Float();
+	Number *real = flt->convert(real_);
+	Number *imag = flt->convert(imag_);
+	Float *realf = SCAST_FLOAT(real);
+	Float *imagf = SCAST_FLOAT(imag);
+	complex<double> cpx(realf->number_, imagf->number_);
+	double result_ = norm(cpx);
+	Float *result = new Float(result_);
+	delete flt; delete real; delete imag;
+	return result;
+}
+
+Number* Complex::getang(){
+	Float *flt = new Float();
+	Number *real = flt->convert(real_);
+	Number *imag = flt->convert(imag_);
+	Float *realf = SCAST_FLOAT(real);
+	Float *imagf = SCAST_FLOAT(imag);
+	complex<double> cpx(realf->number_, imagf->number_);
+	double result_ = arg(cpx);
+	Float *result = new Float(result_);
+	delete flt; delete real; delete imag;
+	return result;
 }
 
 Number *Complex::add(Number *number2){
@@ -262,7 +320,7 @@ Number *Complex::mul(Number *number2){
 		/*if (result_imag->number_ == 0) {
 			delete flt; delete imag; delete imag2; delete real; delete real2; delete result_imag;
 			return result_real;
-		}*/
+			}*/
 		Complex *result = new Complex(result_real, result_imag);
 		delete flt; delete imag; delete imag2; delete real; delete real2; delete result_real; delete result_imag;
 		return result;
@@ -315,7 +373,7 @@ Number *Complex::mul(Number *number2){
 
 Number *Complex::div(Number *number2){
 	Complex *tmp = SCAST_COMPLEX(number2);
-	if (real_->type_ == FLOAT || tmp->real_->type_==FLOAT){
+	if (real_->type_ == FLOAT || tmp->real_->type_ == FLOAT){
 		Float *flt = new Float();
 		Number *imag = flt->convert(imag_);
 		Number *imag2 = flt->convert(tmp->imag_);
@@ -332,7 +390,7 @@ Number *Complex::div(Number *number2){
 		/*if (result_imag->number_ == 0) {
 			delete flt; delete imag; delete imag2; delete real; delete real2; delete result_imag;
 			return result_real;
-		}*/
+			}*/
 		Complex *result = new Complex(result_real, result_imag);
 		delete flt; delete imag; delete imag2; delete real; delete real2; delete result_real; delete result_imag;
 		return result;
@@ -347,6 +405,11 @@ Number *Complex::div(Number *number2){
 	}
 
 }
+
+Boolean Complex::les(Number *number2){return NULL;}
+Boolean Complex::lesE(Number *number2){return NULL;}
+Boolean Complex::grt(Number *number2){return NULL;}
+Boolean Complex::grtE(Number *number2){return NULL;}
 
 
 Number *Complex::abs(){
@@ -640,6 +703,16 @@ Number *Complex::rnd(){
 	}
 }
 
+Number *Complex::ex(){return NULL;}
+
+Number *Complex::sin(){return NULL;}
+Number *Complex::cos(){return NULL;}
+Number *Complex::tan(){return NULL;}
+Number *Complex::asin(){return NULL;}
+Number *Complex::acos(){return NULL;}
+Number *Complex::atan(){return NULL;}
+Number *Complex::log(){ return NULL; }
+
 Number *Complex::maxi(Number *number2){
 	Complex *tmp = SCAST_COMPLEX(number2);
 	if (real_->type_ != RATIONAL || tmp->real_->type_ != RATIONAL){
@@ -710,6 +783,17 @@ Number *Complex::getDenominator(){
 		return real_->getDenominator();
 	}
 }
+
+Boolean Complex::isZero(){return NULL;}
+Boolean Complex::isNega(){return NULL;}
+Boolean Complex::isPosi(){return NULL;}
+Boolean Complex::isOdd(){return NULL;}
+Boolean Complex::isEven(){return NULL;}
+Boolean Complex::isInt(){return NULL;}
+Boolean Complex::isRat(){return NULL;}
+Boolean Complex::isReal(){return NULL;}
+Boolean Complex::isCpx(){return NULL;}
+Boolean Complex::isNum(){return NULL;}
 
 Complex *Complex::from_string(char *expression){
 	//cout << "Complex::from_string" << endl;

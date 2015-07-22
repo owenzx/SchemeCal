@@ -11,11 +11,17 @@ public:
 	} type_;
 	Number(){}
 	virtual ~Number(){}
+	//virtual bool greater(Number *number2);
+	//virtual bool equal(Number *number2);
 	virtual Number *convert(Number *number2) = 0;
 	virtual Number *add(Number *number2) = 0;
 	virtual Number *sub(Number *number2) = 0;
 	virtual Number *mul(Number *number2) = 0;
 	virtual Number *div(Number *number2) = 0;
+	virtual Boolean les(Number *number2) = 0;
+	virtual Boolean lesE(Number *number2) = 0;
+	virtual Boolean grt(Number *number2) = 0;
+	virtual Boolean grtE(Number *number2) = 0;
 	virtual Number *abs() = 0;
 	virtual Number *quo(Number *number2) = 0;
 	virtual Number *rem(Number *number2) = 0;
@@ -23,6 +29,7 @@ public:
 	virtual Number *gcd(Number *number2) = 0;
 	virtual Number *lcm(Number *number2) = 0;
 	virtual Number *exp(Number *number2) = 0;
+	virtual Number *ex() = 0;
 	virtual Number *sqt() = 0;
 	virtual Number *flr() = 0;
 	virtual Number *cel() = 0;

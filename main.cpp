@@ -37,36 +37,36 @@ int main() {
 
 
 
-	try {
-		Number *res;
-		res = calc_exp();
-		res->print();
-	}
-	catch (...){ return 1; }
-	system("pause");
-	
-
-
-
-	//for (Number *res;;) {
-	//	try{
-	//		//printf("> ");
-	//		res = calc_exp();
-	//		if (res == NULL) throw (0);
-	//		res->print();
-	//		printf("\n");
-	//	}
-	//	catch (int) {
-	//		cerr << "Wrong\n";
-	//		//int c; while((c = getchar()) != '\n' && c != EOF);
-	//		continue;
-	//	}
-	//	catch (char) {
-	//		cerr << "Division by 0\n";
-	//		//int c; while((c = getchar()) != '\n' && c != EOF);
-	//		continue;
-	//	}
+	//try {
+	//	Number *res;
+	//	res = calc_exp();
+	//	res->print();
 	//}
+	//catch (...){ return 1; }
+	//system("pause");
+	//
+
+
+
+	for (Number *res;;) {
+		try{
+			//printf("> ");
+			res = calc_exp();
+			if (res == NULL) throw (0);
+			res->print();
+			printf("\n");
+		}
+		catch (int) {
+			cerr << "Wrong\n";
+			//int c; while((c = getchar()) != '\n' && c != EOF);
+			continue;
+		}
+		catch (char) {
+			cerr << "Division by 0\n";
+			//int c; while((c = getchar()) != '\n' && c != EOF);
+			continue;
+		}
+	}
 
 	return 0;
 }

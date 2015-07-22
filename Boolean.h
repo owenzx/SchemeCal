@@ -2,9 +2,9 @@
 class Boolean
 {
 public:
-	Boolean();
+	Boolean(bool val = false);
 	~Boolean();
 	void print();
-	bool val;
+	bool val_;
 };
 

@@ -128,9 +128,10 @@ LongInt::LongInt(const string &number) {
         else temp = "+";
         for (int i=0; i<number.length();++i){
             if (number[i]>='1' && number[i]<='9'){
-                for (int j=i; j<number.length(); ++j){
+                /*for (int j=i; j<number.length(); ++j){
                     temp += number[j];
-                }
+                }*/
+				temp += number.substr(i, number.length() - i );
                 break;
             }
         }

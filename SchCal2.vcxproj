@@ -75,7 +75,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Base.cpp" />
     <ClCompile Include="Boolean.cpp" />
     <ClCompile Include="calc_exp.cpp" />
     <ClCompile Include="Complex.cpp" />

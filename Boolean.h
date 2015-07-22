@@ -1,5 +1,6 @@
 #pragma once
-class Boolean
+#include "Base.h"
+class Boolean :public Base
 {
 public:
 	Boolean(bool val = false);

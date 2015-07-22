@@ -1,7 +1,9 @@
 #include "Boolean.h"
 #include <cstdio>
 
-Boolean::Boolean(bool val) :val_(val){}
+Boolean::Boolean(bool val) :val_(val){
+	type_ = BOOLEAN;
+}
 
 
 Boolean::~Boolean(){}

@@ -6,20 +6,21 @@
 #include <cstring>
 #include <iostream>
 
-Boolean Rational::isInt() {
+Boolean *Rational::isInt() {
 	LongInt one(1);
-	return Boolean(denominator_.number_ == one.number_);
+	Boolean *result = new Boolean(denominator_.number_ == one.number_);
+	return result;
 }
 
-Boolean Rational::isZero(){ return NULL; }
-Boolean Rational::isNega(){ return NULL; }
-Boolean Rational::isPosi(){ return NULL; }
-Boolean Rational::isOdd(){ return NULL; }
-Boolean Rational::isEven(){ return NULL; }
-Boolean Rational::isRat(){ return NULL; }
-Boolean Rational::isReal(){ return NULL; }
-Boolean Rational::isCpx(){ return NULL; }
-Boolean Rational::isNum(){ return NULL; }
+Boolean *Rational::isZero(){ return NULL; }
+Boolean *Rational::isNega(){ return NULL; }
+Boolean *Rational::isPosi(){ return NULL; }
+Boolean *Rational::isOdd(){ return NULL; }
+Boolean *Rational::isEven(){ return NULL; }
+Boolean *Rational::isRat(){ return NULL; }
+Boolean *Rational::isReal(){ return NULL; }
+Boolean *Rational::isCpx(){ return NULL; }
+Boolean *Rational::isNum(){ return NULL; }
 
 
 bool Rational::greater(Number *number2){
@@ -151,10 +152,10 @@ Number *Rational::div(Number *number2) {
 }
 
 
-Boolean Rational::les(Number *number2){ return NULL; }
-Boolean Rational::lesE(Number *number2){ return NULL; }
-Boolean Rational::grt(Number *number2){ return NULL; }
-Boolean Rational::grtE(Number *number2){ return NULL; }
+Boolean *Rational::les(Number *number2){ return NULL; }
+Boolean *Rational::lesE(Number *number2){ return NULL; }
+Boolean *Rational::grt(Number *number2){ return NULL; }
+Boolean *Rational::grtE(Number *number2){ return NULL; }
 
 
 Number *Rational::abs(){
@@ -167,14 +168,14 @@ Number *Rational::abs(){
 
 Number *Rational::quo(Number *number2){
 	Rational *tmp = SCAST_RATIONAL(number2);
-	assert(isInt().val_ && tmp->isInt().val_ && "These numbers are not integers!");
+	assert(isInt()->val_ && tmp->isInt()->val_ && "These numbers are not integers!");
 	Rational *result = new Rational(numerator_ / (tmp->numerator_), LongInt(1));
 	return result;
 }
 
 Number *Rational::rem(Number *number2){
 	Rational *tmp = SCAST_RATIONAL(number2);
-	assert(isInt().val_ && tmp->isInt().val_ && "These numbers are not integers!");
+	assert(isInt()->val_ && tmp->isInt()->val_ && "These numbers are not integers!");
 	Rational *result = new Rational(numerator_ % (tmp->numerator_), LongInt(1));
 	return result;
 }
@@ -182,7 +183,7 @@ Number *Rational::rem(Number *number2){
 
 Number *Rational::mod(Number *number2){
 	Rational *tmp = SCAST_RATIONAL(number2);
-	assert(isInt().val_ && tmp->isInt().val_ && "These numbers are not integers!");
+	assert(isInt()->val_ && tmp->isInt()->val_ && "These numbers are not integers!");
 	Rational *result;
 	if (LongInt(0) < numerator_*(tmp->numerator_) || LongInt(0).number_ == (numerator_*(tmp->numerator_)).number_) result = new Rational(numerator_ % (tmp->numerator_), LongInt(1));
 	else {
@@ -195,7 +196,7 @@ Number *Rational::mod(Number *number2){
 Number *Rational::gcd(Number *number2){
 	Number *tmp2 = number2->abs();
 	Rational *tmp = SCAST_RATIONAL(tmp2);
-	assert(isInt().val_ && tmp->isInt().val_ && "These numbers are not integers!");
+	assert(isInt()->val_ && tmp->isInt()->val_ && "These numbers are not integers!");
 	if (numerator_.number_[0] == '0') {
 		Rational *result = new Rational(tmp->numerator_, LongInt(1));
 		return result;
@@ -218,7 +219,7 @@ Number *Rational::gcd(Number *number2){
 Number *Rational::lcm(Number *number2){
 	Number *tmp2 = number2->abs();
 	Rational *tmp = SCAST_RATIONAL(tmp2);
-	assert(isInt().val_ && tmp->isInt().val_ && "These numbers are not integers!");
+	assert(isInt()->val_ && tmp->isInt()->val_ && "These numbers are not integers!");
 	if (numerator_.number_[0] == '0' && tmp->numerator_.number_[0] == '0'){
 		Rational *result = new Rational(LongInt(0), LongInt(1));
 		return result;
@@ -250,7 +251,7 @@ Number *Rational::sqt(){
 
 Number *Rational::flr(){
 	Rational *result;
-	if (isInt().val_) result = new Rational(*this);
+	if (isInt()->val_) result = new Rational(*this);
 	else {
 		if (numerator_.number_[0] == '-'){
 			result = new Rational(numerator_ / denominator_ - LongInt(1), LongInt(1));
@@ -264,7 +265,7 @@ Number *Rational::flr(){
 
 Number *Rational::cel(){
 	Rational *result;
-	if (isInt().val_) result = new Rational(*this);
+	if (isInt()->val_) result = new Rational(*this);
 	else {
 		if (numerator_.number_[0] == '+'){
 			result = new Rational(numerator_ / denominator_ + LongInt(1), LongInt(1));

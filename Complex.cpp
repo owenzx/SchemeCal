@@ -406,10 +406,10 @@ Number *Complex::div(Number *number2){
 
 }
 
-Boolean Complex::les(Number *number2){return NULL;}
-Boolean Complex::lesE(Number *number2){return NULL;}
-Boolean Complex::grt(Number *number2){return NULL;}
-Boolean Complex::grtE(Number *number2){return NULL;}
+Boolean *Complex::les(Number *number2){return NULL;}
+Boolean *Complex::lesE(Number *number2){return NULL;}
+Boolean *Complex::grt(Number *number2){return NULL;}
+Boolean *Complex::grtE(Number *number2){return NULL;}
 
 
 Number *Complex::abs(){
@@ -784,16 +784,16 @@ Number *Complex::getDenominator(){
 	}
 }
 
-Boolean Complex::isZero(){return NULL;}
-Boolean Complex::isNega(){return NULL;}
-Boolean Complex::isPosi(){return NULL;}
-Boolean Complex::isOdd(){return NULL;}
-Boolean Complex::isEven(){return NULL;}
-Boolean Complex::isInt(){return NULL;}
-Boolean Complex::isRat(){return NULL;}
-Boolean Complex::isReal(){return NULL;}
-Boolean Complex::isCpx(){return NULL;}
-Boolean Complex::isNum(){return NULL;}
+Boolean *Complex::isZero(){return NULL;}
+Boolean *Complex::isNega(){return NULL;}
+Boolean *Complex::isPosi(){return NULL;}
+Boolean *Complex::isOdd(){return NULL;}
+Boolean *Complex::isEven(){return NULL;}
+Boolean *Complex::isInt(){return NULL;}
+Boolean *Complex::isRat(){return NULL;}
+Boolean *Complex::isReal(){return NULL;}
+Boolean *Complex::isCpx(){return NULL;}
+Boolean *Complex::isNum(){return NULL;}
 
 Complex *Complex::from_string(char *expression){
 	//cout << "Complex::from_string" << endl;

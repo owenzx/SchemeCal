@@ -48,7 +48,7 @@ int main() {
 
 
 
-	for (Number *res;;) {
+	for (Base *res;;) {
 		try{
 			//printf("> ");
 			res = calc_exp();

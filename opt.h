@@ -22,9 +22,10 @@
 #include "number.h"
 
 struct Cons {
-	Number *car;
+	//Number *car;
+	Base *car;
 	Cons *cdr;
-	Cons(Number *_car, Cons *_cdr) : car(_car), cdr(_cdr) {}
+	Cons(Base *_car, Cons *_cdr) : car(_car), cdr(_cdr) {}
 	bool check_length(int len) {
 		int l = 0;
 		for (Cons *p = this; p; p = p->cdr) l++;
@@ -34,7 +35,8 @@ struct Cons {
 
 class Opt {
 public:
-	virtual Number *calc(Cons *con) = 0;
+	//virtual Number *calc(Cons *con) = 0;
+	virtual Base *calc(Cons *con) = 0;
 };
 
 class OptB {

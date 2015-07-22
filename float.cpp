@@ -144,20 +144,24 @@ Number *Float::div(Number *number2){
 	return result;
 }
 
-Boolean Float::les(Number *number2){
-	return Boolean(!greater(number2));
+Boolean *Float::les(Number *number2){
+	Boolean *result = new Boolean(!greater(number2));
+	return result;
 }
 
-Boolean Float::lesE(Number *number2){
-	return Boolean(!greater(number2) || equal(number2));
+Boolean *Float::lesE(Number *number2){
+	Boolean *result = new Boolean(!greater(number2) || equal(number2));
+	return result;
 }
 
-Boolean Float::grt(Number *number2){
-	return Boolean(greater(number2));
+Boolean *Float::grt(Number *number2){
+	Boolean *result = new Boolean(greater(number2));
+	return result;
 }
 
-Boolean Float::grtE(Number *number2){
-	return Boolean(greater(number2) || equal(number2));
+Boolean *Float::grtE(Number *number2){
+	Boolean *result = new Boolean(greater(number2) || equal(number2));
+	return result;
 }
 
 Number *Float::abs(){
@@ -376,44 +380,54 @@ Number *Float::getDenominator(){
 	return result;
 }
 
- Boolean Float:: isZero(){
-	 return Boolean(number_ == 0);
+ Boolean *Float:: isZero(){
+	 Boolean *result = new Boolean(number_ == 0);
+	 return result;
  }
 
- Boolean Float:: isNega(){
-	 return Boolean(number_ < 0);
+ Boolean *Float:: isNega(){
+	 Boolean *result = new Boolean(number_ < 0);
+	 return result;
  }
 
- Boolean Float:: isPosi(){
-	 return Boolean(number_ > 0);
+ Boolean *Float:: isPosi(){
+	 Boolean *result = new Boolean(number_ > 0);
+	 return result;
  }
 
- Boolean Float:: isOdd(){
-	 return Boolean(isInt().val_ || fmod(number_, 2) !=0);
+ Boolean *Float:: isOdd(){
+	 Boolean *result = new Boolean(isInt()->val_ || fmod(number_, 2) !=0);
+	 return result;
  }
 
- Boolean Float:: isEven(){
-	 return Boolean(isInt().val_ || fmod(number_, 2) == 0);
+ Boolean *Float:: isEven(){
+	 Boolean *result = new Boolean(isInt()->val_ || fmod(number_, 2) == 0);
+	 return result;
  }
 
- Boolean Float:: isInt(){
-	 return Boolean(number_ == trunc(number_));
+ Boolean *Float:: isInt(){
+	 Boolean *result = new Boolean(number_ == trunc(number_));
+	 return result;
  }
 
- Boolean Float:: isRat(){
-	 return Boolean(true);
+ Boolean *Float:: isRat(){
+	 Boolean *result = new Boolean(true);
+	 return result;
  }
  
- Boolean Float:: isReal(){
-	 return Boolean(true);
+ Boolean *Float:: isReal(){
+	 Boolean *result = new Boolean(true);
+	 return result;
  }
  
- Boolean Float:: isCpx(){
-	 return Boolean(true);
+ Boolean *Float:: isCpx(){
+	 Boolean *result = new Boolean(true);
+	 return result;
  }
  
- Boolean Float:: isNum(){
-	 return Boolean(true);
+ Boolean *Float:: isNum(){
+	 Boolean *result = new Boolean(true);
+	 return result;
  }
 
 

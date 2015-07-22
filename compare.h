@@ -11,6 +11,7 @@
 #include <cstdlib>
 #define SCAST_RATIONAL(x) static_cast<Rational*>(x)
 #define SCAST_FLOAT(x) static_cast<Float*>(x)
+#define SCAST_NUMBER(x) static_cast<Number*>(x)
 
 class Add : public Opt {
 	/* Use the lowest level type */
@@ -24,7 +25,7 @@ class Add : public Opt {
 			{
 				throw 0;
 			}
-			Number *opr = con->car, *conv;
+			Number *opr = SCAST_NUMBER(con->car), *conv;
 			last = res;
 			if (res->type_ > opr->type_)
 			{
@@ -57,7 +58,7 @@ class Sub :public Opt{
 			cnt++;
 		}
 		Number *res = new Rational(0, 1), *last;
-		Number *opr = con->car, *conv;
+		Number *opr = SCAST_NUMBER(con->car), *conv;
 		last = res;
 		if (cnt == 1)
 		{
@@ -78,7 +79,7 @@ class Sub :public Opt{
 		delete conv;
 		for (; con; con = con->cdr)
 		{
-			opr = con->car;
+			opr = SCAST_NUMBER(con->car);
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->sub(conv = res->convert(opr));
@@ -101,7 +102,7 @@ class Mul : public Opt {
 			{
 				throw 0;
 			}
-			Number *opr = con->car, *conv;
+			Number *opr = SCAST_NUMBER(con->car), *conv;
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->mul(conv = res->convert(opr));
@@ -128,7 +129,7 @@ class Div :public Opt{
 			cnt++;
 		}
 		Number *res = new Rational(1, 1), *last;
-		Number *opr = con->car, *conv;
+		Number *opr = SCAST_NUMBER(con->car), *conv;
 		last = res;
 		Number *zero = new Float(0.0);
 		if (cnt == 1)
@@ -150,7 +151,7 @@ class Div :public Opt{
 		delete conv;
 		for (; con; con = con->cdr)
 		{
-			opr = con->car;
+			opr = SCAST_NUMBER(con->car);
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->div(conv = res->convert(opr));
@@ -163,7 +164,7 @@ class Div :public Opt{
 	}
 };
 
-class Les :public OptB{
+class Les :public Opt{
 	Boolean *calc(Cons *con)
 	{
 		Cons *tmp = con;
@@ -177,28 +178,31 @@ class Les :public OptB{
 			cnt++;
 		}
 		
-		if (cnt <= 2)
+		if (cnt < 2)
 		{
 			throw 0;
 			return NULL;
 		}
 		Boolean f(false),*res;
 		Number *last;
-		Number *opr = con->car, *conv;
-		Number *first = con->car, *second = con->cdr->car;
-		if (cnt == 2)
+		Number *opr = SCAST_NUMBER(con->car), *conv;
+		Number *first, *second;
+		//if (cnt == 2)
+		for (; con->cdr; con = con->cdr)
 		{
+			first = SCAST_NUMBER(con->car);  second = SCAST_NUMBER(con->cdr->car);
 			if (first->type_ > second->type_)
 			{
-				*res = first->les(first->convert(second));
+				res = first->les(first->convert(second));
 			}
 			else
 			{
-				*res = second->convert(first)->quo(second);
+				res = second->convert(first)->les(second);
 			}
-			delete first; delete second;
-			return res;
+			delete first; 
+			if (res->val_ == f.val_)break;
 		}
+		delete second;
 		return res;
 	}
 };
@@ -217,7 +221,7 @@ class LesE :public Opt{
 			cnt++;
 		}
 		Number *res = new Rational(1, 1), *last;
-		Number *opr = con->car, *conv;
+		Number *opr = SCAST_NUMBER(con->car), *conv;
 		last = res;
 		Number *zero = new Float(0.0);
 		if (cnt == 1)
@@ -239,7 +243,7 @@ class LesE :public Opt{
 		delete conv;
 		for (; con; con = con->cdr)
 		{
-			opr = con->car;
+			opr = SCAST_NUMBER(con->car);
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->div(conv = res->convert(opr));
@@ -266,7 +270,7 @@ class Grt :public Opt{
 			cnt++;
 		}
 		Number *res = new Rational(1, 1), *last;
-		Number *opr = con->car, *conv;
+		Number *opr = SCAST_NUMBER(con->car), *conv;
 		last = res;
 		Number *zero = new Float(0.0);
 		if (cnt == 1)
@@ -288,7 +292,7 @@ class Grt :public Opt{
 		delete conv;
 		for (; con; con = con->cdr)
 		{
-			opr = con->car;
+			opr = SCAST_NUMBER(con->car);
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->div(conv = res->convert(opr));
@@ -315,7 +319,7 @@ class GrtE :public Opt{
 			cnt++;
 		}
 		Number *res = new Rational(1, 1), *last;
-		Number *opr = con->car, *conv;
+		Number *opr = SCAST_NUMBER(con->car), *conv;
 		last = res;
 		Number *zero = new Float(0.0);
 		if (cnt == 1)
@@ -337,7 +341,7 @@ class GrtE :public Opt{
 		delete conv;
 		for (; con; con = con->cdr)
 		{
-			opr = con->car;
+			opr = SCAST_NUMBER(con->car);
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->div(conv = res->convert(opr));
@@ -365,7 +369,7 @@ class Abs :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			res = opr->abs();
@@ -393,7 +397,7 @@ class Quo :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *first = con->car, *second = con->cdr->car;
+		Number *first = SCAST_NUMBER(con->car), *second = SCAST_NUMBER(con->cdr->car);
 		if (cnt == 2)
 		{
 			if (first->type_ > second->type_)
@@ -428,7 +432,7 @@ class Rem :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *first = con->car, *second = con->cdr->car;
+		Number *first = SCAST_NUMBER(con->car), *second = SCAST_NUMBER(con->cdr->car);
 		if (cnt == 2)
 		{
 			if (first->type_ > second->type_)
@@ -463,7 +467,7 @@ class Mod :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *first = con->car, *second = con->cdr->car;
+		Number *first = SCAST_NUMBER(con->car), *second = SCAST_NUMBER(con->cdr->car);
 		if (cnt == 2)
 		{
 			if (first->type_ > second->type_)
@@ -493,7 +497,7 @@ class Gcd :public Opt{
 			{
 				throw 0;
 			}
-			Number *opr = con->car, *conv;
+			Number *opr = SCAST_NUMBER(con->car), *conv;
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->gcd(conv = res->convert(opr));
@@ -515,7 +519,7 @@ class Lcm :public Opt{
 			{
 				throw 0;
 			}
-			Number *opr = con->car, *conv;
+			Number *opr = SCAST_NUMBER(con->car), *conv;
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->lcm(conv = res->convert(opr));
@@ -542,7 +546,7 @@ class Exp :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *first = con->car, *second = con->cdr->car;
+		Number *first = SCAST_NUMBER(con->car), *second = SCAST_NUMBER(con->cdr->car);
 		if (cnt == 2)
 		{
 			if (first->type_ > second->type_)
@@ -574,7 +578,7 @@ class Exp :public Opt{
 	cnt++;
 	}
 	Number *res;
-	Number *first = con->car, *second = con->cdr->car;
+	Number *first = SCAST_NUMBER(con->car), *second = SCAST_NUMBER(con->cdr->car);
 	if (cnt == 2)
 	{
 	Complex *cpx = new Complex();
@@ -607,7 +611,7 @@ class Ex :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			res = opr->ex();
@@ -635,7 +639,7 @@ class Sqt :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			res = opr->sqt();
@@ -660,7 +664,7 @@ class Sqt :public Opt{
 	cnt++;
 	}
 	Number *res, *tmp3;
-	Number *opr = con->car;
+	Number *opr = SCAST_NUMBER(con->car);
 	if (cnt == 1)
 	{
 	Complex *cpx = new Complex();
@@ -693,7 +697,7 @@ class Flr :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			res = opr->flr();
@@ -721,7 +725,7 @@ class Cel :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			res = opr->cel();
@@ -749,7 +753,7 @@ class Trc :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			res = opr->trc();
@@ -778,7 +782,7 @@ class Rnd :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			res = opr->rnd();
@@ -807,7 +811,7 @@ class Nume :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			res = opr->getNumerator();
@@ -835,7 +839,7 @@ class Deno :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			res = opr->getDenominator();
@@ -863,7 +867,7 @@ class Deno :public Opt{
 //			cnt++;
 //		}
 //		Number *res;
-//		Number *opr = con->car;
+//		Number *opr = SCAST_NUMBER(con->car);
 //		if (cnt == 1)
 //		{
 //			Rational *opt_r = SCAST_RATIONAL(opr);
@@ -892,7 +896,7 @@ class Deno :public Opt{
 //			cnt++;
 //		}
 //		Number *res;
-//		Number *opr = con->car;
+//		Number *opr = SCAST_NUMBER(con->car);
 //		if (cnt == 1)
 //		{
 //			Rational *opt_r = SCAST_RATIONAL(opr);
@@ -922,7 +926,7 @@ class InexToEx :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			res = opr->inextoex();
@@ -950,7 +954,7 @@ class ExtoInex :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			res = opr->extoinex();
@@ -978,7 +982,7 @@ class Rep :public Opt{
 			cnt++;
 		}
 		Number *res, *tmp3;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			Complex *cpx = new Complex();
@@ -1011,7 +1015,7 @@ class Imp :public Opt{
 			cnt++;
 		}
 		Number *res, *tmp3;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			Complex *cpx = new Complex();
@@ -1044,7 +1048,7 @@ class Max :public Opt{
 			cnt++;
 		}
 		Number *res, *last;
-		Number *opr = con->car, *conv;
+		Number *opr = SCAST_NUMBER(con->car), *conv;
 		if (cnt == 0)
 		{
 			throw(0);
@@ -1053,7 +1057,7 @@ class Max :public Opt{
 		con = con->cdr;
 		for (; con; con = con->cdr)
 		{
-			opr = con->car;
+			opr = SCAST_NUMBER(con->car);
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->maxi(conv = res->convert(opr));
@@ -1081,7 +1085,7 @@ class Min :public Opt{
 			cnt++;
 		}
 		Number *res, *last;
-		Number *opr = con->car, *conv;
+		Number *opr = SCAST_NUMBER(con->car), *conv;
 		if (cnt == 0)
 		{
 			throw(0);
@@ -1090,7 +1094,7 @@ class Min :public Opt{
 		con = con->cdr;
 		for (; con; con = con->cdr)
 		{
-			opr = con->car;
+			opr = SCAST_NUMBER(con->car);
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->mini(conv = res->convert(opr));
@@ -1119,7 +1123,7 @@ class Sin :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			res = opr->sin();
@@ -1150,7 +1154,7 @@ class Cos :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			res = opr->cos();
@@ -1181,7 +1185,7 @@ class Tan :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			res = opr->tan();
@@ -1212,7 +1216,7 @@ class Asin :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			res = opr->asin();
@@ -1243,7 +1247,7 @@ class Acos :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			res = opr->acos();
@@ -1273,7 +1277,7 @@ class Atan :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			res = opr->atan();
@@ -1304,7 +1308,7 @@ class Log :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			res = opr->log();
@@ -1335,7 +1339,7 @@ class ToRect :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *first = con->car, *second = con->cdr->car;
+		Number *first = SCAST_NUMBER(con->car), *second = SCAST_NUMBER(con->cdr->car);
 		if (cnt == 2)
 		{
 			Complex *cpx = new Complex();
@@ -1367,7 +1371,7 @@ class ToPolar :public Opt{
 			cnt++;
 		}
 		Number *res;
-		Number *first = con->car, *second = con->cdr->car;
+		Number *first = SCAST_NUMBER(con->car), *second = SCAST_NUMBER(con->cdr->car);
 		if (cnt == 2)
 		{
 			Complex *cpx = new Complex();
@@ -1399,7 +1403,7 @@ class Magn :public Opt{
 			cnt++;
 		}
 		Number *res, *tmp3;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			Complex *cpx = new Complex();
@@ -1435,7 +1439,7 @@ class Ang :public Opt{
 			cnt++;
 		}
 		Number *res, *tmp3;
-		Number *opr = con->car;
+		Number *opr = SCAST_NUMBER(con->car);
 		if (cnt == 1)
 		{
 			Complex *cpx = new Complex();
@@ -1471,7 +1475,7 @@ class IsZero :public Opt{
 			cnt++;
 		}
 		Number *res, *last;
-		Number *opr = con->car, *conv;
+		Number *opr = SCAST_NUMBER(con->car), *conv;
 		if (cnt == 0)
 		{
 			throw(0);
@@ -1480,7 +1484,7 @@ class IsZero :public Opt{
 		con = con->cdr;
 		for (; con; con = con->cdr)
 		{
-			opr = con->car;
+			opr = SCAST_NUMBER(con->car);
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->mini(conv = res->convert(opr));
@@ -1510,7 +1514,7 @@ class IsNega :public Opt{
 			cnt++;
 		}
 		Number *res, *last;
-		Number *opr = con->car, *conv;
+		Number *opr = SCAST_NUMBER(con->car), *conv;
 		if (cnt == 0)
 		{
 			throw(0);
@@ -1519,7 +1523,7 @@ class IsNega :public Opt{
 		con = con->cdr;
 		for (; con; con = con->cdr)
 		{
-			opr = con->car;
+			opr = SCAST_NUMBER(con->car);
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->mini(conv = res->convert(opr));
@@ -1548,7 +1552,7 @@ class IsPosi :public Opt{
 			cnt++;
 		}
 		Number *res, *last;
-		Number *opr = con->car, *conv;
+		Number *opr = SCAST_NUMBER(con->car), *conv;
 		if (cnt == 0)
 		{
 			throw(0);
@@ -1557,7 +1561,7 @@ class IsPosi :public Opt{
 		con = con->cdr;
 		for (; con; con = con->cdr)
 		{
-			opr = con->car;
+			opr = SCAST_NUMBER(con->car);
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->mini(conv = res->convert(opr));
@@ -1586,7 +1590,7 @@ class IsOdd :public Opt{
 			cnt++;
 		}
 		Number *res, *last;
-		Number *opr = con->car, *conv;
+		Number *opr = SCAST_NUMBER(con->car), *conv;
 		if (cnt == 0)
 		{
 			throw(0);
@@ -1595,7 +1599,7 @@ class IsOdd :public Opt{
 		con = con->cdr;
 		for (; con; con = con->cdr)
 		{
-			opr = con->car;
+			opr = SCAST_NUMBER(con->car);
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->mini(conv = res->convert(opr));
@@ -1624,7 +1628,7 @@ class IsEven :public Opt{
 			cnt++;
 		}
 		Number *res, *last;
-		Number *opr = con->car, *conv;
+		Number *opr = SCAST_NUMBER(con->car), *conv;
 		if (cnt == 0)
 		{
 			throw(0);
@@ -1633,7 +1637,7 @@ class IsEven :public Opt{
 		con = con->cdr;
 		for (; con; con = con->cdr)
 		{
-			opr = con->car;
+			opr = SCAST_NUMBER(con->car);
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->mini(conv = res->convert(opr));
@@ -1662,7 +1666,7 @@ class IsInt :public Opt{
 			cnt++;
 		}
 		Number *res, *last;
-		Number *opr = con->car, *conv;
+		Number *opr = SCAST_NUMBER(con->car), *conv;
 		if (cnt == 0)
 		{
 			throw(0);
@@ -1671,7 +1675,7 @@ class IsInt :public Opt{
 		con = con->cdr;
 		for (; con; con = con->cdr)
 		{
-			opr = con->car;
+			opr = SCAST_NUMBER(con->car);
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->mini(conv = res->convert(opr));
@@ -1700,7 +1704,7 @@ class IsRat :public Opt{
 			cnt++;
 		}
 		Number *res, *last;
-		Number *opr = con->car, *conv;
+		Number *opr = SCAST_NUMBER(con->car), *conv;
 		if (cnt == 0)
 		{
 			throw(0);
@@ -1709,7 +1713,7 @@ class IsRat :public Opt{
 		con = con->cdr;
 		for (; con; con = con->cdr)
 		{
-			opr = con->car;
+			opr = SCAST_NUMBER(con->car);
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->mini(conv = res->convert(opr));
@@ -1736,7 +1740,7 @@ class IsReal :public Opt{
 			cnt++;
 		}
 		Number *res, *last;
-		Number *opr = con->car, *conv;
+		Number *opr = SCAST_NUMBER(con->car), *conv;
 		if (cnt == 0)
 		{
 			throw(0);
@@ -1745,7 +1749,7 @@ class IsReal :public Opt{
 		con = con->cdr;
 		for (; con; con = con->cdr)
 		{
-			opr = con->car;
+			opr = SCAST_NUMBER(con->car);
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->mini(conv = res->convert(opr));
@@ -1772,7 +1776,7 @@ class IsCpx :public Opt{
 			cnt++;
 		}
 		Number *res, *last;
-		Number *opr = con->car, *conv;
+		Number *opr = SCAST_NUMBER(con->car), *conv;
 		if (cnt == 0)
 		{
 			throw(0);
@@ -1781,7 +1785,7 @@ class IsCpx :public Opt{
 		con = con->cdr;
 		for (; con; con = con->cdr)
 		{
-			opr = con->car;
+			opr = SCAST_NUMBER(con->car);
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->mini(conv = res->convert(opr));
@@ -1808,7 +1812,7 @@ class IsNum :public Opt{
 			cnt++;
 		}
 		Number *res, *last;
-		Number *opr = con->car, *conv;
+		Number *opr = SCAST_NUMBER(con->car), *conv;
 		if (cnt == 0)
 		{
 			throw(0);
@@ -1817,7 +1821,7 @@ class IsNum :public Opt{
 		con = con->cdr;
 		for (; con; con = con->cdr)
 		{
-			opr = con->car;
+			opr = SCAST_NUMBER(con->car);
 			last = res;
 			if (res->type_ > opr->type_)
 				res = res->mini(conv = res->convert(opr));

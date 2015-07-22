@@ -4,21 +4,24 @@
 #include "next_token.h"
 #include <cstdio>
 
-Number *calc_exp(){
+Base *calc_exp(){
+//Number *calc_exp(){
 	char *tk0 = next_token();
-	Number *res;
+	//Number *res;
+	Base *res;
 	if (*tk0 == '(')
 	{
 		char *tk1 = next_token();
-		Opt *opt; OptB *optb;
+		Opt *opt; /*OptB *optb;*/
 		Cons *cons = new Cons(NULL, NULL), *tail = cons;
-		Number *val;
+		//Number *val;
+		Base *val;
 		if (tk1 == NULL){ printf("123"); throw 0; }
 		if (strcmp(tk1, "+") == 0)opt = new Add();
 		else if (strcmp(tk1, "-") == 0)opt = new Sub();
 		else if (strcmp(tk1, "*") == 0)opt = new Mul();
 		else if (strcmp(tk1, "/") == 0)opt = new Div();
-		else if (strcmp(tk1, "<") == 0)optb = new Les();
+		else if (strcmp(tk1, "<") == 0)opt = new Les();
 		else if (strcmp(tk1, "<=") == 0)opt = new LesE();
 		else if (strcmp(tk1, ">") == 0)opt = new Grt();
 		else if (strcmp(tk1, ">=") == 0)opt = new GrtE();
@@ -65,10 +68,10 @@ Number *calc_exp(){
 		else if (strcmp(tk1, "complex?") == 0)opt = new IsCpx();
 		else if (strcmp(tk1, "number?") == 0)opt = new IsNum();
 		else throw 0;
-		if (!opt && optb){
-			delete opt;
-			OptB *opt = optb;
-		}
+		//if (!opt && optb){
+		//	delete opt;
+		//	OptB *opt = optb;
+		//}
 		while ((val = calc_exp()))
 		{
 			tail->cdr = new Cons(val, NULL);

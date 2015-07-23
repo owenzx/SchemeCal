@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iostream>
+#include <iomanip>
 #include <string>
 
 using namespace std;
@@ -475,8 +476,9 @@ Number *Float::getDenominator(){
 
 
 void Float::print(){
-	printf("%.18g", number_);
-	if (number_ == trunc(number_) && number_ < 1e17) printf(".0");
+	cout << fixed << setprecision(10) << number_;
+	//printf("%.10g", number_);
+	//if (number_ == trunc(number_) && number_ < 1e17) printf(".0");
 	//printf("/n");
 }
 

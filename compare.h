@@ -4,6 +4,7 @@
 #include "Complex.h"
 #include "number.h"
 #include "Boolean.h"
+#include "Base.h"
 #include <cmath>
 #include <iomanip>
 #include <sstream>
@@ -1736,3 +1737,37 @@ class IsNum :public Opt{
 	}
 };
 
+class optNot :public Opt{
+	Boolean *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 4 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Boolean *res = new Boolean(false);
+		Base *opr = con->car;
+		if (cnt == 1)
+		{
+			if (opr->type_ != 4){
+				delete opr;
+				return res;
+			}
+			else{
+				Boolean *tmp = SCAST_BOOLEAN(opr);
+				res = tmp->optnot();
+				delete opr;
+				return res;
+			}
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+};

@@ -67,6 +67,7 @@ Base *calc_exp(){
 		else if (strcmp(tk1, "real?") == 0)opt = new IsReal();
 		else if (strcmp(tk1, "complex?") == 0)opt = new IsCpx();
 		else if (strcmp(tk1, "number?") == 0)opt = new IsNum();
+		else if (strcmp(tk1, "not") == 0)opt = new optNot();
 		else throw 0;
 		//if (!opt && optb){
 		//	delete opt;

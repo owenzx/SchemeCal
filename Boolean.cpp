@@ -12,16 +12,35 @@ Boolean::Boolean(bool val) :val_(val){
 Boolean::~Boolean(){}
 
 
-Boolean *Boolean::isZero(){ return NULL; }
-Boolean *Boolean::isNega(){ return NULL; }
-Boolean *Boolean::isPosi(){ return NULL; }
-Boolean *Boolean::isOdd(){ return NULL; }
-Boolean *Boolean::isEven(){ return NULL; }
-Boolean *Boolean::isInt(){ return NULL; }
-Boolean *Boolean::isRat(){ return NULL; }
-Boolean *Boolean::isReal(){ return NULL; }
-Boolean *Boolean::isCpx(){ return NULL; }
-Boolean *Boolean::isNum(){ return NULL; }
+Boolean *Boolean::optnot(){
+	Boolean *result = new Boolean(!val_);
+	return result;
+}
+
+
+Boolean *Boolean::isInt(){
+	Boolean *result = new Boolean(false);
+	return result;
+}
+Boolean *Boolean::isRat(){
+	Boolean *result = new Boolean(false);
+	return result;
+}
+
+Boolean *Boolean::isReal(){
+	Boolean *result = new Boolean(false);
+	return result;
+}
+
+Boolean *Boolean::isCpx(){
+	Boolean *result = new Boolean(false);
+	return result;
+}
+
+Boolean *Boolean::isNum(){
+	Boolean *result = new Boolean(false);
+	return result;
+}
 
 
 void Boolean::print(){

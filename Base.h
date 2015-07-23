@@ -6,7 +6,9 @@ public:
 		RATIONAL = 1,
 		FLOAT = 2,
 		COMPLEX = 3,
-		BOOLEAN =4
+		BOOLEAN =4,
+		CHAR=5,
+		STRING=6
 	} type_;
 	Base(){}
 	virtual ~Base(){};

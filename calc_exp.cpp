@@ -67,7 +67,18 @@ Base *calc_exp(){
 		else if (strcmp(tk1, "real?") == 0)opt = new IsReal();
 		else if (strcmp(tk1, "complex?") == 0)opt = new IsCpx();
 		else if (strcmp(tk1, "number?") == 0)opt = new IsNum();
-		else if (strcmp(tk1, "not") == 0)opt = new optNot();
+		//else if (strcmp(tk1, "char?") == 0)opt = new optNot();
+		else if (strcmp(tk1, "char<?") == 0)opt = new optNot();
+		else if (strcmp(tk1, "char-ci<?") == 0)opt = new optNot();
+		else if (strcmp(tk1, "char-alphabetic?") == 0)opt = new optNot();
+		else if (strcmp(tk1, "char-numeric?") == 0)opt = new optNot();
+		else if (strcmp(tk1, "char-whitespace?") == 0)opt = new optNot();
+		else if (strcmp(tk1, "char-upper-case?") == 0)opt = new optNot();
+		else if (strcmp(tk1, "char-lower-case?") == 0)opt = new optNot();
+		else if (strcmp(tk1, "char->integer") == 0)opt = new optNot();
+		else if (strcmp(tk1, "integer->char") == 0)opt = new optNot();
+		else if (strcmp(tk1, "char-upcase") == 0)opt = new optNot();
+		else if (strcmp(tk1, "char-downcase") == 0)opt = new optNot();
 		else throw 0;
 		//if (!opt && optb){
 		//	delete opt;
@@ -95,6 +106,8 @@ Base *calc_exp(){
 		if (!res) { res = Float::from_string(tk0); }
 		if (!res) { res = Complex::from_string(tk0); }
 		if (!res) { res = Boolean::from_string(tk0); }
+		if (!res) { res = Char::from_string(tk0); }
+		if (!res) { res = String::from_string(tk0); }
 		if (res == NULL){ throw 0; }
 	}
 	return res;

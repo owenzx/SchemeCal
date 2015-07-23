@@ -5,6 +5,8 @@
 #include "number.h"
 #include "Boolean.h"
 #include "Base.h"
+#include "Char.h"
+#include "String.h"
 #include <cmath>
 #include <iomanip>
 #include <sstream>

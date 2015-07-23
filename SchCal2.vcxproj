@@ -77,16 +77,19 @@
   <ItemGroup>
     <ClCompile Include="Boolean.cpp" />
     <ClCompile Include="calc_exp.cpp" />
+    <ClCompile Include="Char.cpp" />
     <ClCompile Include="Complex.cpp" />
     <ClCompile Include="float.cpp" />
     <ClCompile Include="long_int.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="rational.cpp" />
+    <ClCompile Include="String.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base.h" />
     <ClInclude Include="Boolean.h" />
     <ClInclude Include="calc_exp.h" />
+    <ClInclude Include="Char.h" />
     <ClInclude Include="compare.h" />
     <ClInclude Include="Complex.h" />
     <ClInclude Include="float.h" />
@@ -96,6 +99,7 @@
     <ClInclude Include="operation.h" />
     <ClInclude Include="opt.h" />
     <ClInclude Include="rational.h" />
+    <ClInclude Include="String.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

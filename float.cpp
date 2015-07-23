@@ -145,12 +145,12 @@ Number *Float::div(Number *number2){
 }
 
 Boolean *Float::les(Number *number2){
-	Boolean *result = new Boolean(!greater(number2));
+	Boolean *result = new Boolean(!greater(number2) && !equal(number2));
 	return result;
 }
 
 Boolean *Float::lesE(Number *number2){
-	Boolean *result = new Boolean(!greater(number2) || equal(number2));
+	Boolean *result = new Boolean(!greater(number2));
 	return result;
 }
 
@@ -320,13 +320,33 @@ Number *Float::tan(){
 }
 
 Number *Float::asin(){
-	Float *result = new Float(std::asin(number_));
-	return result;
+	double number = std::asin(number_);
+	if (number == number)	{
+		Float *result = new Float(number);
+		return result;
+	}
+	else{
+		Complex *cpx = new Complex();
+		Number *tmp = cpx->convert(this);
+		Complex *tmp_ = SCAST_COMPLEX(tmp);
+		Number *result = tmp_->asin();
+		return result;
+	}
 }
 
 Number *Float::acos(){
-	Float *result = new Float(std::acos(number_));
-	return result;
+	double number = std::acos(number_);
+	if (number == number)	{
+		Float *result = new Float(number);
+		return result;
+	}
+	else{
+		Complex *cpx = new Complex();
+		Number *tmp = cpx->convert(this);
+		Complex *tmp_ = SCAST_COMPLEX(tmp);
+		Number *result = tmp_->acos();
+		return result;
+	}
 }
 
 Number *Float::atan(){
@@ -335,8 +355,18 @@ Number *Float::atan(){
 }
 
 Number *Float::log(){
-	Float *result = new Float(std::log(number_));
-	return result;
+	double number = std::log(number_);
+	if (number == number)	{
+		Float *result = new Float(number);
+		return result;
+	}
+	else{
+		Complex *cpx = new Complex();
+		Number *tmp = cpx->convert(this);
+		Complex *tmp_ = SCAST_COMPLEX(tmp);
+		Number *result = tmp_->log();
+		return result;
+	}
 }
 
 
@@ -396,13 +426,25 @@ Number *Float::getDenominator(){
  }
 
  Boolean *Float:: isOdd(){
-	 Boolean *result = new Boolean(isInt()->val_ || fmod(number_, 2) !=0);
-	 return result;
+	 if (!isInt()->val_){
+		 throw 0;
+		 return NULL;
+	 }
+	 else{
+		 Boolean *result = new Boolean(fmod(number_, 2) != 0);
+		 return result;
+	 }
  }
 
  Boolean *Float:: isEven(){
-	 Boolean *result = new Boolean(isInt()->val_ || fmod(number_, 2) == 0);
-	 return result;
+	 if (!isInt()->val_){
+		 throw 0;
+		 return NULL;
+	 }
+	 else{
+		 Boolean *result = new Boolean(fmod(number_, 2) == 0);
+		 return result;
+	 }
  }
 
  Boolean *Float:: isInt(){

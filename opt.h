@@ -39,7 +39,7 @@ public:
 	virtual Base *calc(Cons *con) = 0;
 };
 
-class OptB {
-public:
-	virtual Boolean *calc(Cons *con) = 0;
-};
+//class OptB {
+//public:
+//	virtual Boolean *calc(Cons *con) = 0;
+//};

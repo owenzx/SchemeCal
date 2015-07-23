@@ -93,6 +93,7 @@ Base *calc_exp(){
 		res = Rational::from_string(tk0);
 		if (!res) { res = Float::from_string(tk0); }
 		if (!res) { res = Complex::from_string(tk0); }
+		if (!res) { res = Boolean::from_string(tk0); }
 		if (res == NULL){ throw 0; }
 	}
 	return res;

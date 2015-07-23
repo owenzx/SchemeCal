@@ -703,15 +703,159 @@ Number *Complex::rnd(){
 	}
 }
 
-Number *Complex::ex(){return NULL;}
+Number *Complex::ex(){
+	Float *flt = new Float();
+	Number *real = flt->convert(real_);
+	Number *imag = flt->convert(imag_);
+	Float *realf = SCAST_FLOAT(real);
+	Float *imagf = SCAST_FLOAT(imag);
+	complex<double> cpx(realf->number_, imagf->number_);
+	cpx = std::exp(cpx);
+	Float *result_real = new Float(cpx.real());
+	Float *result_imag = new Float(cpx.imag());
+	if (result_imag->number_ == 0) {
+		delete flt; delete result_imag; delete real; delete imag;
+		return result_real;
+	}
+	Complex *result = new Complex(result_real, result_imag);
+	delete flt; delete result_real; delete result_imag; delete real; delete imag;
+	return result;
+}
 
-Number *Complex::sin(){return NULL;}
-Number *Complex::cos(){return NULL;}
-Number *Complex::tan(){return NULL;}
-Number *Complex::asin(){return NULL;}
-Number *Complex::acos(){return NULL;}
-Number *Complex::atan(){return NULL;}
-Number *Complex::log(){ return NULL; }
+Number *Complex::sin(){
+	Float *flt = new Float();
+	Number *real = flt->convert(real_);
+	Number *imag = flt->convert(imag_);
+	Float *realf = SCAST_FLOAT(real);
+	Float *imagf = SCAST_FLOAT(imag);
+	complex<double> cpx(realf->number_, imagf->number_);
+	cpx = std::sin(cpx);
+	Float *result_real = new Float(cpx.real());
+	Float *result_imag = new Float(cpx.imag());
+	if (result_imag->number_ == 0) {
+		delete flt; delete result_imag; delete real; delete imag;
+		return result_real;
+	}
+	Complex *result = new Complex(result_real, result_imag);
+	delete flt; delete result_real; delete result_imag; delete real; delete imag;
+	return result;
+}
+
+Number *Complex::cos(){
+	Float *flt = new Float();
+	Number *real = flt->convert(real_);
+	Number *imag = flt->convert(imag_);
+	Float *realf = SCAST_FLOAT(real);
+	Float *imagf = SCAST_FLOAT(imag);
+	complex<double> cpx(realf->number_, imagf->number_);
+	cpx = std::cos(cpx);
+	Float *result_real = new Float(cpx.real());
+	Float *result_imag = new Float(cpx.imag());
+	if (result_imag->number_ == 0) {
+		delete flt; delete result_imag; delete real; delete imag;
+		return result_real;
+	}
+	Complex *result = new Complex(result_real, result_imag);
+	delete flt; delete result_real; delete result_imag; delete real; delete imag;
+	return result;
+}
+
+
+Number *Complex::tan(){
+	Float *flt = new Float();
+	Number *real = flt->convert(real_);
+	Number *imag = flt->convert(imag_);
+	Float *realf = SCAST_FLOAT(real);
+	Float *imagf = SCAST_FLOAT(imag);
+	complex<double> cpx(realf->number_, imagf->number_);
+	cpx = std::tan(cpx);
+	Float *result_real = new Float(cpx.real());
+	Float *result_imag = new Float(cpx.imag());
+	if (result_imag->number_ == 0) {
+		delete flt; delete result_imag; delete real; delete imag;
+		return result_real;
+	}
+	Complex *result = new Complex(result_real, result_imag);
+	delete flt; delete result_real; delete result_imag; delete real; delete imag;
+	return result;
+}
+
+
+Number *Complex::asin(){
+	Float *flt = new Float();
+	Number *real = flt->convert(real_);
+	Number *imag = flt->convert(imag_);
+	Float *realf = SCAST_FLOAT(real);
+	Float *imagf = SCAST_FLOAT(imag);
+	complex<double> cpx(realf->number_, imagf->number_);
+	cpx = std::asin(cpx);
+	Float *result_real = new Float(cpx.real());
+	Float *result_imag = new Float(cpx.imag());
+	if (result_imag->number_ == 0) {
+		delete flt; delete result_imag; delete real; delete imag;
+		return result_real;
+	}
+	Complex *result = new Complex(result_real, result_imag);
+	delete flt; delete result_real; delete result_imag; delete real; delete imag;
+	return result;
+}
+
+Number *Complex::acos(){
+	Float *flt = new Float();
+	Number *real = flt->convert(real_);
+	Number *imag = flt->convert(imag_);
+	Float *realf = SCAST_FLOAT(real);
+	Float *imagf = SCAST_FLOAT(imag);
+	complex<double> cpx(realf->number_, imagf->number_);
+	cpx = std::acos(cpx);
+	Float *result_real = new Float(cpx.real());
+	Float *result_imag = new Float(cpx.imag());
+	if (result_imag->number_ == 0) {
+		delete flt; delete result_imag; delete real; delete imag;
+		return result_real;
+	}
+	Complex *result = new Complex(result_real, result_imag);
+	delete flt; delete result_real; delete result_imag; delete real; delete imag;
+	return result;
+}
+
+Number *Complex::atan(){
+	Float *flt = new Float();
+	Number *real = flt->convert(real_);
+	Number *imag = flt->convert(imag_);
+	Float *realf = SCAST_FLOAT(real);
+	Float *imagf = SCAST_FLOAT(imag);
+	complex<double> cpx(realf->number_, imagf->number_);
+	cpx = std::atan(cpx);
+	Float *result_real = new Float(cpx.real());
+	Float *result_imag = new Float(cpx.imag());
+	if (result_imag->number_ == 0) {
+		delete flt; delete result_imag; delete real; delete imag;
+		return result_real;
+	}
+	Complex *result = new Complex(result_real, result_imag);
+	delete flt; delete result_real; delete result_imag; delete real; delete imag;
+	return result;
+}
+
+Number *Complex::log(){
+	Float *flt = new Float();
+	Number *real = flt->convert(real_);
+	Number *imag = flt->convert(imag_);
+	Float *realf = SCAST_FLOAT(real);
+	Float *imagf = SCAST_FLOAT(imag);
+	complex<double> cpx(realf->number_, imagf->number_);
+	cpx = std::log(cpx);
+	Float *result_real = new Float(cpx.real());
+	Float *result_imag = new Float(cpx.imag());
+	if (result_imag->number_ == 0) {
+		delete flt; delete result_imag; delete real; delete imag;
+		return result_real;
+	}
+	Complex *result = new Complex(result_real, result_imag);
+	delete flt; delete result_real; delete result_imag; delete real; delete imag;
+	return result;
+}
 
 Number *Complex::maxi(Number *number2){
 	Complex *tmp = SCAST_COMPLEX(number2);
@@ -784,16 +928,80 @@ Number *Complex::getDenominator(){
 	}
 }
 
-Boolean *Complex::isZero(){return NULL;}
-Boolean *Complex::isNega(){return NULL;}
-Boolean *Complex::isPosi(){return NULL;}
-Boolean *Complex::isOdd(){return NULL;}
-Boolean *Complex::isEven(){return NULL;}
-Boolean *Complex::isInt(){return NULL;}
-Boolean *Complex::isRat(){return NULL;}
-Boolean *Complex::isReal(){return NULL;}
-Boolean *Complex::isCpx(){return NULL;}
-Boolean *Complex::isNum(){return NULL;}
+Boolean *Complex::isZero(){
+	Boolean *result = new Boolean(real_->isZero()->val_ && imag_->isZero()->val_);
+	return result;
+}
+
+Boolean *Complex::isNega(){
+	if (!isReal()->val_){
+		throw 0;
+		return NULL;
+	}
+	else{
+		return real_->isNega();
+	}
+}
+
+Boolean *Complex::isPosi(){
+	if (!isReal()->val_){
+		throw 0;
+		return NULL;
+	}
+	else{
+		return real_->isPosi();
+	}
+}
+
+Boolean *Complex::isOdd(){
+	if (!isInt()->val_){
+		throw 0;
+		return NULL;
+	}
+	else{
+		return real_->isOdd();
+	}
+}
+
+Boolean *Complex::isEven(){
+	if (!isInt()->val_){
+		throw 0;
+		return NULL;
+	}
+	else{
+		return real_->isEven();
+	}
+}
+
+Boolean *Complex::isInt(){
+	if (!isReal()->val_){
+		Boolean *result = new Boolean(false);
+		return result;
+	}
+	else{
+		return real_->isInt();
+	}
+}
+
+Boolean *Complex::isRat(){
+	Boolean *result = new Boolean(imag_->isZero()->val_);
+	return result;
+}
+
+Boolean *Complex::isReal(){
+	Boolean *result = new Boolean(imag_->isZero()->val_);
+	return result;
+}
+
+Boolean *Complex::isCpx(){
+	Boolean *result = new Boolean(true);
+	return result;
+}
+
+Boolean *Complex::isNum(){
+	Boolean *result = new Boolean(true);
+	return result;
+}
 
 Complex *Complex::from_string(char *expression){
 	//cout << "Complex::from_string" << endl;

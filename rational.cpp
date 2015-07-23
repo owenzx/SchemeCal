@@ -12,21 +12,76 @@ Boolean *Rational::isInt() {
 	return result;
 }
 
-Boolean *Rational::isZero(){ return NULL; }
-Boolean *Rational::isNega(){ return NULL; }
-Boolean *Rational::isPosi(){ return NULL; }
-Boolean *Rational::isOdd(){ return NULL; }
-Boolean *Rational::isEven(){ return NULL; }
-Boolean *Rational::isRat(){ return NULL; }
-Boolean *Rational::isReal(){ return NULL; }
-Boolean *Rational::isCpx(){ return NULL; }
-Boolean *Rational::isNum(){ return NULL; }
+Boolean *Rational::isZero(){
+	Boolean *result = new Boolean(numerator_.number_[0]=='0');
+	return result;
+}
+
+Boolean *Rational::isNega(){
+	Boolean *result = new Boolean(numerator_.number_[0]=='-');
+	return result;
+}
+
+Boolean *Rational::isPosi(){
+	Boolean *result = new Boolean(numerator_.number_[0] == '+');
+	return result;
+}
+
+Boolean *Rational::isOdd(){
+	if (!isInt()->val_){
+		throw 0;
+		return NULL;
+	}
+	else{
+		LongInt tmp = numerator_ % LongInt(2);
+		Boolean *result = new Boolean(tmp.number_[0] != '0');
+		return result;
+	}
+}
+
+Boolean *Rational::isEven(){
+	if (!isInt()->val_){
+		throw 0;
+		return NULL;
+	}
+	else{
+		LongInt tmp = numerator_ % LongInt(2);
+		Boolean *result = new Boolean(tmp.number_[0] == '0');
+		return result;
+	}
+}
+
+Boolean *Rational::isRat(){
+	Boolean *result = new Boolean(true);
+	return result;
+}
+
+Boolean *Rational::isReal(){
+	Boolean *result = new Boolean(true);
+	return result;
+}
+
+Boolean *Rational::isCpx(){
+	Boolean *result = new Boolean(true);
+	return result;
+}
+
+Boolean *Rational::isNum(){
+	Boolean *result = new Boolean(true);
+	return result;
+}
 
 
 bool Rational::greater(Number *number2){
 	Number *result = this->sub(number2);
 	Rational *tmp = SCAST_RATIONAL(result);
 	return tmp->numerator_.number_[0] == '+';
+}
+
+bool Rational::equal(Number *number2){
+	Rational *tmp = SCAST_RATIONAL(number2);
+	return (numerator_.number_ == tmp->numerator_.number_ 
+		&& denominator_.number_ == tmp->denominator_.number_);
 }
 
 bool Rational::checkstring(const string &s){
@@ -151,12 +206,25 @@ Number *Rational::div(Number *number2) {
 	return result;
 }
 
+Boolean *Rational::les(Number *number2){
+	Boolean *result = new Boolean(!greater(number2) && !equal(number2));
+	return result;
+}
 
-Boolean *Rational::les(Number *number2){ return NULL; }
-Boolean *Rational::lesE(Number *number2){ return NULL; }
-Boolean *Rational::grt(Number *number2){ return NULL; }
-Boolean *Rational::grtE(Number *number2){ return NULL; }
+Boolean *Rational::lesE(Number *number2){
+	Boolean *result = new Boolean(!greater(number2));
+	return result;
+}
 
+Boolean *Rational::grt(Number *number2){
+	Boolean *result = new Boolean(greater(number2));
+	return result;
+}
+
+Boolean *Rational::grtE(Number *number2){
+	Boolean *result = new Boolean(greater(number2) || equal(number2));
+	return result;
+}
 
 Number *Rational::abs(){
 	LongInt denominator = denominator_;
@@ -238,7 +306,13 @@ Number *Rational::exp(Number *number2){
 	return result;
 }
 
-Number *Rational::ex(){ return NULL; }
+Number *Rational::ex(){
+	Float *flt = new Float();
+	Number *tmp = flt->convert(this);
+	Float *tmp_ = SCAST_FLOAT(tmp);
+	Number *result = tmp_->ex();
+	return result;
+}
 
 Number *Rational::sqt(){
 	Float *flt = new Float();
@@ -327,13 +401,61 @@ Number *Rational::rnd(){
 	}
 }
 
-Number *Rational::sin(){ return NULL; }
-Number *Rational::cos(){ return NULL; }
-Number *Rational::tan(){ return NULL; }
-Number *Rational::asin(){ return NULL; }
-Number *Rational::acos(){ return NULL; }
-Number *Rational::atan(){ return NULL; }
-Number *Rational::log(){ return NULL; }
+Number *Rational::sin(){
+	Float *flt = new Float();
+	Number *tmp = flt->convert(this);
+	Float *tmp_ = SCAST_FLOAT(tmp);
+	Number *result = tmp_->sin();
+	return result;
+}
+
+Number *Rational::cos(){
+	Float *flt = new Float();
+	Number *tmp = flt->convert(this);
+	Float *tmp_ = SCAST_FLOAT(tmp);
+	Number *result = tmp_->cos();
+	return result;
+}
+
+Number *Rational::tan(){
+	Float *flt = new Float();
+	Number *tmp = flt->convert(this);
+	Float *tmp_ = SCAST_FLOAT(tmp);
+	Number *result = tmp_->tan();
+	return result;
+}
+
+Number *Rational::asin(){
+	Float *flt = new Float();
+	Number *tmp = flt->convert(this);
+	Float *tmp_ = SCAST_FLOAT(tmp);
+	Number *result = tmp_->asin();
+	return result;
+}
+
+Number *Rational::acos(){
+	Float *flt = new Float();
+	Number *tmp = flt->convert(this);
+	Float *tmp_ = SCAST_FLOAT(tmp);
+	Number *result = tmp_->acos();
+	return result;
+}
+
+Number *Rational::atan(){
+	Float *flt = new Float();
+	Number *tmp = flt->convert(this);
+	Float *tmp_ = SCAST_FLOAT(tmp);
+	Number *result = tmp_->atan();
+	return result;
+}
+
+Number *Rational::log(){
+	Float *flt = new Float();
+	Number *tmp = flt->convert(this);
+	Float *tmp_ = SCAST_FLOAT(tmp);
+	Number *result = tmp_->log();
+	return result;
+}
 
 Number *Rational::maxi(Number *number2){
 	Rational *result;

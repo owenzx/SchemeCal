@@ -208,7 +208,7 @@ class Les :public Opt{
 };
 
 class LesE :public Opt{
-	Number *calc(Cons *con)
+	Boolean *calc(Cons *con)
 	{
 		Cons *tmp = con;
 		int cnt = 0;
@@ -220,44 +220,38 @@ class LesE :public Opt{
 			}
 			cnt++;
 		}
-		Number *res = new Rational(1, 1), *last;
+
+		if (cnt < 2)
+		{
+			throw 0;
+			return NULL;
+		}
+		Boolean f(false), *res;
+		Number *last;
 		Number *opr = SCAST_NUMBER(con->car), *conv;
-		last = res;
-		Number *zero = new Float(0.0);
-		if (cnt == 1)
+		Number *first, *second;
+		//if (cnt == 2)
+		for (; con->cdr; con = con->cdr)
 		{
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
+			first = SCAST_NUMBER(con->car);  second = SCAST_NUMBER(con->cdr->car);
+			if (first->type_ > second->type_)
+			{
+				res = first->lesE(first->convert(second));
+			}
 			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
-			return res;
+			{
+				res = second->convert(first)->lesE(second);
+			}
+			delete first;
+			if (res->val_ == f.val_)break;
 		}
-		if (res->type_ > opr->type_)
-			res = res->mul(conv = res->convert(opr));
-		else
-			res = (conv = opr->convert(res))->mul(opr);
-		con = con->cdr;
-		delete last;
-		delete conv;
-		for (; con; con = con->cdr)
-		{
-			opr = SCAST_NUMBER(con->car);
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
-		}
+		delete second;
 		return res;
 	}
 };
 
 class Grt :public Opt{
-	Number *calc(Cons *con)
+	Boolean *calc(Cons *con)
 	{
 		Cons *tmp = con;
 		int cnt = 0;
@@ -269,44 +263,38 @@ class Grt :public Opt{
 			}
 			cnt++;
 		}
-		Number *res = new Rational(1, 1), *last;
+
+		if (cnt < 2)
+		{
+			throw 0;
+			return NULL;
+		}
+		Boolean f(false), *res;
+		Number *last;
 		Number *opr = SCAST_NUMBER(con->car), *conv;
-		last = res;
-		Number *zero = new Float(0.0);
-		if (cnt == 1)
+		Number *first, *second;
+		//if (cnt == 2)
+		for (; con->cdr; con = con->cdr)
 		{
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
+			first = SCAST_NUMBER(con->car);  second = SCAST_NUMBER(con->cdr->car);
+			if (first->type_ > second->type_)
+			{
+				res = first->grt(first->convert(second));
+			}
 			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
-			return res;
+			{
+				res = second->convert(first)->grt(second);
+			}
+			delete first;
+			if (res->val_ == f.val_)break;
 		}
-		if (res->type_ > opr->type_)
-			res = res->mul(conv = res->convert(opr));
-		else
-			res = (conv = opr->convert(res))->mul(opr);
-		con = con->cdr;
-		delete last;
-		delete conv;
-		for (; con; con = con->cdr)
-		{
-			opr = SCAST_NUMBER(con->car);
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
-		}
+		delete second;
 		return res;
 	}
 };
 
 class GrtE :public Opt{
-	Number *calc(Cons *con)
+	Boolean *calc(Cons *con)
 	{
 		Cons *tmp = con;
 		int cnt = 0;
@@ -318,38 +306,32 @@ class GrtE :public Opt{
 			}
 			cnt++;
 		}
-		Number *res = new Rational(1, 1), *last;
+
+		if (cnt < 2)
+		{
+			throw 0;
+			return NULL;
+		}
+		Boolean f(false), *res;
+		Number *last;
 		Number *opr = SCAST_NUMBER(con->car), *conv;
-		last = res;
-		Number *zero = new Float(0.0);
-		if (cnt == 1)
+		Number *first, *second;
+		//if (cnt == 2)
+		for (; con->cdr; con = con->cdr)
 		{
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
+			first = SCAST_NUMBER(con->car);  second = SCAST_NUMBER(con->cdr->car);
+			if (first->type_ > second->type_)
+			{
+				res = first->grtE(first->convert(second));
+			}
 			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
-			return res;
+			{
+				res = second->convert(first)->grtE(second);
+			}
+			delete first;
+			if (res->val_ == f.val_)break;
 		}
-		if (res->type_ > opr->type_)
-			res = res->mul(conv = res->convert(opr));
-		else
-			res = (conv = opr->convert(res))->mul(opr);
-		con = con->cdr;
-		delete last;
-		delete conv;
-		for (; con; con = con->cdr)
-		{
-			opr = SCAST_NUMBER(con->car);
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->div(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->div(opr);
-			delete last;
-			delete conv;
-		}
+		delete second;
 		return res;
 	}
 };
@@ -1462,38 +1444,30 @@ class Ang :public Opt{
 
 
 class IsZero :public Opt{
-	Number *calc(Cons *con)
+	Boolean *calc(Cons *con)
 	{
 		Cons *tmp = con;
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			if (tmp->car->type_ > 4 || tmp->car->type_ < 1)
 			{
 				throw 0;
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = SCAST_NUMBER(con->car), *conv;
-		if (cnt == 0)
+		Boolean *res;
+		Number *opr = SCAST_NUMBER(con->car);
+		if (cnt == 1)
 		{
-			throw(0);
+			res = opr->isZero();
+			delete opr;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = SCAST_NUMBER(con->car);
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
@@ -1501,336 +1475,264 @@ class IsZero :public Opt{
 
 
 class IsNega :public Opt{
-	Number *calc(Cons *con)
+	Boolean *calc(Cons *con)
 	{
 		Cons *tmp = con;
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			if (tmp->car->type_ > 4 || tmp->car->type_ < 1)
 			{
 				throw 0;
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = SCAST_NUMBER(con->car), *conv;
-		if (cnt == 0)
+		Boolean *res;
+		Number *opr = SCAST_NUMBER(con->car);
+		if (cnt == 1)
 		{
-			throw(0);
+			res = opr->isNega();
+			delete opr;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = SCAST_NUMBER(con->car);
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
 
 
 class IsPosi :public Opt{
-	Number *calc(Cons *con)
+	Boolean *calc(Cons *con)
 	{
 		Cons *tmp = con;
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			if (tmp->car->type_ > 4 || tmp->car->type_ < 1)
 			{
 				throw 0;
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = SCAST_NUMBER(con->car), *conv;
-		if (cnt == 0)
+		Boolean *res;
+		Number *opr = SCAST_NUMBER(con->car);
+		if (cnt == 1)
 		{
-			throw(0);
+			res = opr->isPosi();
+			delete opr;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = SCAST_NUMBER(con->car);
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
 
 
 class IsOdd :public Opt{
-	Number *calc(Cons *con)
+	Boolean *calc(Cons *con)
 	{
 		Cons *tmp = con;
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			if (tmp->car->type_ > 4 || tmp->car->type_ < 1)
 			{
 				throw 0;
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = SCAST_NUMBER(con->car), *conv;
-		if (cnt == 0)
+		Boolean *res;
+		Number *opr = SCAST_NUMBER(con->car);
+		if (cnt == 1)
 		{
-			throw(0);
+			res = opr->isOdd();
+			delete opr;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = SCAST_NUMBER(con->car);
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
 
 
 class IsEven :public Opt{
-	Number *calc(Cons *con)
+	Boolean *calc(Cons *con)
 	{
 		Cons *tmp = con;
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			if (tmp->car->type_ > 4 || tmp->car->type_ < 1)
 			{
 				throw 0;
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = SCAST_NUMBER(con->car), *conv;
-		if (cnt == 0)
+		Boolean *res;
+		Number *opr = SCAST_NUMBER(con->car);
+		if (cnt == 1)
 		{
-			throw(0);
+			res = opr->isEven();
+			delete opr;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = SCAST_NUMBER(con->car);
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
 
 
 class IsInt :public Opt{
-	Number *calc(Cons *con)
+	Boolean *calc(Cons *con)
 	{
 		Cons *tmp = con;
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			if (tmp->car->type_ > 4 || tmp->car->type_ < 1)
 			{
 				throw 0;
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = SCAST_NUMBER(con->car), *conv;
-		if (cnt == 0)
+		Boolean *res;
+		Number *opr = SCAST_NUMBER(con->car);
+		if (cnt == 1)
 		{
-			throw(0);
+			res = opr->isInt();
+			delete opr;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = SCAST_NUMBER(con->car);
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
 
 
 class IsRat :public Opt{
-	Number *calc(Cons *con)
+	Boolean *calc(Cons *con)
 	{
 		Cons *tmp = con;
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			if (tmp->car->type_ > 4 || tmp->car->type_ < 1)
 			{
 				throw 0;
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = SCAST_NUMBER(con->car), *conv;
-		if (cnt == 0)
+		Boolean *res;
+		Number *opr = SCAST_NUMBER(con->car);
+		if (cnt == 1)
 		{
-			throw(0);
+			res = opr->isRat();
+			delete opr;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = SCAST_NUMBER(con->car);
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
 class IsReal :public Opt{
-	Number *calc(Cons *con)
+	Boolean *calc(Cons *con)
 	{
 		Cons *tmp = con;
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			if (tmp->car->type_ > 4 || tmp->car->type_ < 1)
 			{
 				throw 0;
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = SCAST_NUMBER(con->car), *conv;
-		if (cnt == 0)
+		Boolean *res;
+		Number *opr = SCAST_NUMBER(con->car);
+		if (cnt == 1)
 		{
-			throw(0);
+			res = opr->isReal();
+			delete opr;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = SCAST_NUMBER(con->car);
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
 class IsCpx :public Opt{
-	Number *calc(Cons *con)
+	Boolean *calc(Cons *con)
 	{
 		Cons *tmp = con;
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			if (tmp->car->type_ > 4 || tmp->car->type_ < 1)
 			{
 				throw 0;
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = SCAST_NUMBER(con->car), *conv;
-		if (cnt == 0)
+		Boolean *res;
+		Number *opr = SCAST_NUMBER(con->car);
+		if (cnt == 1)
 		{
-			throw(0);
+			res = opr->isCpx();
+			delete opr;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = SCAST_NUMBER(con->car);
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 
 class IsNum :public Opt{
-	Number *calc(Cons *con)
+	Boolean *calc(Cons *con)
 	{
 		Cons *tmp = con;
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			if (tmp->car->type_ > 4 || tmp->car->type_ < 1)
 			{
 				throw 0;
 			}
 			cnt++;
 		}
-		Number *res, *last;
-		Number *opr = SCAST_NUMBER(con->car), *conv;
-		if (cnt == 0)
+		Boolean *res;
+		Number *opr = SCAST_NUMBER(con->car);
+		if (cnt == 1)
 		{
-			throw(0);
+			res = opr->isNum();
+			delete opr;
+			return res;
 		}
-		res = opr;
-		con = con->cdr;
-		for (; con; con = con->cdr)
-		{
-			opr = SCAST_NUMBER(con->car);
-			last = res;
-			if (res->type_ > opr->type_)
-				res = res->mini(conv = res->convert(opr));
-			else
-				res = (conv = opr->convert(res))->mini(opr);
-			delete last;
-			delete conv;
+		else{
+			throw 0;
+			return NULL;
 		}
-		return res;
 	}
 };
 

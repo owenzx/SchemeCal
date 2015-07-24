@@ -14,6 +14,7 @@ char *next_token() {
 	string ans;
 	int cur = 0;
 	int ch;
+	bool instring = false;
 	while (!cur)
 	{
 		if (len > 0 && (s[0] == '(' || s[0] == ')'))// for cases:'(' ')'
@@ -28,6 +29,11 @@ char *next_token() {
 			break;
 		switch (ch)
 		{
+		case '\"':
+			s = s + (char)ch;
+			len++;
+			instring = !instring;
+			break;
 		case '(':
 		case ')':
 			if (len > 0)
@@ -37,7 +43,7 @@ char *next_token() {
 			len = 1;
 			break;
 		default:
-			if (isspace(ch))
+			if (isspace(ch) && !instring)
 			{
 				if (len > 0)
 					ans = s; cur = len;

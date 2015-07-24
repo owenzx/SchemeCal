@@ -12,7 +12,7 @@ String::String(string str) :str_(str)
 String::~String(){}
 
 void String::print(){
-	cout << str_;
+	cout << '\"'<<str_<<'\"';
 }
 
 String *String::from_string(const char *expression){

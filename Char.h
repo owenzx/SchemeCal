@@ -2,6 +2,8 @@
 #include "Base.h"
 #include "Boolean.h"
 #include "number.h"
+#define SCAST_CHAR(x) static_cast<Char*>(x)
+
 class Char :
 	public Base
 {

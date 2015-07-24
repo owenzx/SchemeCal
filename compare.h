@@ -1773,3 +1773,300 @@ class optNot :public Opt{
 		}
 	}
 };
+
+class cLes :public Opt{
+	Boolean *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ != 5)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+
+		if (cnt < 2)
+		{
+			throw 0;
+			return NULL;
+		}
+		Boolean f(false), *res;
+		Char *last;
+		Char *opr = SCAST_CHAR(con->car), *conv;
+		Char *first, *second;
+		//if (cnt == 2)
+		for (; con->cdr; con = con->cdr)
+		{
+			first = SCAST_CHAR(con->car);  second = SCAST_CHAR(con->cdr->car);
+			res = first->cles(second);
+			delete first;
+			if (res->val_ == f.val_)break;
+		}
+		delete second;
+		return res;
+	}
+};
+
+class cLes_ci :public Opt{
+	Boolean *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ != 5)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+
+		if (cnt < 2)
+		{
+			throw 0;
+			return NULL;
+		}
+		Boolean f(false), *res;
+		Char *last;
+		Char *opr = SCAST_CHAR(con->car), *conv;
+		Char *first, *second;
+		//if (cnt == 2)
+		for (; con->cdr; con = con->cdr)
+		{
+			first = SCAST_CHAR(con->car);  second = SCAST_CHAR(con->cdr->car);
+			res = first->cles_ci(second);
+			delete first;
+			if (res->val_ == f.val_)break;
+		}
+		delete second;
+		return res;
+	}
+};
+
+class IsChar_alpha :public Opt{
+	Boolean *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ != 5)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Boolean *res;
+		Char *opr = SCAST_CHAR(con->car);
+		if (cnt == 1)
+		{
+			res = opr->isChar_alpha();
+			delete opr;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+};
+
+class IsChar_num :public Opt{
+	Boolean *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ != 5)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Boolean *res;
+		Char *opr = SCAST_CHAR(con->car);
+		if (cnt == 1)
+		{
+			res = opr->isChar_num();
+			delete opr;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+};
+
+class IsChar_space :public Opt{
+	Boolean *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ != 5)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Boolean *res;
+		Char *opr = SCAST_CHAR(con->car);
+		if (cnt == 1)
+		{
+			res = opr->isChar_space();
+			delete opr;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+};
+
+class IsChar_upc :public Opt{
+	Boolean *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ != 5)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Boolean *res;
+		Char *opr = SCAST_CHAR(con->car);
+		if (cnt == 1)
+		{
+			res = opr->isChar_upc();
+			delete opr;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+};
+
+class IsChar_lowc :public Opt{
+	Boolean *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ != 5)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Boolean *res;
+		Char *opr = SCAST_CHAR(con->car);
+		if (cnt == 1)
+		{
+			res = opr->isChar_lowc();
+			delete opr;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+};
+
+class ChartoInt :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ != 5)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res;
+		Char *opr = SCAST_CHAR(con->car);
+		if (cnt == 1)
+		{
+			res = opr->chartoint();
+			delete opr;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+};
+
+class toUp :public Opt{
+	Char *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ != 5)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Char *res;
+		Char *opr = SCAST_CHAR(con->car);
+		if (cnt == 1)
+		{
+			res = opr->toup();
+			delete opr;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+};
+
+class toLow :public Opt{
+	Char *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ != 5)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Char *res;
+		Char *opr = SCAST_CHAR(con->car);
+		if (cnt == 1)
+		{
+			res = opr->tolow();
+			delete opr;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+};
+

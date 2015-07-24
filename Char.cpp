@@ -66,7 +66,15 @@ Number *Char::chartoint(){
 }
 
 void Char::print(){
-	cout << ch_;
+	cout << "#\\";
+	switch (ch_)
+	{
+	case ' ': cout << "space"; break;
+	case '\n':cout << "newline"; break;
+	default:
+		cout << ch_;
+		break;
+	}
 }
 
 Char *Char::from_string(const char *expression){
@@ -74,5 +82,15 @@ Char *Char::from_string(const char *expression){
 	if (exp.length() < 3 || exp.substr(0, 2) != "#\\") return NULL;
 	if (exp.length() == 3){
 		return new Char(exp[2]);
+	}
+	else{
+		string ch = exp.substr(2, exp.length() - 2);
+		if (ch == "space"){
+			return new Char(' ');
+		}
+		else if (ch == "newline"){
+			return new Char('\n');
+		}
+		return NULL;
 	}
 }

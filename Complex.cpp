@@ -984,12 +984,14 @@ Boolean *Complex::isInt(){
 }
 
 Boolean *Complex::isRat(){
-	Boolean *result = new Boolean(imag_->isZero()->val_);
+	//Boolean *result = new Boolean(imag_->isZero()->val_);
+	Boolean *result = new Boolean(false);
 	return result;
 }
 
 Boolean *Complex::isReal(){
-	Boolean *result = new Boolean(imag_->isZero()->val_);
+	//Boolean *result = new Boolean(imag_->isZero()->val_);
+	Boolean *result = new Boolean(false);
 	return result;
 }
 

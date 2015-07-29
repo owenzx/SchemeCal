@@ -26,6 +26,7 @@ public:
 	Boolean *isReal();
 	Boolean *isCpx();
 	Boolean *isNum();
+	Boolean *isChar();
 	void print();
 	static Char *from_string(const char *expression);
 	char ch_;

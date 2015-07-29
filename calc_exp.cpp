@@ -69,7 +69,7 @@ Base *calc_exp(){
 		else if (strcmp(tk1, "number?") == 0)opt = new IsNum();
 		else if (strcmp(tk1, "exact?") == 0)opt = new IsExact();
 		else if (strcmp(tk1, "inexact?") == 0)opt = new IsInexact();
-		//else if (strcmp(tk1, "char?") == 0)opt = new optNot();
+		else if (strcmp(tk1, "char?") == 0)opt = new IsChar();
 		else if (strcmp(tk1, "char<?") == 0)opt = new cLes();
 		else if (strcmp(tk1, "char-ci<?") == 0)opt = new cLes_ci();
 		else if (strcmp(tk1, "char-alphabetic?") == 0)opt = new IsChar_alpha();
@@ -82,17 +82,17 @@ Base *calc_exp(){
 		else if (strcmp(tk1, "char-upcase") == 0)opt = new toUp();
 		else if (strcmp(tk1, "char-downcase") == 0)opt = new toLow();
 		//else if (strcmp(tk1, "string?") == 0)opt = new toLow();
-		else if (strcmp(tk1, "make-string") == 0)opt = new toLow();
-		else if (strcmp(tk1, "string") == 0)opt = new toLow();
-		else if (strcmp(tk1, "string-length") == 0)opt = new toLow();
-		else if (strcmp(tk1, "string-ref") == 0)opt = new toLow();
-		else if (strcmp(tk1, "string<?") == 0)opt = new toLow();
-		else if (strcmp(tk1, "string-ci<?") == 0)opt = new toLow();
-		else if (strcmp(tk1, "string<=?") == 0)opt = new toLow();
-		else if (strcmp(tk1, "string-ci<=?") == 0)opt = new toLow();
-		else if (strcmp(tk1, "substring") == 0)opt = new toLow();
-		else if (strcmp(tk1, "string-append") == 0)opt = new toLow();
-		else if (strcmp(tk1, "string-copy") == 0)opt = new toLow();
+		else if (strcmp(tk1, "make-string") == 0)opt = new MakeString();
+		else if (strcmp(tk1, "string") == 0)opt = new ChartoString();
+		else if (strcmp(tk1, "string-length") == 0)opt = new GetLength();
+		else if (strcmp(tk1, "string-ref") == 0)opt = new GetRef();
+		else if (strcmp(tk1, "string<?") == 0)opt = new sLes();
+		else if (strcmp(tk1, "string-ci<?") == 0)opt = new sLes_ci();
+		else if (strcmp(tk1, "string<=?") == 0)opt = new sLesE();
+		else if (strcmp(tk1, "string-ci<=?") == 0)opt = new sLesE_ci();
+		else if (strcmp(tk1, "substring") == 0)opt = new SubString();
+		else if (strcmp(tk1, "string-append") == 0)opt = new StrAppend();
+		else if (strcmp(tk1, "string-copy") == 0)opt = new StrCopy();
 		else throw 0;
 		//if (!opt && optb){
 		//	delete opt;

@@ -60,9 +60,12 @@ public:
 	virtual Boolean *isReal();
 	virtual Boolean *isCpx();
 	virtual Boolean *isNum();
+	virtual Boolean *isChar();
 	virtual Boolean *isExact();
 	virtual Boolean *isInexact();
+	virtual int toInt();
 	virtual void print();
+	virtual Base *inttochar();
 	static Float *from_string(const char *expression);
 	double number_;
 };

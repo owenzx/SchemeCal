@@ -180,13 +180,13 @@ class Les :public Opt{
 			}
 			cnt++;
 		}
-		
+
 		if (cnt < 2)
 		{
 			throw 0;
 			return NULL;
 		}
-		Boolean f(false),*res;
+		Boolean f(false), *res;
 		Number *last;
 		Number *opr = SCAST_NUMBER(con->car), *conv;
 		Number *first, *second;
@@ -202,7 +202,7 @@ class Les :public Opt{
 			{
 				res = second->convert(first)->les(second);
 			}
-			delete first; 
+			delete first;
 			if (res->val_ == f.val_)break;
 		}
 		delete second;
@@ -1617,17 +1617,13 @@ class IsInt :public Opt{
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ > 4 || tmp->car->type_ < 1)
-			{
-				throw 0;
-			}
 			cnt++;
 		}
 		Boolean *res;
-		Number *opr = SCAST_NUMBER(con->car);
+		Base *opr = con->car;
 		if (cnt == 1)
 		{
-			res = opr->isInt();
+			res = SCAST_BOOLEAN(opr->isInt());
 			delete opr;
 			return res;
 		}
@@ -1647,17 +1643,13 @@ class IsRat :public Opt{
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ > 4 || tmp->car->type_ < 1)
-			{
-				throw 0;
-			}
 			cnt++;
 		}
 		Boolean *res;
-		Number *opr = SCAST_NUMBER(con->car);
+		Base *opr = con->car;
 		if (cnt == 1)
 		{
-			res = opr->isRat();
+			res = SCAST_BOOLEAN(opr->isRat());
 			delete opr;
 			return res;
 		}
@@ -1675,17 +1667,13 @@ class IsReal :public Opt{
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ > 4 || tmp->car->type_ < 1)
-			{
-				throw 0;
-			}
 			cnt++;
 		}
 		Boolean *res;
-		Number *opr = SCAST_NUMBER(con->car);
+		Base *opr = con->car;
 		if (cnt == 1)
 		{
-			res = opr->isReal();
+			res = SCAST_BOOLEAN(opr->isReal());
 			delete opr;
 			return res;
 		}
@@ -1703,17 +1691,13 @@ class IsCpx :public Opt{
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ > 4 || tmp->car->type_ < 1)
-			{
-				throw 0;
-			}
 			cnt++;
 		}
 		Boolean *res;
 		Base *opr = con->car;
 		if (cnt == 1)
 		{
-			res =SCAST_BOOLEAN( opr->isCpx());
+			res = SCAST_BOOLEAN(opr->isCpx());
 			delete opr;
 			return res;
 		}
@@ -1731,17 +1715,13 @@ class IsNum :public Opt{
 		int cnt = 0;
 		for (; tmp; tmp = tmp->cdr)
 		{
-			if (tmp->car->type_ > 4 || tmp->car->type_ < 1)
-			{
-				throw 0;
-			}
 			cnt++;
 		}
 		Boolean *res;
-		Number *opr = SCAST_NUMBER(con->car);
+		Base *opr = con->car;
 		if (cnt == 1)
 		{
-			res = opr->isNum();
+			res = SCAST_BOOLEAN(opr->isNum());
 			delete opr;
 			return res;
 		}
@@ -1751,6 +1731,31 @@ class IsNum :public Opt{
 		}
 	}
 };
+
+class IsChar :public Opt{
+	Boolean *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			cnt++;
+		}
+		Boolean *res;
+		Base *opr = con->car;
+		if (cnt == 1)
+		{
+			res = SCAST_BOOLEAN(opr->isNum());
+			delete opr;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+};
+
 class IsExact :public Opt{
 	Boolean *calc(Cons *con)
 	{
@@ -2128,6 +2133,369 @@ class toLow :public Opt{
 		if (cnt == 1)
 		{
 			res = opr->tolow();
+			delete opr;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+};
+
+class MakeString :public Opt{
+	String *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			cnt++;
+		}
+		String *res;
+		if (cnt == 2)
+		{
+			Base *first = (con->car), *second = (con->cdr->car);
+			if (first->type_ > 3 || second->type_ != 5){
+				throw 0; return NULL;
+			}
+			else{
+				Number *firstn = SCAST_NUMBER(first);
+				Char *secondc = SCAST_CHAR(second);
+				String *stg = new String();
+				res = stg->makeString(firstn, secondc);
+				return res;
+			}
+
+			delete first; delete second;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+};
+
+class ChartoString :public Opt{
+	String *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ != 5)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		String *res;
+		String *str = new String();
+		Char *opr = SCAST_CHAR(con->car);
+		if (cnt == 1)
+		{
+			res = str->chartostring(opr);
+			delete opr;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+};
+
+class GetLength :public Opt{
+	Number *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ != 6)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Number *res;
+		String *opr = SCAST_STRING(con->car);
+		if (cnt == 1)
+		{
+			res = opr->getLength();
+			delete opr;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+};
+
+
+class GetRef :public Opt{
+	Char *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			cnt++;
+		}
+		Char *res;
+		if (cnt == 2)
+		{
+			Base *first = (con->car), *second = (con->cdr->car);
+			if (first->type_ != 6 || second->type_ > 3){
+				throw 0; return NULL;
+			}
+			else{
+				String *firstn = SCAST_STRING(first);
+				Number *secondc = SCAST_NUMBER(second);
+				res = firstn->getRef(secondc);
+				return res;
+			}
+
+			delete first; delete second;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+};
+
+
+class sLes :public Opt{
+	Boolean *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ != 6)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+
+		if (cnt < 2)
+		{
+			throw 0;
+			return NULL;
+		}
+		Boolean f(false), *res;
+		String *last;
+		String *opr = SCAST_STRING(con->car), *conv;
+		String *first, *second;
+		//if (cnt == 2)
+		for (; con->cdr; con = con->cdr)
+		{
+			first = SCAST_STRING(con->car);  second = SCAST_STRING(con->cdr->car);
+			res = first->sles(second);
+			delete first;
+			if (res->val_ == f.val_)break;
+		}
+		delete second;
+		return res;
+	}
+};
+
+
+class sLes_ci :public Opt{
+	Boolean *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ != 6)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+
+		if (cnt < 2)
+		{
+			throw 0;
+			return NULL;
+		}
+		Boolean f(false), *res;
+		String *last;
+		String *opr = SCAST_STRING(con->car), *conv;
+		String *first, *second;
+		//if (cnt == 2)
+		for (; con->cdr; con = con->cdr)
+		{
+			first = SCAST_STRING(con->car);  second = SCAST_STRING(con->cdr->car);
+			res = first->sles_ci(second);
+			delete first;
+			if (res->val_ == f.val_)break;
+		}
+		delete second;
+		return res;
+	}
+};
+
+
+class sLesE :public Opt{
+	Boolean *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ != 6)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+
+		if (cnt < 2)
+		{
+			throw 0;
+			return NULL;
+		}
+		Boolean f(false), *res;
+		String *last;
+		String *opr = SCAST_STRING(con->car), *conv;
+		String *first, *second;
+		//if (cnt == 2)
+		for (; con->cdr; con = con->cdr)
+		{
+			first = SCAST_STRING(con->car);  second = SCAST_STRING(con->cdr->car);
+			res = first->slesE(second);
+			delete first;
+			if (res->val_ == f.val_)break;
+		}
+		delete second;
+		return res;
+	}
+};
+
+
+class sLesE_ci :public Opt{
+	Boolean *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ != 6)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+
+		if (cnt < 2)
+		{
+			throw 0;
+			return NULL;
+		}
+		Boolean f(false), *res;
+		String *last;
+		String *opr = SCAST_STRING(con->car), *conv;
+		String *first, *second;
+		//if (cnt == 2)
+		for (; con->cdr; con = con->cdr)
+		{
+			first = SCAST_STRING(con->car);  second = SCAST_STRING(con->cdr->car);
+			res = first->slesE_ci(second);
+			delete first;
+			if (res->val_ == f.val_)break;
+		}
+		delete second;
+		return res;
+	}
+};
+
+
+class SubString :public Opt{
+	String *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			cnt++;
+		}
+		String *res;
+		if (cnt == 3)
+		{
+			Base *first = (con->car), *second = (con->cdr->car),*third = (con->cdr->cdr->car);
+			if (first->type_ != 6 || second->type_ >3 || third->type_>3){
+				throw 0; return NULL;
+			}
+			else{
+				String *firsts = SCAST_STRING(first);
+				Number *secondn = SCAST_NUMBER(second);
+				Number *thirdn = SCAST_NUMBER(second);
+				String *stg = new String();
+				res = stg->subString(firsts, secondn,thirdn);
+				return res;
+			}
+
+			delete first; delete second; delete third;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+};
+
+
+class StrAppend :public Opt{
+	String *calc(Cons *con) {
+
+		String *res = new String();
+		String *last;
+		for (; con; con = con->cdr)
+		{
+			if (con->car->type_ != 6)
+			{
+				throw 0;
+			}
+			String *opr = SCAST_STRING(con->car);
+			last = res;
+
+			res = res->strAppend(opr);
+
+
+			delete last;
+
+		}
+		return res;
+	}
+};
+
+
+class StrCopy :public Opt{
+	String *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ != 6)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		String *res;
+		String *opr = SCAST_STRING(con->car);
+		if (cnt == 1)
+		{
+			res = opr->strCopy();
 			delete opr;
 			return res;
 		}

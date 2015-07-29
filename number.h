@@ -62,5 +62,8 @@ public:
 	virtual Boolean *isNum() = 0;
 	virtual Boolean *isExact() = 0;
 	virtual Boolean *isInexact() = 0;
+	virtual Base *inttochar() = 0;
+	virtual Base *numtostring() = 0;
+	virtual int toInt() = 0;
 	virtual void print() = 0;
 };

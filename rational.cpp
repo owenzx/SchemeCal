@@ -1,10 +1,13 @@
 #include "rational.h"
 #include "float.h"
+#include "Char.h"
 #include <cassert>
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
 #include <iostream>
+#include <sstream>
+#include <string>
 
 Boolean *Rational::isInt() {
 	LongInt one(1);
@@ -71,6 +74,12 @@ Boolean *Rational::isNum(){
 	return result;
 }
 
+Boolean *Rational::isChar(){
+	Boolean *result = new Boolean(true);
+	return result;
+}
+
+
 Boolean *Rational::isExact(){
 	Boolean *result = new Boolean(true);
 	return result;
@@ -80,6 +89,38 @@ Boolean *Rational::isInexact(){
 	Boolean *result = new Boolean(false);
 	return result;
 }
+
+
+int Rational::toInt(){
+	if (!isInt()) {
+		throw 0; return NULL;
+	}
+	int result = int(numerator_);
+	return result;
+}
+
+
+Base *Rational::inttochar(){
+	Char *result = new Char(char(toInt()));
+	return result;
+}
+
+Base *Rational::numtostring(){
+	ostringstream os;
+	//os.precision(18);
+	if (numerator_.number_[0] != '+') os << numerator_.number_;
+	else os << numerator_. number_.substr(1, numerator_.number_.length() - 1);
+	if (denominator_ != (LongInt)1){
+		printf("/");
+		if (denominator_.number_[0] != '+') os << denominator_.number_;
+		else os << denominator_.number_.substr(1, denominator_.number_.length() - 1);
+
+	}
+	String *result = new String(os.str());
+	return os.str();
+
+}
+
 
 bool Rational::greater(Number *number2){
 	Number *result = this->sub(number2);

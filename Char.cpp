@@ -90,6 +90,12 @@ Boolean *Char::isNum(){
 	return result;
 }
 
+Boolean *Char::isChar(){
+	Boolean *result = new Boolean(true);
+	return result;
+}
+
+
 
 void Char::print(){
 	cout << "#\\";

@@ -1,6 +1,7 @@
 #include "float.h"
 #include "rational.h"
 #include "Complex.h"
+#include "Char.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cassert>
@@ -41,6 +42,19 @@ string Float::doubleToString(double d){
 	if (os << d)
 		return os.str();
 	return "invalid conversion";
+}
+
+int Float::toInt(){
+	if (!isInt()) {
+		throw 0; return NULL;
+	}
+	int result = int(number_);
+	return result;
+}
+
+Base *Float::inttochar(){
+	Char *result = new Char(char(toInt()));
+	return result;
 }
 
 
@@ -478,6 +492,14 @@ Number *Float::getDenominator(){
 	 Boolean *result = new Boolean(true);
 	 return result;
  }
+
+
+ Boolean *Float::isChar(){
+	 Boolean *result = new Boolean(false);
+	 return result;
+ }
+
+
 
  Boolean *Float::isExact(){
 	 Boolean *result = new Boolean(false);

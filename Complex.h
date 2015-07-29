@@ -58,11 +58,14 @@ public:
 	virtual Boolean *isReal();
 	virtual Boolean *isCpx();
 	virtual Boolean *isNum();
+	virtual Boolean *isChar();
 	virtual Boolean *isExact();
 	virtual Boolean *isInexact();
 	virtual Number *inextoex();
 	virtual Number *extoinex();
 	virtual void print();
+	virtual int toInt();
+	virtual Base *inttochar();
 	Number* getreal();
 	Number* getimag();
 	Number* torect(Number *number1, Number *number2);
@@ -70,7 +73,7 @@ public:
 	Number* getmag();
 	Number* getang();
 	//static bool checkstring(const string &s);
-	static Complex *from_string(char *expression);
+	static Complex *from_string(const char *expression);
 	Number* real_;
 	Number* imag_;
 };

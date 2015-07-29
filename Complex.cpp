@@ -1,6 +1,7 @@
 #include "Complex.h"
 #include "rational.h"
 #include "float.h"
+#include "Char.h"
 #include <cassert>
 #include <cstdlib>
 #include <cstdio>
@@ -21,6 +22,18 @@ const double PI = 3.14159265358979323846;
 //	}
 //	return true;
 //}
+
+int Complex::toInt(){
+	if (!isInt()) {
+		throw 0; return NULL;
+	}
+	return (real_->toInt());
+}
+
+Base *Complex::inttochar(){
+	Char *result = new Char(char(toInt()));
+	return result;
+}
 
 
 Complex::Complex(string real, string imag)
@@ -1078,6 +1091,14 @@ Boolean *Complex::isNum(){
 	return result;
 }
 
+
+Boolean *Complex::isChar(){
+	Boolean *result = new Boolean(false);
+	return result;
+}
+
+
+
 Boolean *Complex::isExact(){
 	Boolean *result = real_->isExact();
 	return result;
@@ -1088,7 +1109,7 @@ Boolean *Complex::isInexact(){
 	return result;
 }
 
-Complex *Complex::from_string(char *expression){
+Complex *Complex::from_string(const char *expression){
 	//cout << "Complex::from_string" << endl;
 	string exp = expression;
 	if (exp[exp.length() - 1] != 'i' && exp[exp.length() - 1] != 'I') return NULL;

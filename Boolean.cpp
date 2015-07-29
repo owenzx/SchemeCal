@@ -42,6 +42,11 @@ Boolean *Boolean::isNum(){
 	return result;
 }
 
+Boolean *Boolean::isChar(){
+	Boolean *result = new Boolean(false);
+	return result;
+}
+
 
 void Boolean::print(){
 	if (val_) printf("#t");

@@ -43,6 +43,7 @@ public:
 	virtual Number *asin();
 	virtual Number *acos();
 	virtual Number *atan();
+	virtual Number *atan2(Number *number2);
 	virtual Number *log();
 	virtual Number *maxi(Number *number2);
 	virtual Number *mini(Number *number2);
@@ -58,6 +59,8 @@ public:
 	virtual Boolean *isReal();
 	virtual Boolean *isCpx();
 	virtual Boolean *isNum();
+	virtual Boolean *isExact();
+	virtual Boolean *isInexact();
 	virtual void print();
 	static bool checkstring(const string &s);
 	static Rational *from_string(const char *expression);

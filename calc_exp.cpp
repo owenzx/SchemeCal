@@ -55,7 +55,7 @@ Base *calc_exp(){
 		else if (strcmp(tk1, "log") == 0)opt = new Log();
 		else if (strcmp(tk1, "make-rectangular") == 0)opt = new ToRect();
 		else if (strcmp(tk1, "make-polar") == 0)opt = new ToPolar();
-		else if (strcmp(tk1, "magniude") == 0)opt = new Magn();
+		else if (strcmp(tk1, "magnitude") == 0)opt = new Magn();
 		else if (strcmp(tk1, "angle") == 0)opt = new Ang();
 		else if (strcmp(tk1, "zero?") == 0)opt = new IsZero();
 		else if (strcmp(tk1, "negative?") == 0)opt = new IsNega();
@@ -67,6 +67,8 @@ Base *calc_exp(){
 		else if (strcmp(tk1, "real?") == 0)opt = new IsReal();
 		else if (strcmp(tk1, "complex?") == 0)opt = new IsCpx();
 		else if (strcmp(tk1, "number?") == 0)opt = new IsNum();
+		else if (strcmp(tk1, "exact?") == 0)opt = new IsExact();
+		else if (strcmp(tk1, "inexact?") == 0)opt = new IsInexact();
 		//else if (strcmp(tk1, "char?") == 0)opt = new optNot();
 		else if (strcmp(tk1, "char<?") == 0)opt = new cLes();
 		else if (strcmp(tk1, "char-ci<?") == 0)opt = new cLes_ci();
@@ -79,7 +81,7 @@ Base *calc_exp(){
 		//else if (strcmp(tk1, "integer->char") == 0)opt = new optNot();
 		else if (strcmp(tk1, "char-upcase") == 0)opt = new toUp();
 		else if (strcmp(tk1, "char-downcase") == 0)opt = new toLow();
-		else if (strcmp(tk1, "string?") == 0)opt = new toLow();
+		//else if (strcmp(tk1, "string?") == 0)opt = new toLow();
 		else if (strcmp(tk1, "make-string") == 0)opt = new toLow();
 		else if (strcmp(tk1, "string") == 0)opt = new toLow();
 		else if (strcmp(tk1, "string-length") == 0)opt = new toLow();

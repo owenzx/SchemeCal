@@ -42,6 +42,7 @@ public:
 	virtual Number *asin() = 0;
 	virtual Number *acos() = 0;
 	virtual Number *atan() = 0;
+	virtual Number *atan2(Number *number2) = 0;
 	virtual Number *log() = 0;
 	virtual Number *maxi(Number *number2) = 0;
 	virtual Number *mini(Number *number2) = 0;
@@ -59,5 +60,7 @@ public:
 	virtual Boolean *isReal() = 0;
 	virtual Boolean *isCpx() = 0;
 	virtual Boolean *isNum() = 0;
+	virtual Boolean *isExact() = 0;
+	virtual Boolean *isInexact() = 0;
 	virtual void print() = 0;
 };

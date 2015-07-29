@@ -8,6 +8,8 @@
 #include <iostream>
 #include <complex>
 
+const double PI = 3.14159265358979323846;
+
 
 
 //bool Complex::checkstring(const string &s){
@@ -207,7 +209,7 @@ Number* Complex::getmag(){
 	Float *realf = SCAST_FLOAT(real);
 	Float *imagf = SCAST_FLOAT(imag);
 	complex<double> cpx(realf->number_, imagf->number_);
-	double result_ = norm(cpx);
+	double result_ = std::abs(cpx);
 	Float *result = new Float(result_);
 	delete flt; delete real; delete imag;
 	return result;
@@ -781,6 +783,25 @@ Number *Complex::tan(){
 }
 
 
+//Number *Complex::asin(){
+//	Float *flt = new Float();
+//	Number *real = flt->convert(real_);
+//	Number *imag = flt->convert(imag_);
+//	Float *realf = SCAST_FLOAT(real);
+//	Float *imagf = SCAST_FLOAT(imag);
+//	complex<double> cpx(realf->number_, imagf->number_);
+//	cpx = std::asin(cpx);
+//	Float *result_real = new Float(cpx.real());
+//	Float *result_imag = new Float(cpx.imag());
+//	if (result_imag->number_ == 0) {
+//		delete flt; delete result_imag; delete real; delete imag;
+//		return result_real;
+//	}
+//	Complex *result = new Complex(result_real, result_imag);
+//	delete flt; delete result_real; delete result_imag; delete real; delete imag;
+//	return result;
+//}
+
 Number *Complex::asin(){
 	Float *flt = new Float();
 	Number *real = flt->convert(real_);
@@ -788,7 +809,19 @@ Number *Complex::asin(){
 	Float *realf = SCAST_FLOAT(real);
 	Float *imagf = SCAST_FLOAT(imag);
 	complex<double> cpx(realf->number_, imagf->number_);
-	cpx = std::asin(cpx);
+	complex<double> cpxi(0,1), cpxone(1,0);
+	if (imagf->number_==0 && realf->number_<0){
+		cpx = -cpx;
+		cpx = std::sqrt(cpxone - cpx*cpx) + cpxi*cpx;
+		cpx = std::log(cpx);
+		cpx = cpxi*cpx;
+	}
+	else{
+		cpx = std::sqrt(cpxone - cpx*cpx) + cpxi*cpx;
+		cpx = std::log(cpx);
+		cpx = -cpxi*cpx;
+	}
+	
 	Float *result_real = new Float(cpx.real());
 	Float *result_imag = new Float(cpx.imag());
 	if (result_imag->number_ == 0) {
@@ -807,7 +840,20 @@ Number *Complex::acos(){
 	Float *realf = SCAST_FLOAT(real);
 	Float *imagf = SCAST_FLOAT(imag);
 	complex<double> cpx(realf->number_, imagf->number_);
-	cpx = std::acos(cpx);
+	//cpx = std::acos(cpx);
+	complex<double> cpxi(0, 1), cpxone(1, 0),cpxhalfpi(PI/2,0);
+	if (imagf->number_ == 0 && realf->number_<0){
+		cpx = -cpx;
+		cpx = std::sqrt(cpxone - cpx*cpx) + cpxi*cpx;
+		cpx = std::log(cpx);
+		cpx = cpxi*cpx;
+	}
+	else{
+		cpx = std::sqrt(cpxone - cpx*cpx) + cpxi*cpx;
+		cpx = std::log(cpx);
+		cpx = -cpxi*cpx;
+	}
+	cpx = cpxhalfpi - cpx;
 	Float *result_real = new Float(cpx.real());
 	Float *result_imag = new Float(cpx.imag());
 	if (result_imag->number_ == 0) {
@@ -826,7 +872,34 @@ Number *Complex::atan(){
 	Float *realf = SCAST_FLOAT(real);
 	Float *imagf = SCAST_FLOAT(imag);
 	complex<double> cpx(realf->number_, imagf->number_);
-	cpx = std::atan(cpx);
+	complex<double> cpxi(0, 1), cpxone(1, 0),cpxtwo(2,0);
+	cpx = std::log(cpxone + cpxi*cpx) - std::log(cpxone - cpxi*cpx);
+	cpx = cpx / (cpxtwo*cpxi);
+	//cpx = std::atan(cpx);
+	Float *result_real = new Float(cpx.real());
+	Float *result_imag = new Float(cpx.imag());
+	if (result_imag->number_ == 0) {
+		delete flt; delete result_imag; delete real; delete imag;
+		return result_real;
+	}
+	Complex *result = new Complex(result_real, result_imag);
+	delete flt; delete result_real; delete result_imag; delete real; delete imag;
+	return result;
+}
+
+Number *Complex::atan2(Number *number2){
+	Float *flt = new Float();
+	Number *tmp = this->div(number2);
+	Complex *tmpc = SCAST_COMPLEX(tmp);
+	Number *real = flt->convert(tmpc->real_);
+	Number *imag = flt->convert(tmpc->imag_);
+	Float *realf = SCAST_FLOAT(real);
+	Float *imagf = SCAST_FLOAT(imag);
+	complex<double> cpx(realf->number_, imagf->number_);
+	complex<double> cpxi(0, 1), cpxone(1, 0), cpxtwo(2, 0);
+	cpx = std::log(cpxone + cpxi*cpx) - std::log(cpxone - cpxi*cpx);
+	cpx = cpx / (cpxtwo*cpxi);
+	//cpx = std::atan(cpx);
 	Float *result_real = new Float(cpx.real());
 	Float *result_imag = new Float(cpx.imag());
 	if (result_imag->number_ == 0) {
@@ -1002,6 +1075,16 @@ Boolean *Complex::isCpx(){
 
 Boolean *Complex::isNum(){
 	Boolean *result = new Boolean(true);
+	return result;
+}
+
+Boolean *Complex::isExact(){
+	Boolean *result = real_->isExact();
+	return result;
+}
+
+Boolean *Complex::isInexact(){
+	Boolean *result = real_->isInexact();
 	return result;
 }
 

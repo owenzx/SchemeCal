@@ -18,9 +18,14 @@ public:
 	Boolean *isChar_space();
 	Boolean *isChar_upc();
 	Boolean *isChar_lowc();
-	Number *chartoint();
+	Base *chartoint();
 	Char *toup();
 	Char *tolow();
+	Boolean *isInt();
+	Boolean *isRat();
+	Boolean *isReal();
+	Boolean *isCpx();
+	Boolean *isNum();
 	void print();
 	static Char *from_string(const char *expression);
 	char ch_;

@@ -11,6 +11,34 @@ String::String(string str) :str_(str)
 
 String::~String(){}
 
+
+
+
+Boolean *String::isInt(){
+	Boolean *result = new Boolean(false);
+	return result;
+}
+Boolean *String::isRat(){
+	Boolean *result = new Boolean(false);
+	return result;
+}
+
+Boolean *String::isReal(){
+	Boolean *result = new Boolean(false);
+	return result;
+}
+
+Boolean *String::isCpx(){
+	Boolean *result = new Boolean(false);
+	return result;
+}
+
+Boolean *String::isNum(){
+	Boolean *result = new Boolean(false);
+	return result;
+}
+
+
 void String::print(){
 	cout << '\"'<<str_<<'\"';
 }

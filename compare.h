@@ -1269,6 +1269,19 @@ class Atan :public Opt{
 			delete opr;
 			return res;
 		}
+		else if (cnt == 2){
+			Number *first = SCAST_NUMBER(con->car), *second = SCAST_NUMBER(con->cdr->car);
+			if (first->type_ > second->type_)
+			{
+				res = first->atan2(first->convert(second));
+			}
+			else
+			{
+				res = second->convert(first)->atan2(second);
+			}
+			delete first; delete second;
+			return res;
+		}
 		else{
 			throw 0;
 			return NULL;
@@ -1697,10 +1710,10 @@ class IsCpx :public Opt{
 			cnt++;
 		}
 		Boolean *res;
-		Number *opr = SCAST_NUMBER(con->car);
+		Base *opr = con->car;
 		if (cnt == 1)
 		{
-			res = opr->isCpx();
+			res =SCAST_BOOLEAN( opr->isCpx());
 			delete opr;
 			return res;
 		}
@@ -1729,6 +1742,61 @@ class IsNum :public Opt{
 		if (cnt == 1)
 		{
 			res = opr->isNum();
+			delete opr;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+};
+class IsExact :public Opt{
+	Boolean *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Boolean *res;
+		Number *opr = SCAST_NUMBER(con->car);
+		if (cnt == 1)
+		{
+			res = opr->isExact();
+			delete opr;
+			return res;
+		}
+		else{
+			throw 0;
+			return NULL;
+		}
+	}
+};
+
+class IsInexact :public Opt{
+	Boolean *calc(Cons *con)
+	{
+		Cons *tmp = con;
+		int cnt = 0;
+		for (; tmp; tmp = tmp->cdr)
+		{
+			if (tmp->car->type_ > 3 || tmp->car->type_ < 1)
+			{
+				throw 0;
+			}
+			cnt++;
+		}
+		Boolean *res;
+		Number *opr = SCAST_NUMBER(con->car);
+		if (cnt == 1)
+		{
+			res = opr->isInexact();
 			delete opr;
 			return res;
 		}
@@ -2003,7 +2071,7 @@ class ChartoInt :public Opt{
 		Char *opr = SCAST_CHAR(con->car);
 		if (cnt == 1)
 		{
-			res = opr->chartoint();
+			res = SCAST_NUMBER(opr->chartoint());
 			delete opr;
 			return res;
 		}

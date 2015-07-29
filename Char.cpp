@@ -60,10 +60,36 @@ Char *Char::tolow(){
 	return result;
 }
 
-Number *Char::chartoint(){
+Base *Char::chartoint(){
 	Rational *result = new Rational(LongInt(int(ch_)), LongInt(1));
 	return result;
 }
+
+
+Boolean *Char::isInt(){
+	Boolean *result = new Boolean(false);
+	return result;
+}
+Boolean *Char::isRat(){
+	Boolean *result = new Boolean(false);
+	return result;
+}
+
+Boolean *Char::isReal(){
+	Boolean *result = new Boolean(false);
+	return result;
+}
+
+Boolean *Char::isCpx(){
+	Boolean *result = new Boolean(false);
+	return result;
+}
+
+Boolean *Char::isNum(){
+	Boolean *result = new Boolean(false);
+	return result;
+}
+
 
 void Char::print(){
 	cout << "#\\";

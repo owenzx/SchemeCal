@@ -355,6 +355,12 @@ Number *Float::atan(){
 	return result;
 }
 
+Number *Float::atan2(Number *number2){
+	Float *tmp = SCAST_FLOAT(number2);
+	Float *result = new Float(std::atan2(number_, tmp->number_));
+	return result;
+}
+
 Number *Float::log(){
 	double number = std::log(number_);
 	if (number == number)	{
@@ -473,10 +479,18 @@ Number *Float::getDenominator(){
 	 return result;
  }
 
+ Boolean *Float::isExact(){
+	 Boolean *result = new Boolean(false);
+	 return result;
+ }
 
+ Boolean *Float::isInexact(){
+	 Boolean *result = new Boolean(true);
+	 return result;
+ }
 
 void Float::print(){
-	cout << fixed << setprecision(10) << number_;
+	cout << setprecision(10) << number_;
 	//printf("%.10g", number_);
 	//if (number_ == trunc(number_) && number_ < 1e17) printf(".0");
 	//printf("/n");

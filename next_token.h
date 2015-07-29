@@ -15,6 +15,7 @@ char *next_token() {
 	int cur = 0;
 	int ch;
 	bool instring = false;
+	int inchar = 0;
 	while (!cur)
 	{
 		if (len > 0 && (s[0] == '(' || s[0] == ')'))// for cases:'(' ')'

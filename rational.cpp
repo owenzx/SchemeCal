@@ -71,6 +71,15 @@ Boolean *Rational::isNum(){
 	return result;
 }
 
+Boolean *Rational::isExact(){
+	Boolean *result = new Boolean(true);
+	return result;
+}
+
+Boolean *Rational::isInexact(){
+	Boolean *result = new Boolean(false);
+	return result;
+}
 
 bool Rational::greater(Number *number2){
 	Number *result = this->sub(number2);
@@ -448,6 +457,18 @@ Number *Rational::atan(){
 	Number *result = tmp_->atan();
 	return result;
 }
+
+Number *Rational::atan2(Number *number2){
+	Float *flt = new Float();
+	Number *base = flt->convert(this);
+	Float *base_ = SCAST_FLOAT(base);
+	Number *power = flt->convert(number2);
+	Number *result = base_->atan2(power);
+	delete flt;
+	return result;
+}
+
+
 
 Number *Rational::log(){
 	Float *flt = new Float();
